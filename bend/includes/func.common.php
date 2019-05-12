@@ -1045,3 +1045,103 @@ function json_encode_ex( $value)
         return json_encode( $value, JSON_UNESCAPED_UNICODE);
     }
 }
+
+function generate_table_conf($tname, $prefixed = true) {
+    $table_conf = load_config('tables');
+    $fields = get_table_conf($tname, $prefixed);
+    $table_conf[$tname] = $fields;
+    return write_config($table_conf, 'tables');
+}
+
+function get_table_conf($tname, $prefixed = true) {
+    $fields = array();
+    $sql = "DESC " . tname($tname, $prefixed);
+    $db = mysqliUtil::getInstance('master_act20190520');
+    $query = $db->query($sql);
+    while ($line = $db->fetch_array($query)) {
+        $fields[$line['Field']] = get_mysql_field_type($line['Type']);
+    }
+    return $fields;
+}
+/**
+ * @param $type mysql desc table 的 Type 字段的值
+数值类型
+TINYINT
+SMALLINT
+MEDIUMINT
+INT / INTEGER
+BIGINT
+FLOAT
+DOUBLE
+DECIMAL
+
+日期和时间类型
+DATE
+TIME
+YEAR
+DATETIME
+TIMESTAMP
+
+字符串类型
+CHAR
+VARCHAR
+TINYBLOB
+TINYTEXT
+BLOB
+TEXT
+MEDIUMBLOB
+MEDIUMTEXT
+LONGBLOB
+LONGTEXT
+ * @return String i / d / s / b
+ */
+function get_mysql_field_type ($type) {
+    $types = array(
+        'TINYINT' => 'i',
+        'SMALLINT' => 'i',
+        'MEDIUMINT' => 'i',
+        'INT' => 'i',
+        'BIGINT' => 'i',
+        'FLOAT' => 'd',
+        'DOUBLE' => 'd',
+        'DECIMAL' => 'd',
+
+        'DATE' => 's',
+        'TIME' => 's',
+        'YEAR' => 's',
+        'DATETIME' => 's',
+        'TIMESTAMP' => 's',
+
+        'CHAR' => 's',
+        'VARCHAR' => 's',
+        'TINYBLOB' => 'b',
+        'TINYTEXT' => 's',
+        'BLOB' => 'b',
+        'TEXT' => 's',
+        'MEDIUMBLOB' => 'b',
+        'MEDIUMTEXT' => 's',
+        'LONGBLOB' => 'b',
+        'LONGTEXT' => 's',
+    );
+    $tp = '';
+    foreach ($types as $key => $val) {
+        $len = strlen($key);
+        if (strtolower($key) == strtolower(substr($type, 0, $len))) {
+            $tp = $val;
+            break;
+        }
+    }
+    if (strlen($tp) < 1) {
+        if (false !== stripos($type, 'blob')) {
+            $tp = 'b';
+        }
+        if (false !== stripos($type, 'int')) {
+            $tp = 'i';
+        }
+    }
+    if (strlen($tp) < 1) {
+        echo __FUNCTION__ . " return err not match mysql field type" . APP_BR;
+        exit;
+    }
+    return $tp;
+}

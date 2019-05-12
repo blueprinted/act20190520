@@ -2,4 +2,9 @@ node_modules/*
 !node_modules/.gitkeep
 dist/*
 !dist/.gitkeep
-
+bend/config/config_tables.php
+bend/data/session/*
+!bend/data/session/.gitkeep
+bend/log/*
+bend/log/shutdown_handler/*
+!bend/log/shutdown_handler/.gitkeep

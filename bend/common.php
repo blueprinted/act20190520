@@ -29,10 +29,7 @@ require APP_ROOT . '/includes/config.db.php';
 require APP_ROOT . '/includes/class.curlUtil.php';
 require APP_ROOT . '/includes/class.mysqliUtil.php';
 require APP_ROOT . '/includes/class.sessionHandle.php';
-require APP_ROOT . '/includes/class.user.php';
-require APP_ROOT . '/includes/class.clientUtil.php';
 require APP_ROOT . '/includes/class.verify.php';
-require APP_ROOT . '/includes/simple_html_dom.php';
 require APP_ROOT . '/vendor/autoload.php';
 
 use Monolog\Logger;
@@ -79,22 +76,6 @@ function shutDownHandler()
     $errorType = $errorTypeArr[$error['type']];
     $errstr = strip_tags($error['message']);
     $myerror = "$errstr <br>File：{$error['file']} <br>Line：{$error['line']}";
-    if (in_array($error['type'], array(E_NOTICE))) {
-        //E_WARNING, E_NOTICE,不是每次都报
-        $tmpfile = APP_LOG . "/shutdown_handler/" . md5($myerror) . '.' .date("YmdHi"). '.log';
-        if (!mkdir_recursive(dirname($tmpfile), 0777)) {
-            return false;
-        }
-        $count = 0;
-        if (is_file($tmpfile)) {
-            $count = intval(file_get_contents($tmpfile));
-        }
-        file_put_contents($tmpfile, ++$count.PHP_EOL);
-
-        if ($count < 10) {
-            return false;
-        }
-    }
     $myerror = 'Type：<strong>['.$errorType.']</strong><br>' . $myerror;
     appendlog('php_error[' . $errorType . '] ' . $myerror, 'warning');
     return true;
@@ -114,9 +95,7 @@ session_set_save_handler(
 session_save_path(APP_DATA."/session");
 session_start();
 
-$user = user::getInstance();
-
-$MDB = mysqliUtil::getInstance('master_booking');
+$MDB = mysqliUtil::getInstance('master_act20190520');
 
 /**
  * 记录日志
