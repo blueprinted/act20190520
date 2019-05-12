@@ -8,3 +8,5 @@ bend/data/session/*
 bend/log/*
 bend/log/shutdown_handler/*
 !bend/log/shutdown_handler/.gitkeep
+/src/bend
+

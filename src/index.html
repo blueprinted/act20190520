@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>page-title</title>
+		<meta content="yes" name="apple-mobile-web-app-capable"> 
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="HandheldFriendly" content="true">
+		<meta name="MobileOptimized" content="320">
+		<meta name="screen-orientation" content="portrait">
+		<meta name="x5-orientation" content="portrait">
+		<meta name="full-screen" content="yes">
+		<meta name="x5-fullscreen" content="true">
+		<meta name="browsermode" content="application">
+		<meta name="x5-page-mode" content="app">
+		<meta name="msapplication-tap-highlight" content="no">
+		<meta name="viewport" content="width=640,target-densitydpi=device-dpi,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="static/c/style.css?v=201901315" />
+		<script type="text/javascript">if(/ipad/i.test(window.navigator.userAgent)) {document.write('<meta name="viewport" content="width=device-width, user-scalable=none, initial-scale=1,minimum-scale=1,maximum-scale=1" />')}</script>
+	</head>
+	<body>
+		<div class="wrapper">
+			
+		</div>
+		<div id="debuger"></div>
+		<script type="text/javascript" src="static/j/jquery-2.1.0.min.js"></script>
+		<script type="text/javascript" src="static/j/jquery.form.min.js"></script>
+		<script type="text/javascript" src="static/j/common.js"></script>
+		<script type="text/javascript" src="static/j/pageResponse.min.js"></script>
+		<script type="text/javascript">
+			var pageAdptor = function () {
+				pageResponse({
+					selectors: '.mainwrapper',     //模块选择器，使用querySelectorAll的方法
+					mode: 'contain',     // auto || contain || cover ，默认模式为auto
+					width: '640',      //输入页面的宽度，只支持输入数值，默认宽度为320px
+					height: '1030'      //输入页面的高度，只支持输入数值，默认高度为504px
+				});
+			}
+			//page response
+			pageAdptor();
+			window.onresize = pageAdptor;
+			var hasLoading = false;
+		</script>
+		<script type="text/javascript" src="static/j/page.js"></script>
+	</body>
+</html>

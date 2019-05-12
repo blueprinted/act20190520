@@ -63,7 +63,7 @@ gulp.task('js',function(callback){
     callback();
 });
 gulp.task('jsd',function(callback){
-    gulp.src(['src/data/data_img.js'],{base:'src'})
+    gulp.src(['src/data/*.js'],{base:'src'})
     .pipe(babel())
     .on('error', function (err) {
         gutil.log(gutil.colors.red('[Error]'), err.toString());
@@ -92,23 +92,11 @@ gulp.task('image',function(callback){
 gulp.task('copy',function(callback){
     gulp.src(
         [
-            'src/data/*.php',
-            'src/data/imgtpl/**',
-            'src/data/tester/*',
-            'src/data/merge',
-            'src/includes/*',
-            'src/common.php',
-            'src/getdata.php',
-            'src/merge.php',
-            'src/pb.php',
-            'src/uploader.php',
-            'src/vendor/**',
-            'src/grpc/**',
-            'src/tester/pressuretest.php'
-        ],{base:'src'}
+            'bend/**'
+        ],{base:'bend/'}
     )
     .pipe(debug({title:'copy'}))
-    .pipe(gulp.dest('dist/'));
+    .pipe(gulp.dest('dist/bend/'));
     callback();
 });
 

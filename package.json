@@ -23,6 +23,7 @@
     "gulp": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
     "del": "^4.1.1",
     "gulp-babel": "^8.0.0",
     "gulp-cache": "^1.1.1",

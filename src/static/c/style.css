@@ -1,0 +1,157 @@
+@charset "utf-8";
+-webkit-text-size-adjust:none;
+html,body{-webkit-text-size-adjust:none; width: -webkit-calc(100% - 0px);}
+*, body, div, span, ul, li, table, tbody, th, tr, td, img, a, input,p, select, option {margin:0;padding:0;font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', sans-serif;outline:none;-webkit-tap-highlight-color: rgba(0,0,0,0);}
+h1,h2,h3,h4,h5,h6{
+	font-weight: normal;
+}
+div{
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+html{height:100%;}
+ul, li{list-style: none;}
+
+a {text-decoration:none;outline:none;-webkit-tap-highlight-color: rgba(0,0,0,0);}
+a:visited {}
+.phold {
+	width: 100%;
+	height: 0;
+	margin: 0;
+	background-color: rgba(0,0,0,0);
+	font-size: 0;
+	overflow: hidden;
+}
+.clearfix:after {content:".";display:block;height:0;clear:both;visibility:hidden}
+.cl:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.cl{zoom:1}
+
+.fl{float:left}
+.fr{float:right!important;}
+.xcenter{-webkit-transform:translate(-50%, 0);-moz-transform:translate(-50%, 0);-ms-transform:translate(-50%, 0);transform:translate(-50%, 0);left: 50%;position: absolute;}
+.ycenter{-webkit-transform:translate(0, -50%);-moz-transform:translate(0, -50%);-ms-transform:translate(0, -50%);transform:translate(0, -50%);top: 50%;position: absolute;}
+.xycenter{-webkit-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);transform:translate(-50%, -50%);left: 50%;top: 50%;position: absolute;}
+.innercenter{display:-webkit-box;display:-ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;-ms-flex-align: center;-webkit-align-items: center;align-items: center;text-align: center;}
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently not supported by any browser */
+}
+#js-toast{padding:4px;font-size:1.6rem;background-color:rgba(0,0,0,0.75);color:#fff;bottom:2.10%;}
+#debuger{font-size:1.6rem;position:fixed;left:0;bottom:0;display:none;}
+.imgwrap {
+	text-align: center;
+	font-size: 0;
+	overflow: hidden;
+	display: block;
+}
+.imgwrap>img {
+	max-width: 100%;
+	height: 100%;
+	display: block;
+	margin: 0 auto;
+}
+.block_img{
+	width: auto;
+	height: auto;
+	display: block;
+	margin: 0 auto;
+}
+
+.wrapper{
+}
+html,body,.wrapper{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+html,body{
+}
+.wrapper{
+}
+.displaynone{
+	display: none;
+}
+.mainConbox{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.mainwrapper {
+	position: relative;
+	width: 640px;
+	height: 1030px;
+	overflow: hidden;
+}
+.p26{
+	font-size: 26px;
+	line-height: 28px;
+	color: #fff;
+	text-align: center;
+
+
+.showGif{
+	width: 205px;
+	height: 205px;
+	border: 6px solid #3c2312;
+	background: #fff;
+	position: absolute;
+	top: 200px;
+	left: 50%;
+	margin-left: -108px;
+}
+.a_link{
+	display: block;
+	width:auto;
+	line-height:24px;
+	font-size:14px;
+    margin: 0 auto;
+    text-align: center;
+    color: #f4bbbc;
+    text-decoration: underline;
+}
+
+@media only screen and (orientation: landscape) {
+    .seleWrap:before{
+    	content: "";
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: rgba(0,0,0,0.8);
+		z-index: 998;
+	}
+	.seleWrap:before{
+		content: "竖屏浏览更佳";
+		color: #fff;
+		font-size: 24px;
+		text-align: center;
+		z-index: 999;
+		display:-webkit-box;
+		display:-ms-flexbox;
+		display:-webkit-flex;
+		display:flex;
+		-webkit-box-pack:center;
+		-ms-flex-pack:center;
+		-webkit-justify-content:center;
+		justify-content:center;
+		-webkit-box-align:center;
+		-ms-flex-align:center;
+		-webkit-align-items:center;
+		align-items:center;
+		text-align:center;	
+	}
+}
+@media only screen and (min-height : 750px){
+	.seleWrap:before{
+		z-index: -1;
+	}
+	.seleWrap:before{
+		z-index: -1;
+	}
+}
