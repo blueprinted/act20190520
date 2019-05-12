@@ -17,6 +17,7 @@ CREATE TABLE `act20190520_user` (
   `weixin` varchar(64) NOT NULL DEFAULT '' COMMENT '微信号',
   `yanzhi` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '颜值',
   `yanzhi_grade` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '颜值档次',
+  `photo_url` varchar(255) NOT NULL DEFAULT '' COMMENT '照片地址',
   `match_age` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的年龄档次',
   `match_height` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的身高档次',
   `match_hometown` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的家乡范围',
@@ -27,6 +28,7 @@ CREATE TABLE `act20190520_user` (
   `mtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`uid`),
   KEY `nickname` (`nickname`),
+  UNIQUE KEY `phone_number` (`phone_number`),
   KEY `ctime` (`ctime`,`mtime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
