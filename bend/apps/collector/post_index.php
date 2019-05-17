@@ -56,7 +56,7 @@ if (!preg_match('/^(+?\d{2})?\s?\d{11}$/i', $phone_number)) {
 $user = array();
 $match_list = array();
 
-$sql = "SELECT * FROM act20190520_user WHERE phone_number=?";
+$sql = "SELECT * FROM ".tname('user')." WHERE phone_number=?";
 $query = $MDB->stmt_query($sql, "s", $phone_number);
 if (!$user = $MDB->fetch_array($query)) {
     $user = array();
@@ -131,7 +131,7 @@ if (empty($user)) {
     // 保存成功 为其匹配异性资料
     $sql = "SELECT uid FROM " . tname('user') . " WHERE ";
     if ($user['match_age']) {
-
+        
     }
 
     $MDB->query("COMMIT");

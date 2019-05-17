@@ -10,7 +10,12 @@ CREATE TABLE `act20190520_user` (
   `email` varchar(64) NOT NULL DEFAULT '' COMMENT '用户邮箱',
   `height` smallint(3) unsigned NOT NULL DEFAULT '0' COMMENT '身高,单位cm',
   `zhiye` varchar(255) NOT NULL DEFAULT '' COMMENT '职业',
-  `hometown` varchar(255) NOT NULL DEFAULT '' COMMENT '家乡',
+  `province` mediumint(8) NOT NULL DEFAULT '0' COMMENT '家乡省',
+  `city` mediumint(8) NOT NULL DEFAULT '0' COMMENT '家乡市',
+  `county` mediumint(8) NOT NULL DEFAULT '0' COMMENT '家乡县',
+  `work_province` mediumint(8) NOT NULL DEFAULT '0' COMMENT '工作省',
+  `work_city` mediumint(8) NOT NULL DEFAULT '0' COMMENT '工作市',
+  `work_county` mediumint(8) NOT NULL DEFAULT '0' COMMENT '工作县',
   `school` varchar(255) NOT NULL DEFAULT '' COMMENT '学校',
   `annual_income` varchar(255) NOT NULL DEFAULT '' COMMENT '年收入档次',
   `phone_number` varchar(16) NOT NULL DEFAULT '' COMMENT '手机号',
@@ -18,9 +23,15 @@ CREATE TABLE `act20190520_user` (
   `yanzhi` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '颜值',
   `yanzhi_grade` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '颜值档次',
   `photo_url` varchar(255) NOT NULL DEFAULT '' COMMENT '照片地址',
+  `answer1` varchar(4)  NOT NULL DEFAULT '' COMMENT '问题1的答案',
+  `answer2` varchar(4)  NOT NULL DEFAULT '' COMMENT '问题2的答案',
+  `answer3` varchar(4)  NOT NULL DEFAULT '' COMMENT '问题3的答案',
+  `answer4` varchar(4)  NOT NULL DEFAULT '' COMMENT '问题4的答案',
   `match_age` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的年龄档次',
   `match_height` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的身高档次',
-  `match_hometown` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的家乡范围',
+  `match_province` mediumint(8) NOT NULL DEFAULT '0' COMMENT '择偶要求的省',
+  `match_city` mediumint(8) NOT NULL DEFAULT '0' COMMENT '择偶要求的市',
+  `match_county` mediumint(8) NOT NULL DEFAULT '0' COMMENT '择偶要求的县',
   `match_annual_income` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的年收入档次',
   `match_yanzhi_grade` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的颜值区间',
   `regip` varchar(16) NOT NULL DEFAULT '' COMMENT '注册ip',
@@ -43,4 +54,22 @@ CREATE TABLE `act20190520_user_match` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_key` (`master_uid`,`match_uid`),
   KEY `ctime` (`ctime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+---
+--- 中国行政区域表
+---
+CREATE TABLE `act20190520_area` (
+  `id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父级id',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
+  `short_name` varchar(50) NOT NULL DEFAULT '' COMMENT '简称',
+  `longitude` float NOT NULL DEFAULT '0' COMMENT '经度',
+  `latitude` float NOT NULL DEFAULT '0' COMMENT '纬度',
+  `level` int(1) NOT NULL DEFAULT '0' COMMENT '等级(1省/直辖市,2地级市,3区县,4镇/街道)',
+  `listorder` int(3) NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` int(1) NOT NULL DEFAULT '0' COMMENT '状态(0禁用/1启用)',
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`),
+  KEY `short_name` (`short_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

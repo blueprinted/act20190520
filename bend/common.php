@@ -30,6 +30,9 @@ require APP_ROOT . '/includes/class.curlUtil.php';
 require APP_ROOT . '/includes/class.mysqliUtil.php';
 require APP_ROOT . '/includes/class.sessionHandle.php';
 require APP_ROOT . '/includes/class.verify.php';
+require APP_ROOT . '/includes/SmsSenderUtil.php';
+require APP_ROOT . '/includes/SmsMultiSender.php';
+require APP_ROOT . '/includes/SmsSingleSender.php';
 require APP_ROOT . '/vendor/autoload.php';
 
 use Monolog\Logger;
@@ -83,7 +86,7 @@ function shutDownHandler()
 //注册shutdown函数
 register_shutdown_function('shutDownHandler');
 
-$sessionHandle = new sessionHandle();
+$sessionHandle = new \sessionHandle();
 session_set_save_handler(
     array(&$sessionHandle, "open"), 
     array(&$sessionHandle, "close"), 
@@ -95,7 +98,7 @@ session_set_save_handler(
 session_save_path(APP_DATA."/session");
 session_start();
 
-$MDB = mysqliUtil::getInstance('master_act20190520');
+$MDB = \mysqliUtil::getInstance('master_act20190520');
 
 /**
  * 记录日志
@@ -136,22 +139,4 @@ function get_curl_common_header()
         "Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7,fr;q=0.6,de;q=0.5,ja;q=0.4",
         "Cache-Control: no-cache",
     );
-}
-
-function get_common_curl_options()
-{
-    return array(
-        CURLOPT_REFERER => MAIN_URL_SCHEME.'://'.MAIN_URL_DOMAIN.'/',
-        CURLOPT_USERAGENT => USER_AGENT,
-        CURLOPT_CONNECTTIMEOUT => 3,
-        CURLOPT_TIMEOUT => 5,
-        CURLOPT_ENCODING => "gzip", //由curl来解压gzip内容
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_FORBID_REUSE => true,
-    );
-}
-
-/** */
-function get_user_cookiefile($uid, $passid) {
-    return APP_DATA."/cookiefile/cookiefile.".sprintf("%011d", intval($uid)).".".sprintf("%011d", intval($passid)).".txt";
 }

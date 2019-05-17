@@ -64,5 +64,5 @@ $config = array(
     'bg'        =>  array(243, 251, 254),  // 背景颜色
     'reset'     =>  true,           // 验证成功后是否重置
 );
-$Verify = new verify($config);
+$Verify = new \verify($config);
 $Verify->entry($typeid);

@@ -12,3 +12,4 @@ if (!file_exists($mvcfile)) {
     apimessage(88, "{$mod}/{$controller}->{$action} not exists");
 }
 include $mvcfile;
+
