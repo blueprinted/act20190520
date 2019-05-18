@@ -5,32 +5,49 @@ if (!isset($_POST)) {
 }
 
 $nickname = getVar('nickname');
-$age = intval(getVar('age'));
 $gender = intval(getVar('gender'));
+$age = intval(getVar('age'));
 $email = getVar('email');
 $height = intval(getVar('height'));
 $zhiye = getVar('zhiye');
-$hometown = getVar('hometown');
-$school = getVar('school');
+$province = getVar('province');
+$city = getVar('city');
+$county = getVar('county');
+$work_province = getVar('work_province');
+$work_city = getVar('work_city');
+$work_county = getVar('work_county');
 $annual_income = intval(getVar('annual_income')); // 档次
 $phone_number = getVar('phone_number');
 $weixin = getVar('weixin');
-$yanzhi = intval(getVar('yanzhi'));
+$yanzhi = intval(getVar('yanzhi')); //等级
+$ques1 = getVar('ques1');
+$ques2 = getVar('ques2');
+$ques3 = getVar('ques3');
+$ques4 = getVar('ques4');
+$photo_url = getVar('photo_url');
 
 // 择偶条件
 $match_age = getVar('match_age'); // 年龄区间
 $match_height = getVar('match_height'); // 身高区间
-$match_hometown = getVar('match_hometown'); // 家乡
+$match_province = getVar('match_province'); // 家乡省
+$match_city = getVar('match_city'); // 家乡市
+$match_county = getVar('match_county'); // 家乡县
 $match_annual_income = getVar('match_annual_income'); // 年收入等级
 $match_yanzhi_grade = getVar('match_yanzhi_grade'); // 颜值等级
+
+// 载入配置数据
+$selector_config = load_data('selector_config');
+$question = load_data('question');
 
 if (strlen($nickname) < 1) {
     apimessage(1, '没有填写昵称');
 }
+if ($gender != 1 && $gender != 2) {
+    apimessage(1, '没有选择性别或选择的性别不正确');
+}
 if ($age < 1 || $age > 120) {
     apimessage(1, '填写的年龄不正确');
 }
-
 if ($height < 50 || $height > 280) {
     apimessage(1, '身高不正确');
 }
@@ -73,15 +90,27 @@ if (empty($user)) {
         'email' => $email,
         'height' => $height,
         'zhiye' => $zhiye,
-        'hometown' => $hometown,
+        'province' => $province,
+        'city' => $city,
+        'county' => $county,
+        'work_province' => $work_province,
+        'work_city' => $work_city,
+        'work_county' => $work_county,
         'school' => $school,
         'annual_income' => $annual_income,
         'phone_number' => $phone_number,
         'weixin' => $weixin,
         'yanzhi' => $yanzhi,
+        'photo_url' => $photo_url,
+        'answer1' => $answer1,
+        'answer2' => $answer2,
+        'answer3' => $answer3,
+        'answer4' => $answer4,
         'match_age' => $match_age,
         'match_height' => $match_height,
-        'match_hometown' => $match_hometown,
+        'match_province' => $match_province,
+        'match_city' => $match_city,
+        'match_county' => $match_county,
         'match_annual_income' => $match_annual_income,
         'match_yanzhi_grade' => $match_yanzhi_grade,
         'regip' => $regip,
@@ -97,39 +126,82 @@ if (empty($user)) {
         $tableConf = load_config('tables', true);;
     }
 
-    $fields = $values = $types = $placeholds = array();
-    foreach ($tableConf[tname('user')] as $field => $type) {
-        if (isset($newarr[$field])) {
-            $fields[] = $field;
-            $placeholds[] = "?";
-            $types[] = $type;
-            $values[] = $newarr[$field];
-        }
+    // 检查是否存在
+    $user = array();
+    $sql = "SELECT * FROM ".tname('user')." WHERE phone_number=? LIMIT 1";
+    $query = $MDB->stmt_query($sql, "s", $phone_number);
+    if (!$user = $MDB->fetch_array($query)) {
+        $user = array();
     }
-    if (empty($fields)) {
-        apimessage(110, '没有提交资料数据');
-    }
-
-    $sql = "INSERT INTO ".tname('user')."(".implode(',', $fields)." VALUES(".implode(',', $placeholds).")";
-
-    $args = array();
-    $args[] = $sql;
-    $args[] = implode('', $types);
-    $args = array_merge($args, $values);
 
     // 开启事物
     $MDB->query("START TRANSACTION");
+
+    if (empty($user)) {
+        $fields = $values = $types = $placeholds = array();
+        foreach ($tableConf[tname('user')] as $field => $type) {
+            if (isset($newarr[$field])) {
+                $fields[] = $field;
+                $placeholds[] = "?";
+                $types[] = $type;
+                $values[] = $newarr[$field];
+            }
+        }
+        if (empty($fields)) {
+            apimessage(110, '没有提交资料数据');
+        }
+
+        $sql = "INSERT INTO ".tname('user')."(".implode(',', $fields)." VALUES(".implode(',', $placeholds).")";
+
+        $args = array();
+        $args[] = $sql;
+        $args[] = implode('', $types);
+        $args = array_merge($args, $values);
+    } else {
+        $fields = $values = $types = array();
+        foreach ($tableConf[tname('user')] as $field => $type) {
+            if (isset($newarr[$field])) {
+                $fields[] = "{$field}=?";
+                $types[] = $type;
+                $values[] = $newarr[$field];
+            }
+        }
+        if (empty($fields)) {
+            apimessage(110, '没有提交资料数据');
+        }
+
+        $sql = "UPDATE ".tname('user')." SET " . implode(',', $fields) . " WHERE uid=?";
+        $types[] = "i";
+        $values[] = intval($user['uid']);
+
+        $args = array();
+        $args[] = $sql;
+        $args[] = implode('', $types);
+        $args = array_merge($args, $values);
+    }
 
     if (false === call_user_func_array(array($MDB, 'stmt_query'), $args)) {
         $MDB->query("ROLLBACK");
         apimessage(33, '保存资料失败');
     }
-    $newarr['uid'] = $MDB->insert_id();
+    if (empty($user)) {
+        $newarr['uid'] = $MDB->insert_id();
+        $user = $newarr;
+    }
 
-    $user = $newarr;
+    // 查询一遍用户资料
+    $sql = "SELECT * FROM " . tname('user') . " WHERE uid=?";
+    $query = $MDB->query($sql);
+    $user = $MDB->fetch_array($query);
 
     // 保存成功 为其匹配异性资料
+    $wheresql = "1";
     $sql = "SELECT uid FROM " . tname('user') . " WHERE ";
+    if ($user['gender'] == 1) {
+        $wheresql .= " AND gender=2";
+    } else {
+        $wheresql .= " AND gender=1";
+    }
     if ($user['match_age']) {
         
     }
