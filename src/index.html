@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>众里寻Ta</title>
     <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=no, email=no" />
@@ -22,10 +21,8 @@
     <meta name="x5-page-mode" content="app">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="width=640,target-densitydpi=device-dpi,maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="https://getbootstrap.com//docs/4.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="static/c//bootstrap.min.css" />
     <link rel="stylesheet" href="static/c/style.css" />
-    <link rel="stylesheet" href="static/c/add.css?v=3" />
-
     <script type="text/javascript" src="static/j/jquery-2.1.0.min.js"></script>
     <script type="text/javascript">
         if (/ipad/i.test(window.navigator.userAgent)) {
@@ -34,9 +31,8 @@
             );
         }
     </script>
-    <script type="text/javascript" src="https://getbootstrap.com/docs/4.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="static/j/bootstrap.bundle.min.js"></script>
 </head>
-
 <body class="">
     <!-- 预加载图片默认隐藏 -->
     <div style="display:none" id="preloadImg">
@@ -56,7 +52,6 @@
     <div class="wrapper body_bg nomove" id="mainWrap">
         <div class="mainwrapper" id="id_5b0facc533a31">
             <!--引言-->
-
             <!--开始-->
             <div class="wrapIndex displaynone" id="indexWrap">
                 <div class="indexWrapimg xycenter">
@@ -79,7 +74,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">1.姓名:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="nickname" name="nickname" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -93,28 +88,28 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">3.年龄:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="age" name="age" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">4.身高:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="height" name="height" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">5.职业:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="zhiye" name="zhiye" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">6.学校:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="school" name="school" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -136,32 +131,32 @@
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">9.年收入:</label>
                                 <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                                    <label class="custom-control-label" for="credit">10-20</label>
+                                    <input id="income1" name="annual_income" type="radio" class="custom-control-input" value="1" required>
+                                    <label class="custom-control-label" for="income1">10 ~ 20(含)</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="debit">20-30</label>
+                                    <input id="income2" name="annual_income" type="radio" class="custom-control-input" value="2" required>
+                                    <label class="custom-control-label" for="income2">20+ ~ 30(含)</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="paypal">30-40</label>
+                                    <input id="income3" name="annual_income" type="radio" class="custom-control-input" value="3" required>
+                                    <label class="custom-control-label" for="income3">30+ ~ 40(含)</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked>
-                                    <label class="custom-control-label" for="credit">40-50</label>
+                                    <input id="income4" name="annual_income" type="radio" class="custom-control-input" value="4" required>
+                                    <label class="custom-control-label" for="income4">40+ ~ 50(含)</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="debit">50-80</label>
+                                    <input id="income5" name="annual_income" type="radio" class="custom-control-input" value="5" required>
+                                    <label class="custom-control-label" for="income5">50+ ~ 80(含)</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="paypal">80-100</label>
+                                    <input id="income6" name="annual_income" type="radio" class="custom-control-input" value="6" required>
+                                    <label class="custom-control-label" for="income6">80+ ~ 100(含)</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="paypal">100+</label>
+                                    <input id="income7" name="annual_income" type="radio" class="custom-control-input" value="7" required>
+                                    <label class="custom-control-label" for="income7">100+</label>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -169,70 +164,70 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName">（1）有烦恼的时候是向外倾诉还是自己消化:</label>
                                     <div class="custom-control custom-radio">
-                                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                                        <label class="custom-control-label" for="credit">a 向外倾诉</label>
+                                        <input id="ques1_a" name="ques1" type="radio" class="custom-control-input" value="a" required>
+                                        <label class="custom-control-label" for="ques1_a">a 向外倾诉</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                        <label class="custom-control-label" for="debit">b 自己消化</label>
+                                        <input id="ques1_b" name="ques1" type="radio" class="custom-control-input" value="b" required>
+                                        <label class="custom-control-label" for="ques1_b">b 自己消化</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">（2）做决定的速度偏快还是慢:</label>
                                 <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                                    <label class="custom-control-label" for="credit">a 快</label>
+                                    <input id="ques2_a" name="ques2" type="radio" class="custom-control-input" value="a" required>
+                                    <label class="custom-control-label" for="ques2_a">a 快</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="debit">b 慢</label>
+                                    <input id="ques2_b" name="ques2" type="radio" class="custom-control-input" value="b" required>
+                                    <label class="custom-control-label" for="ques2_b">b 慢</label>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">（3）觉得人际关系和谐更重要，还是事情对错更重要:</label>
                                 <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                                    <label class="custom-control-label" for="credit">a 人际关系和谐更重</label>
+                                    <input id="ques3_a" name="ques3" type="radio" class="custom-control-input" value="a" required>
+                                    <label class="custom-control-label" for="ques3_a">a 人际关系和谐更重</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="debit">b 事情对错更重要</label>
+                                    <input id="ques3_b" name="ques3" type="radio" class="custom-control-input" value="b" required>
+                                    <label class="custom-control-label" for="ques3_b">b 事情对错更重要</label>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">（4）你平时是计划多一些，还是随意性多一些:</label>
                                 <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                                    <label class="custom-control-label" for="credit">a 计划型</label>
+                                    <input id="ques4_a" name="ques4" type="radio" class="custom-control-input" value="a" required>
+                                    <label class="custom-control-label" for="ques4_a">a 计划型</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="debit">b 随意型</label>
+                                    <input id="ques4_b" name="ques4" type="radio" class="custom-control-input" value="b" required>
+                                    <label class="custom-control-label" for="ques4_b">b 随意型</label>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">11.自己的颜值打分:</label>
                                 <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                                    <label class="custom-control-label" for="credit">1-3</label>
+                                    <input id="yanzhi_1" name="yanzhi" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="yanzhi_1">1-3</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="debit">4-6</label>
+                                    <input id="yanzhi_2" name="yanzhi" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="yanzhi_2">4-6</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="debit">7-8</label>
+                                    <input id="yanzhi_3" name="yanzhi" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="yanzhi_3">7-8</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="debit">9-10</label>
+                                    <input id="yanzhi_4" name="yanzhi" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="yanzhi_4">9-10</label>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">12.微信号:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="weixin" name="weixin" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -240,7 +235,7 @@
 
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">13.手机号:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -370,9 +365,8 @@
 				</div>
 				</div>
 			</div>
-
 			<!--推广页-->
-			<div class="adWRap" id="adWRap">
+			<div class="adWRap displaynone" id="adWRap">
 				<div class="xycenter">
 					<p>本次二维码匹配活动<br/>由北京众里寻他咨询有限公司策划，<br/>属于一场公益匹配；</p>
 					<p>从填写您的个人信息到系统匹配到获取联系方式，<br/>俩人愿意见面，<span>全程均免费哦！</span></p>
@@ -382,14 +376,12 @@
 				<div class="indexFloor adFloor">
 			</div>
         </div>
-
     </div>
     <!--输入姓名-->
     <div class="inputWrap displaynone " id="inputWrap">
         <div class="fontname xcenter"></div>
         <div class="inputbox xcenter">
             <input class="textbox" id="textbox" maxlength="4" />
-
         </div>
         <div class="btn_creat xcenter" id="btn_creat"></div>
         <div class="maskwrap displaynone" id="Errormask" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:98;">
@@ -400,10 +392,7 @@
         </div>
     </div>
     <script type="text/javascript">
-        var pageAdptor = function () {
-
-
-        }
+        var pageAdptor = function () {}
         //page response
         pageAdptor();
         window.onresize = pageAdptor;
@@ -412,13 +401,5 @@
     <script type="text/javascript" src="static/j/pace.js?v=1527755754" charset="UTF-8"></script>
     <script type="text/javascript" src="static/j/common.js?v=1527755754" charset="UTF-8"></script>
     <script type="text/javascript" src="static/j/index.js?v=1527755756" charset="UTF-8"></script>
-    <script type="text/javascript" src="static/j/share.js?v=1527755754" charset="UTF-8"></script>
-    <!-- <script type="text/javascript" src="static/j/audio.js?v=1527755754" charset="UTF-8"></script> -->
-
-
-    <script>
-    </script>
 </body>
-
-
 </html>
