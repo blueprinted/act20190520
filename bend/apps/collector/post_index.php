@@ -102,169 +102,257 @@ if (!isset($selector_config['yanzhi_grade'][$match_yanzhi_grade])) {
     apimessage(1, '择偶要求颜值范围不正确');
 }
 
-$user = array();
-$match_list = array();
+$regip = get_clientip(true);
 
+$newarr = array(
+    'nickname' => $nickname,
+    'age' => $age,
+    'gender' => $gender,
+    'email' => $email,
+    'height' => $height,
+    'zhiye' => $zhiye,
+    'province' => $province,
+    'city' => $city,
+    'county' => $county,
+    'work_province' => $work_province,
+    'work_city' => $work_city,
+    'work_county' => $work_county,
+    'school' => $school,
+    'annual_income' => $annual_income,
+    'phone_number' => $phone_number,
+    'weixin' => $weixin,
+    'yanzhi' => $yanzhi,
+    'yanzhi_grade' => $yanzhi,
+    'photo_url' => $photo_url,
+    'answer1' => $answer1,
+    'answer2' => $answer2,
+    'answer3' => $answer3,
+    'answer4' => $answer4,
+    'match_age' => $match_age,
+    'match_height' => $match_height,
+    'match_province' => $match_province,
+    'match_city' => $match_city,
+    'match_county' => $match_county,
+    'match_annual_income' => $match_annual_income,
+    'match_yanzhi_grade' => $match_yanzhi_grade,
+    'regip' => $regip,
+    'ctime' => 0,
+    'mtime' => 0,
+);
+
+$tableConf = load_config('tables');
+if (!isset($tableConf[tname('user')])) {
+    if (false === generate_table_conf('user', true)) {
+        apimessage(110, '生成表的字段类型配置失败');
+    }
+    $tableConf = load_config('tables', true);;
+}
+
+// 检查是否存在
+$user = array();
 $sql = "SELECT * FROM ".tname('user')." WHERE phone_number=?";
 $query = $MDB->stmt_query($sql, "s", $phone_number);
 if (!$user = $MDB->fetch_array($query)) {
     $user = array();
 }
 
+// 开启事物
+$MDB->query("START TRANSACTION");
+
 if (empty($user)) {
-    $ctime = time();
-    $mtime = 0;
-
-    $newarr = array(
-        'nickname' => $nickname,
-        'age' => $age,
-        'gender' => $gender,
-        'email' => $email,
-        'height' => $height,
-        'zhiye' => $zhiye,
-        'province' => $province,
-        'city' => $city,
-        'county' => $county,
-        'work_province' => $work_province,
-        'work_city' => $work_city,
-        'work_county' => $work_county,
-        'school' => $school,
-        'annual_income' => $annual_income,
-        'phone_number' => $phone_number,
-        'weixin' => $weixin,
-        'yanzhi' => $yanzhi,
-        'photo_url' => $photo_url,
-        'answer1' => $answer1,
-        'answer2' => $answer2,
-        'answer3' => $answer3,
-        'answer4' => $answer4,
-        'match_age' => $match_age,
-        'match_height' => $match_height,
-        'match_province' => $match_province,
-        'match_city' => $match_city,
-        'match_county' => $match_county,
-        'match_annual_income' => $match_annual_income,
-        'match_yanzhi_grade' => $match_yanzhi_grade,
-        'regip' => $regip,
-        'ctime' => $ctime,
-        'mtime' => $mtime,
-    );
-
-    $tableConf = load_config('tables');
-    if (!isset($tableConf[tname('user')])) {
-        if (false === generate_table_conf('user', true)) {
-            apimessage(110, '生成表的字段类型配置失败');
+    $newarr['ctime'] = time();
+    $fields = $values = $types = $placeholds = array();
+    foreach ($tableConf[tname('user')] as $field => $type) {
+        if (isset($newarr[$field])) {
+            $fields[] = $field;
+            $placeholds[] = "?";
+            $types[] = $type;
+            $values[] = $newarr[$field];
         }
-        $tableConf = load_config('tables', true);;
+    }
+    if (empty($fields)) {
+        apimessage(110, '没有提交资料数据');
     }
 
-    // 检查是否存在
-    $user = array();
-    $sql = "SELECT * FROM ".tname('user')." WHERE phone_number=? LIMIT 1";
-    $query = $MDB->stmt_query($sql, "s", $phone_number);
-    if (!$user = $MDB->fetch_array($query)) {
-        $user = array();
+    $sql = "INSERT INTO ".tname('user')."(".implode(',', $fields)." VALUES(".implode(',', $placeholds).")";
+
+    $args = array();
+    $args[] = $sql;
+    $args[] = implode('', $types);
+    $args = array_merge($args, $values);
+} else {
+    $newarr['mtime'] = time();
+    $fields = $values = $types = array();
+    foreach ($tableConf[tname('user')] as $field => $type) {
+        if (isset($newarr[$field])) {
+            $fields[] = "{$field}=?";
+            $types[] = $type;
+            $values[] = $newarr[$field];
+        }
+    }
+    if (empty($fields)) {
+        apimessage(110, '没有提交资料数据');
     }
 
-    // 开启事物
-    $MDB->query("START TRANSACTION");
+    $sql = "UPDATE ".tname('user')." SET " . implode(',', $fields) . " WHERE uid=?";
+    $types[] = "i";
+    $values[] = intval($user['uid']);
 
-    if (empty($user)) {
-        $fields = $values = $types = $placeholds = array();
-        foreach ($tableConf[tname('user')] as $field => $type) {
-            if (isset($newarr[$field])) {
-                $fields[] = $field;
-                $placeholds[] = "?";
-                $types[] = $type;
-                $values[] = $newarr[$field];
-            }
-        }
-        if (empty($fields)) {
-            apimessage(110, '没有提交资料数据');
-        }
+    $args = array();
+    $args[] = $sql;
+    $args[] = implode('', $types);
+    $args = array_merge($args, $values);
+}
 
-        $sql = "INSERT INTO ".tname('user')."(".implode(',', $fields)." VALUES(".implode(',', $placeholds).")";
+if (false === call_user_func_array(array($MDB, 'stmt_query'), $args)) {
+    $MDB->query("ROLLBACK");
+    apimessage(33, '保存资料失败');
+}
+if (empty($user)) {
+    $newarr['uid'] = $MDB->insert_id();
+    $user = $newarr;
+}
 
-        $args = array();
-        $args[] = $sql;
-        $args[] = implode('', $types);
-        $args = array_merge($args, $values);
+// 查询一遍用户资料
+$sql = "SELECT * FROM " . tname('user') . " WHERE uid=?";
+$query = $MDB->query($sql, "i", $user['uid']);
+$user = $MDB->fetch_array($query);
+
+// 保存成功 为其匹配异性资料
+$wheresql = "1";
+$sql = "SELECT uid FROM " . tname('user') . " WHERE ";
+if ($user['gender'] == 1) {
+    $wheresql .= " AND gender=2";
+} else {
+    $wheresql .= " AND gender=1";
+}
+if ($user['match_age']) {
+    if ($user['match_age'] == 1) {
+        $wheresql .= " AND age>=18 AND age<=22";
+    } elseif ($user['match_age'] == 2) {
+        $wheresql .= " AND age>22 AND age<=25";
+    } elseif ($user['match_age'] == 3) {
+        $wheresql .= " AND age>25 AND age<=30";
+    } elseif ($user['match_age'] == 4) {
+        $wheresql .= " AND age>30 AND age<=35";
+    } elseif ($user['match_age'] == 5) {
+        $wheresql .= " AND age>35 AND age<=40";
+    } elseif ($user['match_age'] == 6) {
+        $wheresql .= " AND age>40 AND age<=45";
     } else {
-        $fields = $values = $types = array();
-        foreach ($tableConf[tname('user')] as $field => $type) {
-            if (isset($newarr[$field])) {
-                $fields[] = "{$field}=?";
-                $types[] = $type;
-                $values[] = $newarr[$field];
+        $wheresql .= " AND age>45";
+    }
+}
+if ($user['match_height']) {
+    if ($user['match_height'] == 1) {
+        $wheresql .= " AND height>=140 AND height<=150";
+    } elseif ($user['match_height'] == 2) {
+        $wheresql .= " AND height>150 AND height<=155";
+    } elseif ($user['match_height'] == 3) {
+        $wheresql .= " AND height>155 AND height<=165";
+    } elseif ($user['match_height'] == 4) {
+        $wheresql .= " AND height>165 AND height<=170";
+    } elseif ($user['match_height'] == 5) {
+        $wheresql .= " AND height>170 AND height<=175";
+    } elseif ($user['match_height'] == 6) {
+        $wheresql .= " AND height>175 AND height<=180";
+    } elseif ($user['match_height'] == 7) {
+        $wheresql .= " AND height>180 AND height<=190";
+    } else {
+        $wheresql .= " AND height>190";
+    }
+}
+if ($user['match_province']) {
+    $wheresql .= " AND province='{$user['match_province']}'";
+}
+if ($user['match_city']) {
+    $wheresql .= " AND city='{$user['match_city']}'";
+}
+if ($user['match_county']) {
+    $wheresql .= " AND county='{$user['match_county']}'";
+}
+if ($user['match_annual_income']) {
+    $wheresql .= " AND annual_income='{$user['match_annual_income']}'";
+}
+if ($user['match_yanzhi_grade']) {
+    $wheresql .= " AND yanzhi_grade='{$user['match_yanzhi_grade']}'";
+}
+$match_uids = array();
+$sql = "SELECT uid FROM " . tname('user') . " WHERE {$wheresql} LIMIT " . ACT_MATCH_USER_NUMS;
+$query = $MDB->query($sql);
+while ($match_user = $MDB->fetch_array($query)) {
+    $match_uids[$match_user['uid']] = $match_user['uid'];
+}
+if (count($match_uids) < ACT_MATCH_USER_NUMS) {
+    $diffNums = ACT_MATCH_USER_NUMS - count($match_uids);
+    // 需要补足到数量
+}
+
+$match_users = array();
+
+// 写入或更新数据到匹配关系表
+$nowtime = time();
+$regions = array();
+$matchPrimaryIds = array();
+foreach ($match_uids as $idx => $match_uid) {
+    $sql = "SELECT * FROM " . tname('user_match') . " WHERE master_uid='{$user['uid']}' AND match_uid='{$match_uid}'";
+    $query = $MDB->query($sql);
+    if ($matchData = $MDB->fetch_array($query)) {
+        $matchPrimaryIds[$matchData['id']] = $matchData['id'];
+        $sql = "UPDATE " . tname('user_match') . " SET mtime='{$nowtime}' WHERE id='{$matchData['id']}'";
+        if (!$MDB->query($sql)) {
+            $MDB->query("ROLLBACK");
+            apimessage(34, '匹配异性失败');
+        }
+    } else {
+        // 需要写入
+        $sql = "INSERT INTO " . tname('user_match') . "(master_uid,match_uid,ctime,mtime) VALUES ('{$user['uid']}', '{$match_uid}', '{$nowtime}', '0')";
+        if (!$MDB->query($sql)) {
+            $MDB->query("ROLLBACK");
+            apimessage(35, '匹配异性失败');
+        }
+        $insertId = $MDB->insert_id();
+        $matchPrimaryIds[$insertId] = $insertId;
+    }
+    $sql = "SELECT uid,nickname,age,height,zhiye,province,city,county,photo_url FROM " . tname('user') . " WHERE uid='{$match_uid}'";
+    $query = $MDB->query($sql);
+    if ($temp = $MDB->fetch_array($query)) {
+        $areaIds = array();
+        if (!isset($regions[$temp['province']])) {
+            $areaIds[] = $temp['province'];
+        }
+        if (!isset($regions[$temp['city']])) {
+            $areaIds[] = $temp['city'];
+        }
+        if (!isset($regions[$temp['county']])) {
+            $areaIds[] = $temp['county'];
+        }
+        if ($areaIds) {
+            $sql = "SELECT id, name FROM " . tname('area') . " WHERE id IN (" . simplode($areaIds) . ")";
+            $query = $MDB->query($sql);
+            while ($region = $MDB->fetch_array($query)) {
+                $regions[$region['id']] = $region;
             }
         }
-        if (empty($fields)) {
-            apimessage(110, '没有提交资料数据');
-        }
 
-        $sql = "UPDATE ".tname('user')." SET " . implode(',', $fields) . " WHERE uid=?";
-        $types[] = "i";
-        $values[] = intval($user['uid']);
-
-        $args = array();
-        $args[] = $sql;
-        $args[] = implode('', $types);
-        $args = array_merge($args, $values);
+        $temp['province_cn'] = $regions[$temp['province']]['name'];
+        $temp['city_cn'] = $regions[$temp['city']]['name'];
+        $temp['county_cn'] = $regions[$temp['county']]['name'];
+        $match_users[] = $temp;
     }
-
-    if (false === call_user_func_array(array($MDB, 'stmt_query'), $args)) {
+}
+// 多余的要删除
+$sql = "SELECT COUNT(id) AS cnt FROM " . tname('user_match') . " WHERE master_uid={$user['uid']}";
+$matchedNums = $MDB->result($MDB->query($sql), 0, 0);
+if ($matchedNums > ACT_MATCH_USER_NUMS) {
+    $sql = "DELECT FROM " . tname('user_match') . " WHERE ctime<'{$nowtime}' AND mtime<'{$nowtime}'";
+    if (!$MDB->query($sql)) {
         $MDB->query("ROLLBACK");
-        apimessage(33, '保存资料失败');
-    }
-    if (empty($user)) {
-        $newarr['uid'] = $MDB->insert_id();
-        $user = $newarr;
-    }
-
-    // 查询一遍用户资料
-    $sql = "SELECT * FROM " . tname('user') . " WHERE uid=?";
-    $query = $MDB->query($sql, "i", $user['uid']);
-    $user = $MDB->fetch_array($query);
-
-    // 保存成功 为其匹配异性资料
-    $wheresql = "1";
-    $sql = "SELECT uid FROM " . tname('user') . " WHERE ";
-    if ($user['gender'] == 1) {
-        $wheresql .= " AND gender=2";
-    } else {
-        $wheresql .= " AND gender=1";
-    }
-    if ($user['match_age']) {
-        if ($user['match_age'] == 1) {
-            $wheresql .= " AND age>=18 AND age<=22";
-        } elseif ($user['match_age'] == 2) {
-            $wheresql .= " AND age>22 AND age<=25";
-        } elseif ($user['match_age'] == 3) {
-            $wheresql .= " AND age>25 AND age<=30";
-        } elseif ($user['match_age'] == 4) {
-            $wheresql .= " AND age>30 AND age<=35";
-        } elseif ($user['match_age'] == 5) {
-            $wheresql .= " AND age>35 AND age<=40";
-        } elseif ($user['match_age'] == 6) {
-            $wheresql .= " AND age>40 AND age<=45";
-        } elseif ($user['match_age'] == 7) {
-            $wheresql .= " AND age>45";
-        }
-    }
-
-    $MDB->query("COMMIT");
-}
-
-// 查找其已经匹配到的异性资料
-$sql = "SELECT * FROM " . tname('user_match') . " WHERE master_uid=?";
-$query = $MDB->stmt_query($sql, "i", $user['uid']);
-while ($match = $MDB->fetch_array($query)) {
-    $match_list[$match['match_uid']] = $match['match_uid'];
-    $sql = "SELECT nickname,photo_url FROM ".tname('user')." WHERE uid=?";
-    $qu = $MDB->stmt_query($sql, "i", $match['match_uid']);
-    if ($tmp = $MDB->fetch_array($qu)) {
-        $match_list[] = $tmp;
+        apimessage(36, '匹配异性失败');
     }
 }
 
-apimessage(0, 'succ', $match_list);
+// 全部成功了则提交
+$MDB->query("COMMIT");
+
+apimessage(0, 'succ', $match_users);
