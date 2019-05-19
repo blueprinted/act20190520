@@ -1,10 +1,30 @@
 
 /**
- *
+ * Created by xueyanjie on 2017/9/29.
  */
 
 touchmove = false;
 touchSupport=function(){return 'ontouchend' in document;}
+function bindClick(selector, func, bubble) {
+    if (!touchSupport()) {
+        $(selector).live('click', function(){
+            var self = $(this);
+            func(self);
+            if (!bubble) { return false; }
+        });//鍝嶅簲浜嬩欢
+    } else {
+        $(selector).live('touchmove', function(){
+            touchmove = true;
+        }).live('touchend', function(){
+            if (touchmove == true) { touchmove = false; return; }
+            var self = $(this);
+            func(self);//鍝嶅簲浜嬩欢
+            if (!bubble) { return false; }
+        });
+    }
+}
+
+
 function bindClick(selector, func, params,bubble) {
     if (!touchSupport()) {
         $(selector).live('click', function(){
@@ -23,6 +43,9 @@ function bindClick(selector, func, params,bubble) {
         });
     }
 }
+
+
+
 
 var JSLOADED = [];/*javascript动态载入标识数组*/
 var evalscripts = [];/*js相关*/
@@ -75,18 +98,17 @@ function getFilename(filename) {
  *	@return String 要获取的参数值 参数不存在则为""
  */
 function getUrlArg(arg, url){
-	var arg = isUndefined(arg) ? '' : arg;
-	var url = isUndefined(url) || url === '' ? document.location.href : url;
-	if(url.indexOf('?') == -1 || arg == '')
-		return '';
-	url = url.substr(url.indexOf('?')+1);
-	var expr = new RegExp('(\\w+)=([^&]+)','ig');
-	var args = [];
-	var tmp = [];
-	while((tmp = expr.exec(url)) != null){
-		args[tmp[1]] = tmp[2];
-	}
-	return isUndefined(args[arg]) ? '' : args[arg];
+    var arg = isUndefined(arg) ? '' : arg;
+    var url = isUndefined(url) || url === '' ? document.location.href : url;
+    if(url.indexOf('?') == -1 || arg == '')
+        return '';
+    url = url.substr(url.indexOf('?')+1);
+    var expr = new RegExp('(\\w+)=(\\w+)','ig');
+    var args = [];
+    while((tmp = expr.exec(url)) != null){
+        args[tmp[1]] = tmp[2];
+    }
+    return isUndefined(args[arg]) ? '' : args[arg];
 }
 
 function in_array(needle, haystack){
@@ -283,11 +305,11 @@ function appendscript(src, text, callback, reload, targetid, charset) {
 }
 
 function getSiteUrl() {
-	var url = window.location.pathname.substr(0,1) == '/' ? window.location.pathname : ('/'+window.location.pathname);
-	url = url.replace(/\/[^\/]+$/, '/');
-	url = window.location.protocol + '//' + window.location.host + url;
-	url += url.substr(url.length-1, 1) == '/' ? '' : '/';
-	return url;
+    var url = window.location.pathname.substr(0,1) == '/' ? window.location.pathname : ('/'+window.location.pathname);
+    url = url.replace(/\/\w+\.[^\/]+/, '/');
+    url = 'http://'+window.location.host + url;
+    url += url.substr(url.length-1, 1) == '/' ? '' : '/';
+    return url;
 }
 
 /* audio */
@@ -408,6 +430,20 @@ iAudio.prototype = {
     }
 }
 
+function isLoaded(callback) {
+    var callback = typeof callback == 'undefined' ? '' : callback;
+    if(window.document.readyState == 'complete') {
+        try{eval('callback()')} catch(e) {}
+        return true;
+    }
+    setTimeout('isLoaded('+callback+')', 700);
+}
+
+
+
+
+
+
 function getUserAgent() {
     var agent;
     
@@ -447,95 +483,65 @@ function isPC() {
         return true;
     }
 }
-
-
-
-function jsToast(options) {
-	this.options = options || {};
-	this.timer;
-	this.inited = !1;
-	this.queue = [];
-    this.queueLock = false;
-    this.init();
+//为了在模板后台跨域
+if(window.location.host == "test.ac.sogou"){
+    document.domain = "ac.sogou"
 }
-jsToast.prototype = {
-	init: function() {
-		var defaults = {
-            mode: 0, //0 队列模式 1:单一模式(多次调用show()只显示首次的) 2:单一模式(多次调用show()只显示末次的)
-			prefixTitle: '',
-			duration: 2,
-			elemId: 'js-toast',
-            elemClass: 'js-toast'
-		};
-        this.options = $.extend(false, {}, defaults, this.options);/* initial params */
-		this.inited = !0;
-	},
-    queueAdd: function (msg, duration) {
-        var self = this;
-        self.queue.push({msg:msg, duration:duration});
-        return self;
-    },
-    render: function(msg) {
-        var selector = '#'+this.options.elemId;
-        $(selector).remove();
-        var jstoast = '<div id="'+this.options.elemId+'" class="'+this.options.elemClass+'">'+(this.options.prefixTitle+msg)+'</div>';
-            $('body').append(jstoast);
-        $(selector).css({
-            position: 'fixed',
-            display: 'none'
-        });
-        setTimeout(function(){$(selector).css({left:($(window).width()-$(selector).width())/2+'px',display:'block'})}, 0);
-    },
-	show: function(msg, duration) {
-        var self = this;
-        var msg = typeof msg == 'undefined' ? '' : msg;
-        var duration = typeof duration == 'undefined' ?  this.options.duration : parseFloat(duration);
-        if (self.options.mode == 2) {
-            try {
-                clearTimeout(self.timer);
-            } catch(e) {}
-            self.render(msg);
-            self.timer = setTimeout(function(){self.hide();}, duration*1000);
-            return;
-        }
-        if (self.options.mode == 1 && ((self.queue).length > 0 || self.queueLock)) {
-            return;
-        }
-        this.queueAdd(msg, duration);
-        this.queueExec();
-	},
-    hide: function() {
-        $('#'+this.options.elemId).remove();
-    },
-    queueExec: function() {
-        var self = this;
-        if (self.queueLock) {
-            return false;
-        }
-        self.queueLock = true;
-        args = self.queue.shift();
-        if (args) {
-            self.render(args.msg);
-            setTimeout(function(){
-                self.queueLock = false;
-                self.queueExec();
-            }, args.duration*1000);
-        } else {
-            self.hide();
-            this.queueLock = false;
-        }
+
+
+
+
+/**
+ * Created by xueyanjie@sogou-inc.com on 2018/3/29.
+ * F参数处理
+ */
+
+//----------------F参数相关------------------------
+
+//获取url中的参数
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", 'i'); // 匹配目标参数
+    var result = window.location.search.substr(1).match(reg); // 对querystring匹配目标参数
+    if (result != null) {
+        return decodeURIComponent(result[2]);
+    } else {
+        return null;
     }
 }
-
-/*ref https://github.com/WICG/EventListenerOptions/pull/30*/
-function isPassive() {
-	var supportsPassiveOption = false;
-	try {
-		addEventListener("test", null, Object.defineProperty({}, 'passive', {
-			get: function () {
-				supportsPassiveOption = true;
-			}
-		}));
-	} catch(e) {}
-	return supportsPassiveOption;
+//向url中添加参数
+function addUrlPara(name, value, currentUrl) {
+    //var currentUrl = window.location.href.split('#')[0];
+    currentUrl = currentUrl.split('#')[0];
+    if (/\?/g.test(currentUrl)) {
+        if (/name=[-\w]{4,25}/g.test(currentUrl)) {
+            currentUrl = currentUrl.replace(/name=[-\w]{4,25}/g, name + "=" + value);
+        } else {
+            currentUrl += "&" + name + "=" + value;
+        }
+    } else {
+        currentUrl += "?" + name + "=" + value;
+    }
+    if (currentUrl.split('#')[1]) {
+        currentUrl = currentUrl + '#' + currentUrl.split('#')[1];
+    }
+    return currentUrl;
 }
+//通用函数：处理F参数
+function processParamF() {
+    var val = getQueryString('f');
+    if (!val) { return; }
+    //获取页面所有的a标签并添加f参数
+    $.each($('a'), function(index, elem) {
+        var href = elem.href;
+        if (href && href != '' && href != 'javascript:;') {
+            href = addUrlPara('f', val, href);
+            elem.href = href;
+        }
+    });
+}
+
+$(function(){
+    processParamF();
+});
+
+  
