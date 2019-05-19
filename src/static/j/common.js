@@ -7,15 +7,15 @@ touchmove = false;
 touchSupport=function(){return 'ontouchend' in document;}
 function bindClick(selector, func, bubble) {
     if (!touchSupport()) {
-        $(selector).live('click', function(){
+        $(selector).on('click', function(){
             var self = $(this);
             func(self);
             if (!bubble) { return false; }
         });//鍝嶅簲浜嬩欢
     } else {
-        $(selector).live('touchmove', function(){
+        $(selector).on('touchmove', function(){
             touchmove = true;
-        }).live('touchend', function(){
+        }).on('touchend', function(){
             if (touchmove == true) { touchmove = false; return; }
             var self = $(this);
             func(self);//鍝嶅簲浜嬩欢
@@ -27,15 +27,15 @@ function bindClick(selector, func, bubble) {
 
 function bindClick(selector, func, params,bubble) {
     if (!touchSupport()) {
-        $(selector).live('click', function(){
+        $(selector).on('click', function(){
             var self = $(this);
             func(params,self);
             if (!bubble) { return false; }
         });//响应事件
     } else {
-        $(selector).live('touchmove', function(){
+        $(selector).on('touchmove', function(){
             touchmove = true;
-        }).live('touchend', function(){
+        }).on('touchend', function(){
             if (touchmove == true) { touchmove = false; return; }
             var self = $(this);
             func(params,self);//响应事件

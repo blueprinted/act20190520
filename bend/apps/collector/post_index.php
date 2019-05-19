@@ -27,13 +27,13 @@ $ques4 = getVar('ques4');
 $photo_url = getVar('photo_url');
 
 // 择偶条件
-$match_age = getVar('match_age'); // 年龄区间
-$match_height = getVar('match_height'); // 身高区间
-$match_province = getVar('match_province'); // 家乡省
-$match_city = getVar('match_city'); // 家乡市
-$match_county = getVar('match_county'); // 家乡县
-$match_annual_income = getVar('match_annual_income'); // 年收入等级
-$match_yanzhi_grade = getVar('match_yanzhi_grade'); // 颜值等级
+$match_age = intval(getVar('match_age')); // 年龄区间
+$match_height = intval(getVar('match_height')); // 身高区间
+$match_province = intval(getVar('match_province')); // 家乡省
+$match_city = intval(getVar('match_city')); // 家乡市
+$match_county = intval(getVar('match_county')); // 家乡县
+$match_annual_income = intval(getVar('match_annual_income')); // 年收入等级
+$match_yanzhi_grade = intval(getVar('match_yanzhi_grade')); // 颜值等级
 
 // 载入配置数据
 $selector_config = load_data('selector_config');
@@ -63,11 +63,43 @@ if (strlen($school) < 1) {
 if ($annual_income < 1) {
     apimessage(1, '没有选择年收入范围');
 }
+if (!isset($selector_config['annual_income'][$annual_income])) {
+    apimessage(1, '年收入范围有误');
+}
 if (strlen($phone_number) < 1) {
     apimessage(1, '没有填写手机号码');
 }
 if (!preg_match('/^(+?\d{2})?\s?\d{11}$/i', $phone_number)) {
     apimessage(1, '手机号码不正确');
+}
+
+// 校验匹配资料
+if ($match_age < 1) {
+    apimessage(1, '没选择择偶要求的年龄');
+}
+if (!isset($selector_config['age_grade'][$match_age])) {
+    apimessage(1, '择偶要求年龄不正确');
+}
+
+if ($match_height < 1) {
+    apimessage(1, '没选择择偶要求的年龄');
+}
+if (!isset($selector_config['height_grade'][$match_height])) {
+    apimessage(1, '择偶要求年龄不正确');
+}
+
+if ($match_annual_income < 1) {
+    apimessage(1, '没选择择偶要求的收入范围');
+}
+if (!isset($selector_config['annual_income'][$match_annual_income])) {
+    apimessage(1, '择偶要求收入范围不正确');
+}
+
+if ($match_yanzhi_grade < 1) {
+    apimessage(1, '没选择择偶要求的颜值范围');
+}
+if (!isset($selector_config['yanzhi_grade'][$match_yanzhi_grade])) {
+    apimessage(1, '择偶要求颜值范围不正确');
 }
 
 $user = array();
@@ -191,7 +223,7 @@ if (empty($user)) {
 
     // 查询一遍用户资料
     $sql = "SELECT * FROM " . tname('user') . " WHERE uid=?";
-    $query = $MDB->query($sql);
+    $query = $MDB->query($sql, "i", $user['uid']);
     $user = $MDB->fetch_array($query);
 
     // 保存成功 为其匹配异性资料
@@ -203,7 +235,21 @@ if (empty($user)) {
         $wheresql .= " AND gender=1";
     }
     if ($user['match_age']) {
-        
+        if ($user['match_age'] == 1) {
+            $wheresql .= " AND age>=18 AND age<=22";
+        } elseif ($user['match_age'] == 2) {
+            $wheresql .= " AND age>22 AND age<=25";
+        } elseif ($user['match_age'] == 3) {
+            $wheresql .= " AND age>25 AND age<=30";
+        } elseif ($user['match_age'] == 4) {
+            $wheresql .= " AND age>30 AND age<=35";
+        } elseif ($user['match_age'] == 5) {
+            $wheresql .= " AND age>35 AND age<=40";
+        } elseif ($user['match_age'] == 6) {
+            $wheresql .= " AND age>40 AND age<=45";
+        } elseif ($user['match_age'] == 7) {
+            $wheresql .= " AND age>45";
+        }
     }
 
     $MDB->query("COMMIT");
