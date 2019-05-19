@@ -1,51 +1,364 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>page-title</title>
-		<meta content="yes" name="apple-mobile-web-app-capable"> 
-		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-		<meta name="format-detection" content="telephone=no, email=no" />
-		<meta name="renderer" content="webkit">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="HandheldFriendly" content="true">
-		<meta name="MobileOptimized" content="320">
-		<meta name="screen-orientation" content="portrait">
-		<meta name="x5-orientation" content="portrait">
-		<meta name="full-screen" content="yes">
-		<meta name="x5-fullscreen" content="true">
-		<meta name="browsermode" content="application">
-		<meta name="x5-page-mode" content="app">
-		<meta name="msapplication-tap-highlight" content="no">
-		<meta name="viewport" content="width=640,target-densitydpi=device-dpi,maximum-scale=1, user-scalable=no">
-		<link rel="stylesheet" href="static/c/style.css?v=201901315" />
-		<script type="text/javascript">if(/ipad/i.test(window.navigator.userAgent)) {document.write('<meta name="viewport" content="width=device-width, user-scalable=none, initial-scale=1,minimum-scale=1,maximum-scale=1" />')}</script>
-	</head>
-	<body>
-		<div class="wrapper">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="320">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="browsermode" content="application">
+    <meta name="x5-page-mode" content="app">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="width=640,target-densitydpi=device-dpi,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://getbootstrap.com//docs/4.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="static/c/style.css" />
+    <link rel="stylesheet" href="static/c/add.css?v=3" />
+
+    <script type="text/javascript" src="static/j/jquery.1.7.1.min.js"></script>
+    <script type="text/javascript">
+        if (/ipad/i.test(window.navigator.userAgent)) {
+            document.write(
+                '<meta name="viewport" content="width=device-width, user-scalable=none, initial-scale=1,minimum-scale=1,maximum-scale=1" />'
+            );
+        }
+    </script>
+    <script type="text/javascript" src="https://getbootstrap.com/docs/4.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="">
+    <!-- 预加载图片默认隐藏 -->
+    <div style="display:none" id="preloadImg">
+    </div>
+    <!-- wrapper 里面给的背景图   首页，引言body_bg 其他：body_bg1-->
+    <!--loading-->
+    <div class="body_logobg nomove" id="loaddingWrap">
+        <div class="loadingbox xycenter">
+            <div class="loadingrange">
+                <div class="loading"></div>
+            </div>
+            <p id="loading">50%</p>
+        </div>
+    </div>
+    <!--音乐-->
+    <!-- <div class="icon_audio" id="btn_audio"></div> -->
+    <div class="wrapper body_bg nomove" id="mainWrap">
+        <div class="mainwrapper" id="id_5b0facc533a31">
+            <!--引言-->
+
+            <!--开始-->
+            <div class="wrapIndex displaynone" id="indexWrap">
+                <div class="indexWrapimg xycenter">
+                    <p>地球上有77亿人
+                        <br/>204个国家
+                        <br/>809个岛屿
+                        <br/>两个人遇见的概率是2920万分之一
+                        <br/>幸运如我
+                        <br/>在最好的时光
+                        <br/>刚好遇见了你</p>
+                    <a class="btn_start anipulse xcenter" href="javascript:;" id="btn_start"></a>
+                </div>
+                <div class="indexFloor xcenter"></div>
+            </div>
+            <!--答题页-->
+            <div class="getinfoWrap displaynone" id="getinfoWrap">
+                <img src="static/i/getinfobg.jpg" />
+                <div>
+                    <form class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">1.姓名:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">2.性别:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">3.年龄:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">4.身高:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">5.职业:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">6.学校:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">7.家乡:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">8.您的工作地区在哪里:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">9.年收入:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                    <label class="custom-control-label" for="credit">10-20</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="debit">20-30</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="paypal">30-40</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked>
+                                    <label class="custom-control-label" for="credit">40-50</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="debit">50-80</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="paypal">80-100</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="paypal">100+</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">10.以下为四个选择题（让我们看看您是是什么性格）</label>
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName">（1）有烦恼的时候是向外倾诉还是自己消化:</label>
+                                    <div class="custom-control custom-radio">
+                                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                        <label class="custom-control-label" for="credit">a 向外倾诉</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                        <label class="custom-control-label" for="debit">b 自己消化</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">（2）做决定的速度偏快还是慢:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                    <label class="custom-control-label" for="credit">a 快</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="debit">b 慢</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">（3）觉得人际关系和谐更重要，还是事情对错更重要:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                    <label class="custom-control-label" for="credit">a 人际关系和谐更重</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="debit">b 事情对错更重要</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">（4）你平时是计划多一些，还是随意性多一些:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                    <label class="custom-control-label" for="credit">a 计划型</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="debit">b 随意型</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">11.自己的颜值打分:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                    <label class="custom-control-label" for="credit">1-3</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="debit">4-6</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="debit">7-8</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="debit">9-10</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">12.微信号:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">13.手机号:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">14.请上传您的照片:</label>
+                                <input type="text" class="form-control" id="" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn_sub "id="btn_mysub"></div>
+                    </form>
+                </div>
+            </div>
+			<!-- 其他人 -->
+			<div class="indexOtherWrap displaynone" id="indexOtherWrap">
+				<form class="needs-validation1 xycenter" novalidate>
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="firstName">1.姓名:</label>
+							<input type="text" class="form-control" id="" placeholder="" value="" required>
+							<div class="invalid-feedback">
+								Valid first name is required.
+							</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="firstName">2.性别:</label>
+							<input type="text" class="form-control" id="" placeholder="" value="" required>
+							<div class="invalid-feedback">
+								Valid first name is required.
+							</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="firstName">3.年龄:</label>
+							<input type="text" class="form-control" id="" placeholder="" value="" required>
+							<div class="invalid-feedback">
+								Valid first name is required.
+							</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="firstName">4.身高:</label>
+							<input type="text" class="form-control" id="" placeholder="" value="" required>
+							<div class="invalid-feedback">
+								Valid first name is required.
+							</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="firstName">5.职业:</label>
+							<input type="text" class="form-control" id="" placeholder="" value="" required>
+							<div class="invalid-feedback">
+								Valid first name is required.
+							</div>
+						</div>
+					</div>	
+					<div class="btn_sub" id="btn_subAll"></div>
+				</form>
+			</div>
 			
-		</div>
-		<div id="debuger"></div>
-		<script type="text/javascript" src="static/j/jquery-2.1.0.min.js"></script>
-		<script type="text/javascript" src="static/j/jquery.form.min.js"></script>
-		<script type="text/javascript" src="static/j/common.js"></script>
-		<script type="text/javascript" src="static/j/pageResponse.min.js"></script>
-		<script type="text/javascript">
-			var pageAdptor = function () {
-				pageResponse({
-					selectors: '.mainwrapper',     //模块选择器，使用querySelectorAll的方法
-					mode: 'contain',     // auto || contain || cover ，默认模式为auto
-					width: '640',      //输入页面的宽度，只支持输入数值，默认宽度为320px
-					height: '1030'      //输入页面的高度，只支持输入数值，默认高度为504px
-				});
-			}
-			//page response
-			pageAdptor();
-			window.onresize = pageAdptor;
-			var hasLoading = false;
-		</script>
-		<script type="text/javascript" src="static/j/page.js"></script>
-	</body>
+            <!--生成中-->
+            <div class="creatingWrap displaynone" id="resultLoading">
+                
+                <div class="createshow xycenter">正在匹配中。。。</div>
+
+
+            </div>
+            <!--结果页-->
+            <!--rexueWrap/shenmiWrap/wennuanWrap/danboWrap-->
+            <div class="resultWrap displaynone" id="resultWrap">
+                <img id="resultImg" src="" alt="" style="position:absolute;top:0;left:0;display:block">
+                <div class="resultTip"></div>
+                <!--<img src="" id="resultImgNormal" alt="">-->
+                <div class="rightBottom" id="rightBottom">
+                    <a id="txt_ckjx">查看惊喜</a>
+                    <p></p>
+                </div>
+            </div>
+
+            <!--推广页-->
+        </div>
+
+    </div>
+    <!--输入姓名-->
+    <div class="inputWrap displaynone " id="inputWrap">
+        <div class="fontname xcenter"></div>
+        <div class="inputbox xcenter">
+            <input class="textbox" id="textbox" maxlength="4" />
+
+        </div>
+        <div class="btn_creat xcenter" id="btn_creat"></div>
+        <div class="maskwrap displaynone" id="Errormask" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:98;">
+            <div class="Errormask xycenter" id="id_5b1749f43f4b1">
+                <div class="errorClose"></div>
+                <div class="errorCon" id="errorTxt"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var pageAdptor = function () {
+
+
+        }
+        //page response
+        pageAdptor();
+        window.onresize = pageAdptor;
+        var hasLoading = false;
+    </script>
+    <script type="text/javascript" src="static/j/pace.js?v=1527755754" charset="UTF-8"></script>
+    <script type="text/javascript" src="static/j/common.js?v=1527755754" charset="UTF-8"></script>
+    <script type="text/javascript" src="static/j/index.js?v=1527755756" charset="UTF-8"></script>
+    <script type="text/javascript" src="static/j/share.js?v=1527755754" charset="UTF-8"></script>
+    <!-- <script type="text/javascript" src="static/j/audio.js?v=1527755754" charset="UTF-8"></script> -->
+
+
+    <script>
+    </script>
+</body>
+
+
 </html>
