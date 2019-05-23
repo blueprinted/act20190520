@@ -30,8 +30,10 @@ function get_area_data ($parentid = 0, $maxlevel = 4, &$parentList) {
     $idx = 0;
     while($area = $MDB->fetch_array($query)) {
         $parentList[$idx] = array(
-            'id' => $area['id'],
+            'id' => intval($area['id']),
             'name' => $area['name'],
+            'short_name' => $area['short_name'],
+            'level' => intval($area['level']),
             'children' => array(),
         );
         if (in_array(intval($area['id']), array(110000, 120000, 310000, 500000), true) && $area['level'] < $maxlevel + 1) {

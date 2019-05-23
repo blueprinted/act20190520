@@ -24,7 +24,8 @@ $ques1 = getVar('ques1');
 $ques2 = getVar('ques2');
 $ques3 = getVar('ques3');
 $ques4 = getVar('ques4');
-$photo_url = getVar('photo_url');
+// $photo_url = getVar('photo_url');
+$hdimg = getvar('hdimg');
 
 // 择偶条件
 $match_age = intval(getVar('match_age')); // 年龄区间
@@ -71,6 +72,21 @@ if (strlen($phone_number) < 1) {
 }
 if (!preg_match('/^(+?\d{2})?\s?\d{11}$/i', $phone_number)) {
     apimessage(1, '手机号码不正确');
+}
+
+$base64Pattern = "/^(data:image\/(jpeg|png);base64,)/i";
+if (strlen($hdimg) < 1 || !preg_match($base64Pattern, $hdimg)) {
+    apimessage(1, '没有上传图片');
+}
+
+$filedir = uploadUtil::get_target_dir(APP_DATA, 'upload/uploadImages');
+$filename = uploadUtil::get_target_filename($fileext, false, 8);
+$fileFullPath = "{$filedir}/{$filename}";
+if (!mkdir_recursive(dirname($fileFullPath))) {
+    apimessage(8, "接收图片失败(mk)");//
+}
+if(false === file_put_contents($fileFullPath, base64_decode(preg_replace($base64Pattern, '', $hdimg)))) {
+    apimessage(9, "接收图片失败(mv)");//转移临时文件失败
 }
 
 // 校验匹配资料

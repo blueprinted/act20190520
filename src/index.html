@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <title>众里寻Ta</title>
@@ -35,8 +34,7 @@
 </head>
 <body class="">
     <!-- 预加载图片默认隐藏 -->
-    <div style="display:none" id="preloadImg">
-    </div>
+    <div style="display:none" id="preloadImg"></div>
     <!-- wrapper 里面给的背景图   首页，引言body_bg 其他：body_bg1-->
     <!--loading-->
     <div class="body_logobg nomove" id="loaddingWrap">
@@ -81,10 +79,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">2.性别:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
-                                </div>
+                                <label><input type="radio" name="gender" value="1" />&nbsp;男</label>&nbsp;&nbsp;<label><input type="radio" name="gender" value="2" />&nbsp;女</label>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">3.年龄:</label>
@@ -116,16 +111,14 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">7.家乡:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
+                                <div id="hometown-wrap">
+                                    <select name="province"><option>请选择</option></select>&nbsp;<select name="city"><option>请选择</option></select>&nbsp;<select name="country"><option>请选择</option></select>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">8.您的工作地区在哪里:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
+                                <div id="workplace-wrap">
+                                    <select name="province"><option>请选择</option></select>&nbsp;<select name="city"><option>请选择</option></select>&nbsp;<select name="country"><option>请选择</option></select>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -242,10 +235,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">14.请上传您的照片:</label>
-                                <input type="text" class="form-control" id="" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
-                                </div>
+                                <div id="uploadbox" class="uploadbox boxImg">+<input id="upfile" type="file" class="btn_file"/></div>
                             </div>
                         </div>
                         <div class="btn_sub "id="btn_mysub"></div>
@@ -400,6 +390,7 @@
     </script>
     <script type="text/javascript" src="static/j/pace.js?v=1527755754" charset="UTF-8"></script>
     <script type="text/javascript" src="static/j/common.js?v=1527755754" charset="UTF-8"></script>
+    <script type="text/javascript" src="bend/data/region.js?v=1527755754" charset="UTF-8"></script>
     <script type="text/javascript" src="static/j/index.js?v=1527755756" charset="UTF-8"></script>
 </body>
 </html>

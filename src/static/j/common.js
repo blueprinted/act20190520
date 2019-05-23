@@ -439,11 +439,6 @@ function isLoaded(callback) {
     setTimeout('isLoaded('+callback+')', 700);
 }
 
-
-
-
-
-
 function getUserAgent() {
     var agent;
     
@@ -483,13 +478,76 @@ function isPC() {
         return true;
     }
 }
-//为了在模板后台跨域
-if(window.location.host == "test.ac.sogou"){
-    document.domain = "ac.sogou"
+
+function jsToast(options) {
+	this.options = options || {};
+	this.timer;
+	this.inited = !1;
+	this.queue = [];
+  this.queueLock = false;
+  this.init();
 }
-
-
-
+jsToast.prototype = {
+	init: function() {
+		var defaults = {
+      mode: 0, //0 队列模式 1:单一模式
+			prefixTitle: '',
+			duration: 1.25,
+			elemId: 'js-toast',
+            elemClass: 'js-toast'
+		};
+		this.options = $.extend(false, {}, defaults, this.options);/* initial params */
+		this.inited = !0;
+	},
+  queueAdd: function (msg, duration) {
+    var self = this;
+    self.queue.push({msg:msg, duration:duration});
+    return self;
+  },
+  render: function(msg) {
+      var selector = '#'+this.options.elemId;
+      $(selector).remove();
+      var jstoast = '<div id="'+this.options.elemId+'" class="'+this.options.elemClass+'">'+(this.options.prefixTitle+msg)+'</div>';
+    	$('body').append(jstoast);
+      $(selector).css({
+        position: 'fixed',
+        bottom: '20px',
+		display: 'none'
+      });
+      setTimeout(function(){$(selector).css({left:($(window).width()-$(selector).width())/2+'px',display:'block'})}, 0);
+  },
+	show: function(msg, duration) {
+    var self = this;
+    var msg = typeof msg == 'undefined' ? '' : msg;
+    var duration = typeof duration == 'undefined' ?  this.options.duration : parseFloat(duration);
+    if (self.options.mode > 0 && ((self.queue).length > 0 || self.queueLock)) {
+      return;
+    }
+    this.queueAdd(msg, duration);
+    this.queueExec();
+	},
+  hide: function() {
+      $('#'+this.options.elemId).remove();
+  },
+  queueExec: function() {
+    var self = this;
+    if (self.queueLock) {
+        return false;
+    }
+    self.queueLock = true;
+    args = self.queue.shift();
+    if (args) {
+        self.render(args.msg);
+        setTimeout(function(){
+            self.queueLock = false;
+            self.queueExec();
+        }, args.duration*1000);
+    } else {
+        self.hide();
+        this.queueLock = false;
+    }
+  }
+}
 
 /**
  * Created by xueyanjie@sogou-inc.com on 2018/3/29.
@@ -543,5 +601,3 @@ function processParamF() {
 $(function(){
     processParamF();
 });
-
-  

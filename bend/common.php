@@ -28,6 +28,7 @@ require APP_ROOT . '/includes/func.common.php';
 require APP_ROOT . '/includes/config.db.php';
 require APP_ROOT . '/includes/class.curlUtil.php';
 require APP_ROOT . '/includes/class.mysqliUtil.php';
+require APP_ROOT . '/includes/class.uploadUtil.php';
 require APP_ROOT . '/includes/class.sessionHandle.php';
 require APP_ROOT . '/includes/class.verify.php';
 require APP_ROOT . '/includes/SmsSenderUtil.php';

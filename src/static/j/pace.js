@@ -257,33 +257,20 @@
     };
 
     Bar.prototype.finish = function() {
-      // setTimeout(function(){
+      setTimeout(function(){
         if(hasLoading == false){
           hasLoading = true
           $("#loaddingWrap").addClass("displaynone");
           pageInit();
-  
           $("#indexWrap").removeClass("displaynone");
-          //$("#introductionTxt").fadeIn(1500);
           try {
               MtaH5.clickStat("introductionPage");
           } catch (e) { }
-//           var t=setTimeout(function(){
-//            clearTimeout(t);
-//             $("#introductionTxt").fadeOut(1500,function(){
-//               $("#indexWrap").fadeIn()
-//               try {
-//                 MtaH5.clickStat("indexPage");
-//             } catch (e) { }
-//             });
-//           },4000)
           try {
               MtaH5.clickStat("loadingFinished");
           } catch (e) { }
         }
-
-      // },500)
-       
+      }, 120)
     };
 
     Bar.prototype.update = function(prog) {
