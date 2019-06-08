@@ -408,15 +408,6 @@ iAudio.prototype = {
     }
 }
 
-function isLoaded(callback) {
-    var callback = typeof callback == 'undefined' ? '' : callback;
-    if(window.document.readyState == 'complete') {
-        try{eval('callback()')} catch(e) {}
-        return true;
-    }
-    setTimeout('isLoaded('+callback+')', 700);
-}
-
 function getUserAgent() {
     var agent;
     
@@ -513,7 +504,7 @@ jsToast.prototype = {
         return false;
     }
     self.queueLock = true;
-    args = self.queue.shift();
+    var args = self.queue.shift();
     if (args) {
         self.render(args.msg);
         setTimeout(function(){
