@@ -2,8 +2,7 @@
 /**
  *
  */
-'use strict';
-
+"use strict";
 var touchmove = false;
 var touchSupport = function(){return 'ontouchend' in document;}
 function bindClick(selector, func, bubble) {
