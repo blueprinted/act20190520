@@ -2,50 +2,28 @@
 /**
  *
  */
+'use strict';
 
-touchmove = false;
-touchSupport=function(){return 'ontouchend' in document;}
+var touchmove = false;
+var touchSupport = function(){return 'ontouchend' in document;}
 function bindClick(selector, func, bubble) {
     if (!touchSupport()) {
         $(selector).on('click', function(){
             var self = $(this);
             func(self);
             if (!bubble) { return false; }
-        });//鍝嶅簲浜嬩欢
+        }); // 响应事件
     } else {
         $(selector).on('touchmove', function(){
             touchmove = true;
         }).on('touchend', function(){
             if (touchmove == true) { touchmove = false; return; }
             var self = $(this);
-            func(self);//鍝嶅簲浜嬩欢
+            func(self); // 响应事件
             if (!bubble) { return false; }
         });
     }
 }
-
-
-function bindClick(selector, func, params,bubble) {
-    if (!touchSupport()) {
-        $(selector).on('click', function(){
-            var self = $(this);
-            func(params,self);
-            if (!bubble) { return false; }
-        });//响应事件
-    } else {
-        $(selector).on('touchmove', function(){
-            touchmove = true;
-        }).on('touchend', function(){
-            if (touchmove == true) { touchmove = false; return; }
-            var self = $(this);
-            func(params,self);//响应事件
-            if (!bubble) { return false; }
-        });
-    }
-}
-
-
-
 
 var JSLOADED = [];/*javascript动态载入标识数组*/
 var evalscripts = [];/*js相关*/
@@ -222,7 +200,7 @@ function hash(string, length) {
     var start = 0;
     var i = 0;
     var result = '';
-    filllen = length - string.length % length;
+    var filllen = length - string.length % length;
     for(i = 0; i < filllen; i++){
         string += "0";
     }
