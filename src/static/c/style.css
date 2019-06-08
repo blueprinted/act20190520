@@ -79,7 +79,6 @@ body {
 	height: 100%;
 	position: relative;
 }
-
 		.body_logobg{
 			background: #f3d8cf;
 			width: 100%;
@@ -176,11 +175,10 @@ body {
 	left: 0;
 }
 .indexWrapimg{
-	font-size: 20px;
-	line-height: 44px;
 	text-align: center;
 	color: #333333;
 	position: relative;
+	top: 40%;
 	z-index: 7;
 }
 .font_index{
@@ -193,14 +191,15 @@ body {
 .btn_start{
 	display: inline-block;
 	width: 182px;
-	height: 50px;
-	margin: 50px auto;
-	background: url(../i/btn_star.jpg) no-repeat 50% 0;
+	height: 84px;
+	margin: 50px auto 0;
+	background: url(../i/btn_star.jpg) no-repeat 50% 50%;
 	background-size: contain ;
 }
 .btn_sub{
 	display: inline-block;
 	width: 182px;
+	width: 100%;
 	height: 50px;
 	margin: 50px auto;
 	background: url(../i/btnSub.jpg) no-repeat 50% 0;
@@ -208,11 +207,11 @@ body {
 	border: none;
 }
 .indexFloor{
-	width:130px;
-	height: 275px;
-	background: url(../i/floor.jpg) no-repeat 50% 100%;
-	background-size: contain ;
-	bottom: 0px;
+	width: 130px;
+	height: 230px;
+	background: url(../i/floor.jpg) no-repeat 50% 10px;
+	background-size: auto 100% ;
+	bottom: 0;
 }
 .needs-validation{
 	background: #fff;
@@ -308,6 +307,13 @@ body {
 	display: inline-block;
 }
 
+.intro {
+	letter-spacing: 4px;
+	font-size: 28px;
+  line-height: 56px;
+}
+.intro span{font-size:40px;font-weight: bold;}
+
 #uploadbox {
 	display: inline-block;
 	width: 100px;
@@ -325,3 +331,4 @@ body {
 		top:0;
     opacity: 0;
 }
+#uploadbox.img-loaded {border:none}

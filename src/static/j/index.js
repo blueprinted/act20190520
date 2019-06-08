@@ -128,9 +128,83 @@ function formatsize(size)
     return size.toString() + units[unit];
 }
 
+function _resizeCanvas(canvas, width, height) {
+    canvas.style.width = canvas.width = width;
+    canvas.style.height = canvas.height = height;
+    canvas.getContext('2d').clearRect(0, 0, width, height);
+}
+function imageLoader(src, filesize, parentEle) {
+    var image = new Image();
+    image.onload = function() {
+        var srcWidth = image.width;
+        var srcHeight = image.height;
+        var maxWidth = 2048;
+        var maxHeight = 2048;
+        var maxFilesize = 10 * 1024 * 1024;
+        var realWidth = srcWidth;
+        var realHeight = srcHeight;
+        var scale = 1;
+        if (srcWidth > maxWidth || srcHeight > maxHeight) {
+            scale = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+        }
+        if (filesize > maxFilesize) {
+            scale = Math.min(Math.sqrt(maxFilesize/filesize), scale);
+        }
+        if (scale < 1) {
+            realWidth = parseInt(scale * srcWidth);
+            realHeight = parseInt(scale * srcHeight);
+        }
+        /**
+         * orientation值 旋转角度
+                    1	 0°
+                    3	 180°
+                    6	 逆时针90°
+                    8	 顺时针90°
+        */
+        EXIF.getData(image, function() {
+            var Orientation = EXIF.getTag(this, "Orientation"); //integer
+            if (!isIOS()) {
+                if (Orientation) {
+                    $(image).addClass('orientation'+Orientation);
+                }
+            }
+            var canvas = $('#drawer');
+            _resizeCanvas($(canvas)[0], realWidth, realHeight);
+            if (Orientation == 3) {
+                $(canvas)[0].getContext('2d').translate(realWidth/2, realHeight/2);
+                $(canvas)[0].getContext('2d').rotate(Math.PI);
+                $(canvas)[0].getContext('2d').translate(-1*realWidth/2, realHeight/2);
+            } else if (Orientation == 6) {
+                $(canvas)[0].getContext('2d').translate(realWidth/2, realHeight/2);
+                $(canvas)[0].getContext('2d').rotate(Math.PI/2);
+                $(canvas)[0].getContext('2d').translate(-1*realWidth/2, -1*realHeight/2);
+            } else if (Orientation == 8) {
+                $(canvas)[0].getContext('2d').translate(realWidth/2, realHeight/2)
+                $(canvas)[0].getContext('2d').rotate(-1*Math.PI/2);
+                $(canvas)[0].getContext('2d').translate(-1*realWidth/2, -1*realHeight/2)
+            }
+            $(canvas)[0].getContext('2d').drawImage(image, 0, 0, srcWidth, srcHeight, 0, 0, realWidth, realHeight);
+            /* jpeg 压缩 start
+            var imgData = $(canvas)[0].getContext('2d').getImageData(0, 0, realWidth, realHeight);
+            var encoder = new JPEGEncoder();
+            var dataURI = encoder.encode(imgData, 100);
+            jpeg 压缩 end */
+            var dataURI = $(canvas)[0].toDataURL();
+            $(parentEle).children('.imgwaiter').html('');
+            $(image).attr({filesize0:filesize,filesize:dataURI.length}).appendTo($(parentEle).children('.imgwaiter'));
+            $(image).parent().parent().find('input[type="hidden"]').remove();
+            $(image).parent().parent().append('<input type="hidden" name="hdimg" value="'+dataURI+'"/>');
+            $(parentEle).removeClass('img-loading').addClass('img-loaded');
+            $(image).parent().parent().append('<input type="hidden" name="orientation" value="'+(Orientation?Orientation:1)+'"/>');
+            $(image).click(function(){$(this).parent().parent().children('input[type="file"]').trigger('click')});
+            setTimeout(function(){$(image).parent().parent().children('input[type="file"]').attr('imgfileLoaded', 'true');}, 0);
+        });
+    }
+    image.src = src;
+}
+
 var hometown, workplace, jsToaster;
 $(function () {
-
     localStorage.userName = "";
     pageInit();
     //图片预加载
@@ -241,18 +315,15 @@ $(function () {
             jsToaster.show('请填写手机号');
             return false;
         }
-        
-        
 		$('#getinfoWrap').hide();
 		$("#indexOtherWrap").show();   
-	})
+	});
 	//点击提交按钮
 	$("#btn_subAll").on("click", function (e) {
 		$("#indexOtherWrap").hide();
 		$("#resultLoading").show(); 
 		   
-	})
-    
+	});
     //避免双击时图片弹起
     $("#resultImg,#adWrap").on("click", function (e) {
         e.preventDefault();
@@ -292,50 +363,41 @@ $(function () {
         var self = this;
         $(self).attr('imgfileLoaded', 'false');
         if (this.files.length < 1) {
-            $(self).parent().children('img').remove();
+            $(self).parent().children('.imgwaiter').html('+');
             $(self).parent().children('input[type="hidden"]').remove();
-            $(self).parent().find("div.imgwaiter").remove();
-            $(self).parent().removeClass("btn_upSuccBox");
-            $(self).parent().removeClass("loading");
+            $(self).parent().removeClass("img-loading img-loaded");
             window.jsToaster.show('您没有选择任何图片');
             return false;
         }
         var file = this.files[0];
         if (file.type != 'image/png' && file.type != 'image/jpg' && file.type != 'image/jpeg') {
-            $(self).parent().children('img').remove();
+            $(self).parent().children('.imgwaiter').html('+');
             $(self).parent().children('input[type="hidden"]').remove();
             $(self).val('');
-            $(self).parent().find("div.imgwaiter").remove();
-            $(self).parent().removeClass("btn_upSuccBox");
-            $(self).parent().removeClass("loading");
+            $(self).parent().removeClass("img-loading img-loaded");
             window.jsToaster.show('请上传png/jpg/jpeg类型的图片文件');
             return false;
         }
         if (file.size > 10*1024*1024) {
-            $(self).parent().children('img').remove();
+            $(self).parent().children('.imgwaiter').html('+');
             $(self).parent().children('input[type="hidden"]').remove();
             $(self).val('');
-            $(self).parent().find("div.imgwaiter").remove();
-            $(self).parent().removeClass("btn_upSuccBox");
-            $(self).parent().removeClass("loading");
+            $(self).parent().removeClass("img-loading img-loaded");
             window.jsToaster.show('图片文件大小不能超过'+formatsize(10*1024*1024));
             return false;
         }
         var reader = new FileReader();
         reader.addEventListener("load", function () {
-            $(self).parent().children('img').remove();
+            $(self).parent().children('.imgwaiter').html('+');
             $(self).parent().children('input[type="hidden"]').remove();
-            if($(self).parent().find("div.imgwaiter").length){
-                $(self).parent().find("div.imgwaiter").remove();
-                $(self).parent().removeClass("btn_upSuccBox");
-            }
-            $(self).parent().addClass("loading").append('<div class="imgwaiter innercenter" style="width:'+210+'px;height:'+210+'px;">载入中,请稍等..</div>');
+            $(self).parent().addClass("img-loading");
             var result = this.result;
+            $(self).parent().children('.imgwaiter').html(function(){
+                return $(this).attr('load-txt');
+            });
             setTimeout(function() {
-                //$('<img src="'+result+'" filesize="'+file.size+'" onload="javascript:$(this).parent().removeClass(\'loading\').addClass(\'btn_upSuccBox\');imgResize(this);" />').appendTo($(self).parent());
-                var tplId = parseInt($('#mergeform input[type="hidden"][name="imgtplId"]').val());
-                imageLoader(result, file.size, $(self).parent()[0], tplId);
-            },50);
+                imageLoader(result, file.size, $(self).parent()[0]);
+            }, 50);
         }, false);
         reader.readAsDataURL(file);
     });

@@ -53,14 +53,14 @@
             <!--开始-->
             <div class="wrapIndex displaynone" id="indexWrap">
                 <div class="indexWrapimg xycenter">
-                    <p>地球上有77亿人
-                        <br/>204个国家
-                        <br/>809个岛屿
-                        <br/>两个人遇见的概率是2920万分之一
+                    <p class="intro">地球上有<span>77</span>亿人
+                        <br/><span>204</span>个国家
+                        <br/><span>809</span>个岛屿
+                        <br/>两个人遇见的概率是<span>2920</span>万分之一
                         <br/>幸运如我
                         <br/>在最好的时光
                         <br/>刚好遇见了你</p>
-                    <a class="btn_start anipulse xcenter" href="javascript:;" id="btn_start"></a>
+                    <a class="btn_start xcenter" href="javascript:;" id="btn_start"></a>
                 </div>
                 <div class="indexFloor xcenter"></div>
             </div>
@@ -68,7 +68,7 @@
             <div class="getinfoWrap displaynone" id="getinfoWrap">
                 <img src="static/i/getinfobg.jpg" />
                 <div>
-                    <form class="needs-validation" novalidate>
+                    <form class="needs-validation" novalidate ajaxform="true" ajaxtype="ajaxform">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">1.姓名:</label>
@@ -235,8 +235,9 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">14.请上传您的照片:</label>
-                                <div id="uploadbox" class="uploadbox boxImg">+<input id="upfile" type="file" class="btn_file"/></div>
+                                <div id="uploadbox" class="uploadbox"><div class="imgwaiter innercenter" load-txt="载入中,请稍等..">+</div><input id="upfile" type="file" class="btn_file"/></div>
                             </div>
+                            <canvas id="drawer" style="display:none"></canvas>
                         </div>
                         <div class="btn_sub "id="btn_mysub"></div>
                     </form>
@@ -288,10 +289,7 @@
 			
             <!--生成中-->
             <div class="creatingWrap displaynone" id="resultLoading">
-                
                 <div class="createshow xycenter">正在匹配中。。。</div>
-
-
             </div>
             <!--结果页-->
 			<!--rexueWrap/shenmiWrap/wennuanWrap/danboWrap-->
@@ -391,6 +389,7 @@
     <script type="text/javascript" src="static/j/pace.js?v=1527755754" charset="UTF-8"></script>
     <script type="text/javascript" src="static/j/common.js?v=1527755754" charset="UTF-8"></script>
     <script type="text/javascript" src="bend/data/region.js?v=1527755754" charset="UTF-8"></script>
+    <script type="text/javascript" src="static/j/exif-js.js?v=1527755756" charset="UTF-8"></script>
     <script type="text/javascript" src="static/j/index.js?v=1527755756" charset="UTF-8"></script>
 </body>
 </html>

@@ -18,6 +18,7 @@ $work_city = getVar('work_city');
 $work_county = getVar('work_county');
 $annual_income = intval(getVar('annual_income')); // 档次
 $phone_number = getVar('phone_number');
+$sms_code = getVar('sms_code');
 $weixin = getVar('weixin');
 $yanzhi = intval(getVar('yanzhi')); //等级
 $ques1 = getVar('ques1');
@@ -26,6 +27,17 @@ $ques3 = getVar('ques3');
 $ques4 = getVar('ques4');
 // $photo_url = getVar('photo_url');
 $hdimg = getvar('hdimg');
+
+// 校验短信验证码
+if (!isset($_SESSION['verify_code'])) {
+    apimessage(1, '短信验证码已失效请重新获取');
+}
+if (strlen($sms_code) < 1) {
+    apimessage(1, '短信验证码没有填写');
+}
+if ($sms_code !== $_SESSION['verify_code']) {
+    apimessage(1, '短信验证码不正确');
+}
 
 // 择偶条件
 $match_age = intval(getVar('match_age')); // 年龄区间
