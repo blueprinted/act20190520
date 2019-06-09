@@ -5,7 +5,7 @@
 global $_DBCFG;
 
 $_DBCFG['master_act20190520'] = array(
-	'host' => 'localhost',
+	'host' => '127.0.0.1',
 	'port' => '3306',
 	'user' => 'root',
 	'pass' => '',
