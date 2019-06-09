@@ -1,4 +1,6 @@
 var gulp = require('gulp');
+var postcss = require('gulp-postcss');
+var px2rem = require('postcss-px2rem');
 var debug = require('gulp-debug');
 var htmlmin = require('gulp-htmlmin');
 var cssUglify = require('gulp-minify-css');
@@ -10,6 +12,7 @@ var cache = require('gulp-cache');
 var clean = require('gulp-clean');
 var pump = require('pump');
 var del = require('del');
+
 
 gulp.task('html',callback => {
     gulp.src('src/*.html')
@@ -35,15 +38,17 @@ gulp.task('clean', function(callback) {
 
 gulp.task('clean', function(callback) {
     del([
-        'dist/*'
+        'dist/**/*'
     ], callback);
     callback();
 });
 
 gulp.task('css',function(callback){
+    var processors = [px2rem({remUnit: 75})];
     gulp.src('src/static/c/*.css', {base:'src'})
     .pipe(debug({title:'css'}))
-    .pipe(cssUglify())
+    .pipe(postcss(processors))
+    //.pipe(cssUglify())
     .pipe(gulp.dest('dist/'));
     callback();
 });
@@ -78,7 +83,7 @@ gulp.task('jsd',function(callback){
 });
 
 gulp.task('image',function(callback){
-    gulp.src('src/static/i/*',{base:'src'})//要处理的图片目录为img目录下的所有的.jpg .png .gif 格式的图片;
+    gulp.src('src/static/i/**',{base:'src'})//要处理的图片目录为img目录下的所有的.jpg .png .gif 格式的图片;
     .pipe(debug({title:'image'}))
     .pipe(cache(imagemin({
         progressive : true,//是否渐进的优化

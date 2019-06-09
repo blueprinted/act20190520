@@ -3,22 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <title>众里寻Ta</title>
+    <meta charset="utf-8">
     <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="format-detection" content="telephone=no, email=no" />
-    <meta name="renderer" content="webkit" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="HandheldFriendly" content="true" />
-    <meta name="MobileOptimized" content="320" />
-    <meta name="screen-orientation" content="portrait" />
-    <meta name="x5-orientation" content="portrait" />
-    <meta name="full-screen" content="yes" />
-    <meta name="x5-fullscreen" content="true" />
-    <meta name="browsermode" content="application" />
-    <meta name="x5-page-mode" content="app" />
-    <meta name="msapplication-tap-highlight" content="no" />
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <script type="text/javascript" src="static/j/flexible.all.js"></script>
     <link rel="stylesheet" href="static/c/adue_global.css" />
     <link rel="stylesheet" href="static/c/adue_theme.css" />
     <link rel="stylesheet" href="static/c/style.css" />
@@ -28,22 +17,22 @@
     <div style="display:none" id="preloadImg"></div>
     <!-- wrapper 里面给的背景图   首页，引言body_bg 其他：body_bg1-->
     <!--loading-->
-    <div class="body_logobg nomove" id="loaddingWrap">
+    <div class="body_logobg" id="loaddingWrap">
         <div class="loadingbox xycenter">
             <div class="loadingrange">
                 <div class="loading"></div>
             </div>
-            <p id="loading">50%</p>
+            <p id="loading">0%</p>
         </div>
     </div>
     <!--音乐-->
     <!-- <div class="icon_audio" id="btn_audio"></div> -->
-    <div class="wrapper body_bg nomove" id="mainWrap">
+    <div class="wrapper body_bg" id="mainWrap">
         <div class="mainwrapper">
             <!--引言-->
             <!--开始-->
-            <div class="wrapIndex displaynone" id="indexWrap displaynone">
-                <div class="indexWrapimg xycenter">
+            <div class="wrapIndex displaynone" id="indexWrap">
+                <div class="indexWrapimg">
                     <p class="intro">地球上有<span>77</span>亿人
                         <br/><span>204</span>个国家
                         <br/><span>809</span>个岛屿
@@ -57,13 +46,21 @@
             </div>
             <!--答题页-->
             <div class="getinfoWrap displaynone" id="getinfoWrap">
-                <img src="static/i/getinfobg.jpg" />
+                <div class="banner2">
+                    <p class="desc">
+                        嗨，小伙伴，您好，欢迎来到这个神奇的二维码世界.<br/>
+                            您的基本信息（不涉及私密哦）提交后，<br/>
+                            会自动匹配出三位异性哦，点击异性资料的下方按钮（喜欢）<br/>
+                            还可以联系工作人员取得联系哦！
+                    </p>
+                    <p class="tip">以下是您需要填写的个人资料：</p>
+                </div>
                 <div class="container" style="padding-top:15px">
                     <form id="basicform" class="" ajaxform="true" ajaxtype="ajaxform" action="bend/?mod=collector&controller=post&action=basic" method="post">
                         <input type="hidden" name="dosubmit" value="true"/>
                         <div class="fieldset">
                             <label>1. 昵称</label>
-                            <input type="text" class="control-text" id="nickname" name="nickname" placeholder="填写姓名">
+                            <input type="text" class="control-text" id="nickname" name="nickname" placeholder="填写昵称">
                         </div><br/>
                         <div class="fieldset">
                             <label>2. 性别</label>
@@ -225,13 +222,13 @@
                             <div id="uploadbox" class="uploadbox"><div class="imgwaiter innercenter" load-txt="载入中,请稍等..">+</div><input id="upfile" type="file" class="btn_file"/></div>
                         </div>
                         <canvas id="drawer" style="display:none"></canvas>
-                        <button type="sbumit" class="btn_sub" id="btn_mysub" style="margin:24px auto 24px"></button>
+                        <button type="sbumit" class="btn btn-block" id="btn_mysub">下一步</button>
                     </form>
                 </div><!--//.container-->
             </div><!--//.getinfoWrap-->
 			<!-- 条件 -->
 			<div class="indexOtherWrap displaynone" id="indexOtherWrap">
-                <img src="static/i/getinfootherbg.jpg" />
+                <img src="static/i/getinfootherbg.jpg" style="width:100%;" />
                 <div class="container" style="padding-top:15px">
                     <form id="matchform" class="" ajaxform="true" ajaxtype="ajaxform" action="bend/?mod=collector&controller=post&action=match" method="post">
                         <input type="hidden" name="dosubmit" value="true"/>
@@ -371,17 +368,18 @@
                                 <label for="match_yanzhi_grade_4">9~10(特别漂亮/帅气)</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn_sub" id="btn_subAll"></button>
+                        <button type="sbumit" class="btn btn-block" id="btn_subAll">下一步</button>
                     </form>
                 </div><!--//.container-->
 			</div>
             <!--生成中-->
-            <div class="creatingWrap displaynone" id="resultLoading"><img src="static/i/pipei.png"></div>
+            <div class="creatingWrap displaynone" id="resultLoading"><img src="static/i/pipei.png" style="width:100%;position:absolute;left:0;bottom:0;"/></div>
             <!--结果页-->
 			<!--rexueWrap/shenmiWrap/wennuanWrap/danboWrap-->
-			<div class="resultWrap" id="resultWrap">
-                <img src="static/i/resultimg.png">
-				<div class="cl">
+			<div class="resultWrap displaynone" id="resultWrap">
+                <img src="static/i/banner3.png" style="width:100%;"/>
+                <img src="static/i/bot.png" style="width:100%;position:absolute;left:0;bottom:0;"/>
+				<div class="cl" style="position:relative;">
 					<ul class="tuijianList">
 						<li>
 							<div class="libox">
@@ -419,27 +417,7 @@
 			</div>
         </div>
     </div>
-    <!--输入姓名-->
-    <div class="inputWrap displaynone " id="inputWrap">
-        <div class="fontname xcenter"></div>
-        <div class="inputbox xcenter">
-            <input class="textbox" id="textbox" maxlength="4" />
-        </div>
-        <div class="btn_creat xcenter" id="btn_creat"></div>
-        <div class="maskwrap displaynone" id="Errormask" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:98;">
-            <div class="Errormask xycenter" id="id_5b1749f43f4b1">
-                <div class="errorClose"></div>
-                <div class="errorCon" id="errorTxt"></div>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        var pageAdptor = function () {}
-        //page response
-        pageAdptor();
-        window.onresize = pageAdptor;
-        var hasLoading = false;
-    </script>
+    <script type="text/javascript">var hasLoading = false;</script>
     <script type="text/javascript" src="static/j/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="static/j/jquery.form.min.js"></script>
     <script type="text/javascript" src="static/j/aduetools.js"></script>

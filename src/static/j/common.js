@@ -608,7 +608,7 @@ jsToast.prototype = {
     	$('body').append(jstoast);
       $(selector).css({
         position: 'fixed',
-        bottom: '20px',
+        bottom: '32px',
 		display: 'none'
       });
       setTimeout(function(){$(selector).css({left:($(window).width()-$(selector).width())/2+'px',display:'block'})}, 0);

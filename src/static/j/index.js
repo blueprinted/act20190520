@@ -1,7 +1,5 @@
 "use strict";
-function pageInit() {
-    pageAdptor();
-}
+function pageInit() {}
 
 function iRegion(area, options) {
     this.defaults = {
@@ -414,8 +412,6 @@ var ajaxform_handle_matchform = {
 };
 var hometown, workplace, matchplace,jsToaster;
 $(function () {
-    //pageInit();
-    //图片预加载
 	var imgList=[
 		"./static/i/bg.jpg"
 	];
@@ -455,7 +451,7 @@ $(function () {
     $('#smsCodeBtn').click(function(){
         var phone = $.trim($('#phone_number').val());
         if (phone.length < 1) {
-            jsToaster.show("清先填写手机号码");
+            jsToaster.show("请先填写手机号码");
             return false;
         }
 		if(!clocker.doned()) {

@@ -348,14 +348,15 @@ textarea.control-text{ height: auto; overflow: auto; }
 
 .radio input[type=radio]:checked + label:before {
     background:url(../i/global/radio-check.png) no-repeat #FFFFFF;
-    background-position: center;
-    background-size: 8px 8px;
+    background-position: 50% 50%;
+    background-size: 64% 64%;
 }
 
 .checkbox input[type=checkbox]:checked + label::before {
     background:url(../i/global/checkbox-check.png) no-repeat #4b4b4b;
-    background-position: center;
-    background-size: 8px 8px; 
+    background-position: 50% 50%;
+    /*background-size: 8px 8px;*/
+    background-size: 64% 64%;
 }
 
 .spec-ie8 input {
