@@ -349,7 +349,9 @@ var ajaxform_handle_basicform = {
             $("#indexOtherWrap").show();
         }
     },
-    error: function(jqXHR, textStatus, errorThrown){},
+    error: function(jqXHR, textStatus, errorThrown){
+        jsToaster.show("提交失败 [" + textStatus + (errorThrown ? (' ' + errorThrown) : '') + "]");
+    },
     complete: function(jqXHR, textStatus){}
 };
 var form_check_matchform = function () {
@@ -407,7 +409,9 @@ var ajaxform_handle_matchform = {
             jsToaster.show(resp.msg);
         }
     },
-    error: function(jqXHR, textStatus, errorThrown){},
+    error: function(jqXHR, textStatus, errorThrown){
+        jsToaster.show("提交失败 [" + textStatus + (errorThrown ? (' ' + errorThrown) : '') + "]");
+    },
     complete: function(jqXHR, textStatus){}
 };
 var hometown, workplace, matchplace,jsToaster;
