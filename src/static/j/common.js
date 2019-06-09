@@ -447,6 +447,135 @@ function isPC() {
     }
 }
 
+/**	倒计时
+ *	@param endtime	String/Integer 结束时间 如:2014-04-02 11:00:00 或 1396407600
+ *	@param starttime String/Integer 开始时间 如:2014-04-01 11:00:00 或 1396321200
+ *	@param recall Object(function)/null/String 结束回调
+ *	@param update Object(function)/null/String 更新回调
+ *	@dayid	显示day元素id String
+ *	@hourid 显示hour元素id String
+ *	@minid 显示minute元素id String
+ *	@secid	显示second元素id String
+ *	@return void
+ */
+function jsClocker(options) {
+	this.defaults = {
+		endtime: 10,
+		starttime: 0,
+		recall: function(){},
+		update: function(df, total){},
+		dayid: 'day',
+		hourid: 'hour',
+		minid: 'min',
+		secid: 'sec',
+		onlySec: true,
+		autoRun: false
+	};
+	this.options = $.extend(this.defaults, options || {}),/* initial params */
+	this.starttime;
+	this.endtime;
+	this.timeleft;
+	this.timer;/*计时器*/
+	this.timediff;
+	this.fp = 5;
+	this.paused = !0;
+	this.done = !0;
+	this.counter = 0;/*计数器*/
+	this.inc = 0;
+	this.init();
+}
+jsClocker.prototype = {
+	init: function() {
+		this.endtime = /^\d+$/.test(this.options.endtime) ? parseInt(this.options.endtime) : strtotime(this.options.endtime.toString());
+		this.starttime = /^\d+$/.test(this.options.starttime) ? parseInt(this.options.starttime) : strtotime(this.options.starttime.toString());
+		this.timeleft = this.timediff = this.endtime - this.starttime;
+		if(this.autoRun && this.timediff > 0)
+			this.run();
+	},
+	run: function() {
+		var _self = this;
+		if(_self.timediff < 1 || _self.timer)
+			return;
+		_self.paused = !1;
+		_self.done = !1;
+		var timer = function(td) {
+			if(_self.options.onlySec) {
+				var sec = td;
+			} else {
+				var day = parseInt(td/86400);
+				var hour = parseInt((td%86400)/3600);
+				var min = parseInt((td%3600)/60);
+				var sec = td%60;
+				if($id(_self.options.dayid))
+					$id(_self.options.dayid).innerHTML = day;
+				if($id(_self.options.hourid))
+					$id(_self.options.hourid).innerHTML = hour;
+				if($id(_self.options.minid))
+					$id(_self.options.minid).innerHTML = min;
+			}
+			if($id(_self.options.secid))
+				$id(_self.options.secid).innerHTML = sec;
+			if(td > 0) {
+				_self.timeleft = td;
+				_self.counter++;
+				if(_self.counter % _self.fp == 0) {
+					_self.counter = 0;
+					td = td - 1;
+				}
+				_self.timer = setTimeout(function(){
+					try{clearTimeout(_self.timer)}catch(e){}
+					if(typeof _self.options.update == 'function') {_self.options.update(td, _self.timediff)}
+					timer(td);
+				}, 1000/_self.fp);
+			} else {
+				_self.timeleft = 0;
+				_self.timer = null;
+				_self.counter = 0;
+				_self.done = !0;
+				if(typeof _self.options.update == 'function') {_self.options.update(td, _self.timediff)}
+				if(typeof _self.options.recall == 'function') {_self.options.recall(_self)}
+			}
+		}
+		timer(_self.timeleft);
+	},
+	stop: function() {
+		this.pause();
+		this.timeleft = this.timediff;
+		this.done = !0;
+	},
+	doned: function() {
+		return this.done;
+	},
+	pause: function() {
+		try{clearTimeout(this.timer);this.timer=null;this.counter=0}catch(e){}
+		this.paused = !0;
+	},
+	adjust: function(sec) {/*倒计时微调*/
+		this.pause();
+		this.timeleft += sec;
+		if(this.timeleft <= 0) {
+			this.timeleft = 0;
+		}
+		if(sec > 0) {
+			this.timediff += sec;
+		}
+		this.run();
+	},
+	info: function() {
+		return {
+			starttime: this.options.starttime,
+			endtime: this.endtime,
+			starttime2: this.starttime,
+			endtime2: this.endtime,
+			timediff: this.timediff,
+			timeleft: this.timeleft,
+			timer: this.timer,
+			counter: this.counter,
+			paused: this.paused
+		}
+	}
+}
+
 function jsToast(options) {
 	this.options = options || {};
 	this.timer;

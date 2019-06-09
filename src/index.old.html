@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>众里寻Ta</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="320">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="browsermode" content="application">
+    <meta name="x5-page-mode" content="app">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="width=640,target-densitydpi=device-dpi,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="static/c/adue_global.css" />
+    <link rel="stylesheet" href="static/c/adue_theme.css" />
+    <link rel="stylesheet" href="static/c/style.css" />
+</head>
+<body class="">
+    <!-- 预加载图片默认隐藏 -->
+    <div style="display:none" id="preloadImg"></div>
+    <!-- wrapper 里面给的背景图   首页，引言body_bg 其他：body_bg1-->
+    <!--loading-->
+    <div class="body_logobg nomove" id="loaddingWrap">
+        <div class="loadingbox xycenter">
+            <div class="loadingrange">
+                <div class="loading"></div>
+            </div>
+            <p id="loading">50%</p>
+        </div>
+    </div>
+    <!--音乐-->
+    <!-- <div class="icon_audio" id="btn_audio"></div> -->
+    <div class="wrapper body_bg nomove" id="mainWrap">
+        <div class="mainwrapper">
+            <!--引言-->
+            <!--开始-->
+            <div class="wrapIndex displaynone" id="indexWrap">
+                <div class="indexWrapimg xycenter">
+                    <p class="intro">地球上有<span>77</span>亿人
+                        <br/><span>204</span>个国家
+                        <br/><span>809</span>个岛屿
+                        <br/>两个人遇见的概率是<span>2920</span>万分之一
+                        <br/>幸运如我
+                        <br/>在最好的时光
+                        <br/>刚好遇见了你</p>
+                    <a class="btn_start xcenter" href="javascript:;" id="btn_start"></a>
+                </div>
+                <div class="indexFloor xcenter"></div>
+            </div>
+            <!--答题页-->
+            <div class="getinfoWrap displaynone" id="getinfoWrap">
+                <img src="static/i/getinfobg.jpg" />
+                <div>
+                    <form id="basicform" class="needs-validation" novalidate ajaxform="true" ajaxtype="ajaxform" action="bend/?mod=collector&controller=post&action=basic" method="post">
+                        <input type="hidden" name="dosubmit" value="true"/>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">1.姓名:</label>
+                                <input type="text" class="form-control" id="nickname" name="nickname" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">2.性别:</label>
+                                <label><input type="radio" name="gender" value="1" />&nbsp;男</label>&nbsp;&nbsp;<label><input type="radio" name="gender" value="2" />&nbsp;女</label>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">3.年龄:</label>
+                                <input type="text" class="form-control" id="age" name="age" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">4.身高:</label>
+                                <input type="text" class="form-control" id="height" name="height" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">5.职业:</label>
+                                <input type="text" class="form-control" id="zhiye" name="zhiye" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">6.学校:</label>
+                                <input type="text" class="form-control" id="school" name="school" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">7.家乡:</label>
+                                <div id="hometown-wrap">
+                                    <select name="province"><option>请选择</option></select>&nbsp;<select name="city"><option>请选择</option></select>&nbsp;<select name="county"><option>请选择</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">8.您的工作地区在哪里:</label>
+                                <div id="workplace-wrap">
+                                    <select name="province"><option>请选择</option></select>&nbsp;<select name="city"><option>请选择</option></select>&nbsp;<select name="county"><option>请选择</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">9.年收入:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="income1" name="annual_income" type="radio" class="custom-control-input" value="1" required>
+                                    <label class="custom-control-label" for="income1">10 ~ 20(含)</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="income2" name="annual_income" type="radio" class="custom-control-input" value="2" required>
+                                    <label class="custom-control-label" for="income2">20+ ~ 30(含)</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="income3" name="annual_income" type="radio" class="custom-control-input" value="3" required>
+                                    <label class="custom-control-label" for="income3">30+ ~ 40(含)</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="income4" name="annual_income" type="radio" class="custom-control-input" value="4" required>
+                                    <label class="custom-control-label" for="income4">40+ ~ 50(含)</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="income5" name="annual_income" type="radio" class="custom-control-input" value="5" required>
+                                    <label class="custom-control-label" for="income5">50+ ~ 80(含)</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="income6" name="annual_income" type="radio" class="custom-control-input" value="6" required>
+                                    <label class="custom-control-label" for="income6">80+ ~ 100(含)</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="income7" name="annual_income" type="radio" class="custom-control-input" value="7" required>
+                                    <label class="custom-control-label" for="income7">100+</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">10.以下为四个选择题（让我们看看您是是什么性格）</label>
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName">（1）有烦恼的时候是向外倾诉还是自己消化:</label>
+                                    <div class="custom-control custom-radio">
+                                        <input id="ques1_a" name="ques1" type="radio" class="custom-control-input" value="a" required>
+                                        <label class="custom-control-label" for="ques1_a">a 向外倾诉</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input id="ques1_b" name="ques1" type="radio" class="custom-control-input" value="b" required>
+                                        <label class="custom-control-label" for="ques1_b">b 自己消化</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">（2）做决定的速度偏快还是慢:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="ques2_a" name="ques2" type="radio" class="custom-control-input" value="a" required>
+                                    <label class="custom-control-label" for="ques2_a">a 快</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="ques2_b" name="ques2" type="radio" class="custom-control-input" value="b" required>
+                                    <label class="custom-control-label" for="ques2_b">b 慢</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">（3）觉得人际关系和谐更重要，还是事情对错更重要:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="ques3_a" name="ques3" type="radio" class="custom-control-input" value="a" required>
+                                    <label class="custom-control-label" for="ques3_a">a 人际关系和谐更重</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="ques3_b" name="ques3" type="radio" class="custom-control-input" value="b" required>
+                                    <label class="custom-control-label" for="ques3_b">b 事情对错更重要</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">（4）你平时是计划多一些，还是随意性多一些:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="ques4_a" name="ques4" type="radio" class="custom-control-input" value="a" required>
+                                    <label class="custom-control-label" for="ques4_a">a 计划型</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="ques4_b" name="ques4" type="radio" class="custom-control-input" value="b" required>
+                                    <label class="custom-control-label" for="ques4_b">b 随意型</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">11.自己的颜值打分:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="yanzhi_1" name="yanzhi" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="yanzhi_1">1-3</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="yanzhi_2" name="yanzhi" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="yanzhi_2">4-6</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="yanzhi_3" name="yanzhi" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="yanzhi_3">7-8</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="yanzhi_4" name="yanzhi" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="yanzhi_4">9-10</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">12.微信号:</label>
+                                <input type="text" class="form-control" id="weixin" name="weixin" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">13.手机号:</label>
+                                <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">14.手机验证码:</label>
+                                <input type="text" class="form-control" id="sms_code" name="sms_code" placeholder="" value="" required>
+                                <a id="smsCodeBtn" href="javascript:;">获取短信码</a>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">15.请上传您的照片:</label>
+                                <div id="uploadbox" class="uploadbox"><div class="imgwaiter innercenter" load-txt="载入中,请稍等..">+</div><input id="upfile" type="file" class="btn_file"/></div>
+                            </div>
+                            <canvas id="drawer" style="display:none"></canvas>
+                        </div>
+                        <div class="btn_sub "id="btn_mysub"></div>
+                    </form>
+                </div>
+            </div>
+			<!-- 条件 -->
+			<div class="indexOtherWrap displaynone" id="indexOtherWrap">
+                <img src="static/i/getinfootherbg.jpg" />
+				<form id="matchform" class="needs-validation" novalidate ajaxform="true" ajaxtype="ajaxform" action="bend/?mod=collector&controller=post&action=match" method="post">
+                    <input type="hidden" name="dosubmit" value="true"/>
+                    <div class="fieldset">
+                        <label>年龄(周岁)</label>
+                        <div class="radio">
+                            <input id="match_age_1" type="radio" name="match_age" value="1">
+                            <label for="match_age_1">18 ～ 22(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_age_2" type="radio" name="match_age" value="2">
+                            <label for="match_age_2">22+ ～ 25(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_age_3" type="radio" name="match_age" value="3">
+                            <label for="match_age_3">25+ ～ 30(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_age_4" type="radio" name="match_age" value="4">
+                            <label for="match_age_4">30+ ～ 35(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_age_5" type="radio" name="match_age" value="5">
+                            <label for="match_age_5">35+ ～ 40(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_age_6" type="radio" name="match_age" value="6">
+                            <label for="match_age_6">40+ ～ 45(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_age_7" type="radio" name="match_age" value="7">
+                            <label for="match_age_7">45+</label>
+                        </div>
+                    </div><br/>
+                    <div class="fieldset">
+                        <label>身高(CM)</label>
+                        <div class="radio">
+                            <input id="match_height_1" type="radio" name="match_height" value="1">
+                            <label for="match_height_1">140 ～ 150(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_height_2" type="radio" name="match_height" value="2">
+                            <label for="match_height_2">150+ ～ 155(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_height_3" type="radio" name="match_height" value="3">
+                            <label for="match_height_3">155+ ～ 165(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_height_4" type="radio" name="match_height" value="4">
+                            <label for="match_height_4">165+ ～ 170(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_height_5" type="radio" name="match_height" value="5">
+                            <label for="match_height_5">170+ ～ 175(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_height_6" type="radio" name="match_height" value="6">
+                            <label for="match_height_6">175+ ～ 180(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_height_7" type="radio" name="match_height" value="7">
+                            <label for="match_height_7">180+ ~ 190(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_height_8" type="radio" name="match_height" value="8">
+                            <label for="match_height_8">190+</label>
+                        </div>
+                    </div><br/>
+                    <div class="fieldset">
+                        <label>家乡</label>
+                        <div id="home-match-wrap">
+                            <select class="control-select" name="match_province" id="match_province">
+                                <option value="1" selected="">北京</option>
+                                <option value="2">广东</option>
+                                <option value="3">西藏</option>
+                            </select>
+                            <select class="control-select" name="match_city" id="match_city">
+                                <option value="1" selected="">北京</option>
+                                <option value="2">广东</option>
+                                <option value="3">西藏</option>
+                            </select>
+                            <select class="control-select" name="match_county" id="match_county">
+                                <option value="1" selected="">北京</option>
+                                <option value="2">广东</option>
+                                <option value="3">西藏</option>
+                            </select>
+                        </div>
+                    </div><br/>
+					<div class="fieldset">
+                        <label>年收入(万RMB)</label>
+                        <div class="radio">
+                            <input id="match_annual_income_1" type="radio" name="match_annual_income" value="1">
+                            <label for="match_annual_income_1">10 ～ 20(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_annual_income_2" type="radio" name="match_annual_income" value="2">
+                            <label for="match_annual_income_2">20+ ～ 30(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_annual_income_3" type="radio" name="match_annual_income" value="3">
+                            <label for="match_annual_income_3">30+ ～ 40(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_annual_income_4" type="radio" name="match_annual_income" value="4">
+                            <label for="match_annual_income_4">40+ ～ 50(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_annual_income_5" type="radio" name="match_annual_income" value="5">
+                            <label for="match_annual_income_5">50+ ～ 80(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_annual_income_6" type="radio" name="match_annual_income" value="6">
+                            <label for="match_annual_income_6">80+ ～ 100(含)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_annual_income_7" type="radio" name="match_annual_income" value="7">
+                            <label for="match_annual_income_7">100+</label>
+                        </div>
+                    </div><br/>
+                    <div class="fieldset">
+                        <label>希望对方的颜值分数</label>
+                        <div class="radio">
+                            <input id="match_yanzhi_grade_1" type="radio" name="match_yanzhi_grade" value="1">
+                            <label for="match_yanzhi_grade_1">1~3(不看重颜值)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_yanzhi_grade_2" type="radio" name="match_yanzhi_grade" value="1">
+                            <label for="match_yanzhi_grade_2">4~6(普通人)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_yanzhi_grade_3" type="radio" name="match_yanzhi_grade" value="1">
+                            <label for="match_yanzhi_grade_4">7~8(漂亮)</label>
+                        </div>
+                        <div class="radio">
+                            <input id="match_yanzhi_grade_4" type="radio" name="match_yanzhi_grade" value="1">
+                            <label for="match_yanzhi_grade_4">9~10(特别漂亮)</label>
+                        </div>
+                    </div>
+					<div class="btn_sub" id="btn_subAll"></div>
+				</form>
+			</div>
+            <!--生成中-->
+            <div class="creatingWrap displaynone" id="resultLoading">
+                <img src="static/i/pipei.png">
+            </div>
+            <!--结果页-->
+			<!--rexueWrap/shenmiWrap/wennuanWrap/danboWrap-->
+			<div class="resultWrap displaynone" id="resultWrap">
+                <img src="static/i/resultimg.png">
+				<div class="cl">
+					<ul class="tuijianList">
+						<li>
+							<div class="libox">
+								<div class="avaImg">
+									<img src="static/i/floor.jpg" />
+								</div>
+								<div class="liinfo">
+									<div class="row">
+										<div class="rowdiv"><label class="">姓名:</label><label>111</label></div>
+										<div class="rowdiv"><label class="">姓名:</label><label>111</label></div>
+										<div class="rowdiv"><label class="">姓名:</label><label>111</label></div>
+										<div class="rowdiv"><label class="">姓名:</label><label>111</label></div>
+										<div class="rowdiv"><label class="">姓名:</label><label>111</label></div>
+									</div>
+								</div>
+							</div>
+							<div class="btn_ad">
+                                <div class="btn_like fl"></div>
+                                <div class="btn_result_next fr"></div>
+                            </div>
+                        </li>
+					</ul>
+				</div>
+				</div>
+			</div>
+			<!--推广页-->
+			<div class="adWRap displaynone" id="adWRap">
+				<div class="xycenter">
+                    <p>从填写您的个人信息~<br/>系统匹配-取得联系方式，<br/>俩人愿意见面，<span>全程均免费哦！</span></p>
+					<p>如果您有钟意的异性，<br/><span>扫描下方二维码</span>添加众里寻他工作人员，<br/>取得联系吧！</p>
+                    <img src="static/i/erweima.png" class="imgERweima"/>
+                    <p>80/90后，名校名企<br/>单身想交友？想脱单？<br/>就来众里寻他<br/>半公益组织<br/>让你们从：“你好呀”到“余生请多指教”</p>
+				</div>
+				<div class="indexFloor adFloor">
+			</div>
+        </div>
+    </div>
+    <!--输入姓名-->
+    <div class="inputWrap displaynone " id="inputWrap">
+        <div class="fontname xcenter"></div>
+        <div class="inputbox xcenter">
+            <input class="textbox" id="textbox" maxlength="4" />
+        </div>
+        <div class="btn_creat xcenter" id="btn_creat"></div>
+        <div class="maskwrap displaynone" id="Errormask" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:98;">
+            <div class="Errormask xycenter" id="id_5b1749f43f4b1">
+                <div class="errorClose"></div>
+                <div class="errorCon" id="errorTxt"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var pageAdptor = function () {}
+        //page response
+        pageAdptor();
+        window.onresize = pageAdptor;
+        var hasLoading = false;
+    </script>
+    <script type="text/javascript" src="static/j/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="static/j/jquery.form.min.js"></script>
+    <script type="text/javascript" src="static/j/aduetools.js"></script>
+    <script type="text/javascript" src="static/j/pace.js?v=1527755756" charset="UTF-8"></script>
+    <script type="text/javascript" src="static/j/common.js?v=1527755756" charset="UTF-8"></script>
+    <script type="text/javascript" src="bend/data/region.js?v=1527755756" charset="UTF-8"></script>
+    <script type="text/javascript" src="static/j/exif-js.js?v=1527755756" charset="UTF-8"></script>
+    <script type="text/javascript" src="static/j/index.js?v=1527755756" charset="UTF-8"></script>
+</body>
+</html>

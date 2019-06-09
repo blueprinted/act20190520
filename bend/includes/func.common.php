@@ -74,11 +74,11 @@ function tname($table, $prefixed = true) {
  *  @param void
  *  @return Array array() / array(id1=>array(..), id2=>array(..), ..)
  */
-function load_data($name, $prefix = 'data_')
+function load_data($name, $force = false, $prefix = 'data_')
 {
     static $datas = array();
     $arrkey = APP_DATA."/{$prefix}{$name}.php";
-    if (isset($datas[$arrkey])) {
+    if (!$force && isset($datas[$arrkey])) {
         return $datas[$arrkey];
     }
     $array = @cache_read("{$prefix}{$name}.php", APP_DATA);
@@ -92,11 +92,11 @@ function load_data($name, $prefix = 'data_')
  *  @param void
  *  @return Array array() / array(id1=>array(..), id2=>array(..), ..)
  */
-function load_config($name, $prefix = 'config_')
+function load_config($name, $force = false, $prefix = 'config_')
 {
     static $configs = array();
     $arrkey = APP_CONFIG."/{$prefix}{$name}.php";
-    if (isset($configs[$arrkey])) {
+    if (!$force && isset($configs[$arrkey])) {
         return $configs[$arrkey];
     }
     $array = @cache_read("{$prefix}{$name}.php", APP_CONFIG);
@@ -1012,7 +1012,7 @@ function get_clientip($only_clientip = false)
         $onlineip = substr($onlineip, 0, strpos($onlineip, ','));
     }
     //检查是否为ip
-    if (!preg_match('/^\d{1,3}(\.\d{1,3}){3}(\s*,\s*\d{1,3}(\.\d{1,3}){3})*$/i', $onlineip)) {
+    if ($onlineip !== '::1' && !preg_match('/^\d{1,3}(\.\d{1,3}){3}(\s*,\s*\d{1,3}(\.\d{1,3}){3})*$/i', $onlineip)) {
         $onlineip = '';
     }
     return $onlineip;
@@ -1049,7 +1049,7 @@ function json_encode_ex( $value)
 function generate_table_conf($tname, $prefixed = true) {
     $table_conf = load_config('tables');
     $fields = get_table_conf($tname, $prefixed);
-    $table_conf[$tname] = $fields;
+    $table_conf[tname($tname, $prefixed)] = $fields;
     return write_config($table_conf, 'tables');
 }
 

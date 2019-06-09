@@ -184,9 +184,6 @@ if (!$user = $MDB->fetch_array($query)) {
     $user = array();
 }
 
-// 开启事物
-$MDB->query("START TRANSACTION");
-
 if (empty($user)) {
     $newarr['ctime'] = time();
     $fields = $values = $types = $placeholds = array();
@@ -231,6 +228,9 @@ if (empty($user)) {
     $args[] = implode('', $types);
     $args = array_merge($args, $values);
 }
+
+// 开启事物
+$MDB->query("START TRANSACTION");
 
 if (false === call_user_func_array(array($MDB, 'stmt_query'), $args)) {
     $MDB->query("ROLLBACK");

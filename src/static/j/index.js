@@ -1,3 +1,4 @@
+"use strict";
 function pageInit() {
     pageAdptor();
 }
@@ -9,7 +10,7 @@ function iRegion(area, options) {
         selectorAttr: [
             {id: 'province', name:'province'},
             {id: 'city', name:'city'},
-            {id: 'country', name:'country'}
+            {id: 'county', name:'county'}
         ],
         changedCallback: function () { }
     };
@@ -61,7 +62,7 @@ iRegion.prototype = {
         while (area.length > 0) {
             arrtId = this.options.selectorAttr[i] ? (' id="'+this.options.selectorAttr[i].id+'"') : '';
             attrName = this.options.selectorAttr[i] ? (' name="'+this.options.selectorAttr[i].name+'"') : '';
-            tmpString = '<select'+arrtId + attrName +' level="'+area[0].level+'">';
+            tmpString = '<select'+arrtId + attrName +' level="'+area[0].level+'" class="control-select">';
             tmpString += '<option value="0">请选择</option>';
             for (var j=0; j<area.length; j++) {
                 tmpString += '<option value="'+area[j].id+'"' + (j == idx ? ' selected="selected"' : '') + '>'+(area[j].level<2?area[j].short_name:area[j].name)+'</option>';
@@ -80,7 +81,7 @@ iRegion.prototype = {
         if (area.length > 0 && path[0] >= 0) {
             arrtId = this.options.selectorAttr[i] ? (' id="'+this.options.selectorAttr[i].id+'"') : '';
             attrName = this.options.selectorAttr[i] ? (' name="'+this.options.selectorAttr[i].name+'"') : '';
-            tmpString = '<select'+arrtId + attrName +' level="'+area[0].level+'">';
+            tmpString = '<select'+arrtId + attrName +' level="'+area[0].level+'" class="control-select">';
             tmpString += '<option value="0">请选择</option>';
             for (var j=0; j<area.length; j++) {
                 tmpString += '<option value="'+area[j].id+'">'+(area[j].level<2?area[j].short_name:area[j].name)+'</option>';
@@ -202,14 +203,221 @@ function imageLoader(src, filesize, parentEle) {
     }
     image.src = src;
 }
-
-var hometown, workplace, jsToaster;
+function random(a, b) {
+    return parseInt(Math.random()*(Math.abs(a-b)+1) + Math.min(a, b));
+}
+var clocker = new jsClocker({
+	starttime: 0,
+	endtime: 60,
+	recall: function(){
+		$('#smsCodeBtn').html('重新获取');
+	},
+	update: function(td, total){$('#smsCodeBtn').html('可在'+td+'秒后重发')},
+	autoRun: false
+});
+/*通用ajax提交处理*/
+function ajaxprocess(options) {
+	var defaults = {
+		type: 'get',
+		url: '',
+		data: '',
+		dataType: 'json',
+		success: function(resp) {
+			alert(resp.message);
+			if(resp.status==1) {
+				setTimeout(function(){window.location.reload()},1250);
+			}
+		},
+		error: function() {
+			alert('请求失败[ajax error]');
+		},
+		complete: function(){}
+	};
+	var options = $.extend(defaults, options);
+	$.ajax({
+		type: options.type,
+		url: options.url,
+		data: options.data,
+		dataType: options.dataType,
+		success: function(resp) {
+			options.success(resp);
+		},
+		error: function() {
+			options.error();
+		},
+		complete: function() {
+			options.complete();
+		}
+	});
+}
+var form_check_basicform = function () {
+    // 检查数据是否填写完毕
+    if ($.trim($('#nickname').val()).length < 1) {
+        jsToaster.show('请填写昵称');
+        return false;
+    }
+    if ($('input[name="gender"]:checked').size() < 1) {
+        jsToaster.show('请填选择性别');
+        return false;
+    }
+    if ($.trim($('#age').val()).length < 1) {
+        jsToaster.show('请填写年龄');
+        return false;
+    }
+    if ($.trim($('#height').val()).length < 1) {
+        jsToaster.show('请填写身高');
+        return false;
+    }
+    if ($.trim($('#zhiye').val()).length < 1) {
+        jsToaster.show('请填写职业');
+        return false;
+    }
+    if ($.trim($('#school').val()).length < 1) {
+        jsToaster.show('请填写学校');
+        return false;
+    }
+    if (($('select#province').size() < 1 || parseInt($('select#province').val()) < 1)
+        || ($('select#city').size() < 1 || parseInt($('select#city').val()) < 1)
+        || ($('select#county').size() < 1 || parseInt($('select#county').val()) < 1)
+    ) {
+        if ($('select#province').size() > 0 && parseInt($('select#province').val()) > 0) {
+            jsToaster.show('请将家乡所在地选择完整');
+        } else {
+            jsToaster.show('请选择家乡所在地');
+        }
+        return false;
+    }
+    if (($('select#work_province').size() < 1 || parseInt($('select#work_province').val()) < 1)
+        || ($('select#work_city').size() < 1 || parseInt($('select#work_city').val()) < 1)
+        || ($('select#work_county').size() < 1 || parseInt($('select#work_county').val()) < 1)
+    ) {
+        if ($('select#work_province').size() > 0 && parseInt($('select#work_province').val()) > 0) {
+            jsToaster.show('请将工作工作地区选择完整');
+        } else {
+            jsToaster.show('请选择工作地区');
+        }
+        return false;
+    }
+    if ($('input[name="annual_income"]:checked').size() < 1) {
+        jsToaster.show('请选择年收入');
+        return false;
+    }
+    if ($('input[name="ques1"]:checked').size() < 1) {
+        jsToaster.show('选择题(1)未完成');
+        return false;
+    }
+    if ($('input[name="ques2"]:checked').size() < 1) {
+        jsToaster.show('选择题(2)未完成');
+        return false;
+    }
+    if ($('input[name="ques3"]:checked').size() < 1) {
+        jsToaster.show('选择题(3)未完成');
+        return false;
+    }
+    if ($('input[name="ques4"]:checked').size() < 1) {
+        jsToaster.show('选择题(4)未完成');
+        return false;
+    }
+    if ($('input[name="yanzhi"]:checked').size() < 1) {
+        jsToaster.show('请为自己的颜值打分');
+        return false;
+    }
+    if ($.trim($('#weixin').val()).length < 1) {
+        jsToaster.show('请填写微信号');
+        return false;
+    }
+    if ($.trim($('#phone_number').val()).length < 1) {
+        jsToaster.show('请填写手机号');
+        return false;
+    }
+    return true;
+}
+var ajaxform_handle_basicform = {
+    timeout: 5000,
+    dataType: 'json',
+    confirm: {
+        noConfirm: true,
+        title: '确定要提交吗？',
+        cancelFunc: function(){}
+    },
+    formCheck: function() {return form_check_basicform()},
+    beforeSerialize: function(form, options){},
+    beforeSubmit: function(arr, form, options){
+    },
+    success: function(resp, jqXHR, textStatus){
+        jsToaster.show(resp.msg);
+        if (resp.code == 0) {
+            $('#getinfoWrap').hide();
+            $("#indexOtherWrap").show();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown){},
+    complete: function(jqXHR, textStatus){}
+};
+var form_check_matchform = function () {
+    // 检查数据是否填写完毕
+    if ($('input[name="match_age"]:checked').size() < 1) {
+        jsToaster.show('请填选择年龄范围');
+        return false;
+    }
+    if ($('input[name="match_height"]:checked').size() < 1) {
+        jsToaster.show('请填选择身高范围');
+        return false;
+    }
+    if (($('select#match_province').size() < 1 || parseInt($('select#match_province').val()) < 1)
+        || ($('select#match_city').size() < 1 || parseInt($('select#match_city').val()) < 1)
+        || ($('select#match_county').size() < 1 || parseInt($('select#match_county').val()) < 1)
+    ) {
+        if ($('select#match_province').size() > 0 && parseInt($('select#match_province').val()) > 0) {
+            jsToaster.show('请将家乡所在地选择完整');
+        } else {
+            jsToaster.show('请选择家乡所在地');
+        }
+        return false;
+    }
+    if ($('input[name="match_annual_income"]:checked').size() < 1) {
+        jsToaster.show('请填选择年收入范围');
+        return false;
+    }
+    if ($('input[name="match_yanzhi_grade"]:checked').size() < 1) {
+        jsToaster.show('请填选择颜值分数范围');
+        return false;
+    }
+    return true;
+}
+var ajaxform_handle_matchform = {
+    timeout: 5000,
+    dataType: 'json',
+    confirm: {
+        noConfirm: true,
+        title: '确定要提交吗？',
+        cancelFunc: function(){}
+    },
+    formCheck: function() {return form_check_matchform()},
+    beforeSerialize: function(form, options){},
+    beforeSubmit: function(arr, form, options){
+    },
+    success: function(resp, jqXHR, textStatus){
+        if (resp.code == 0) {
+            $("#indexOtherWrap").hide();
+            $("#resultLoading").show();
+            setTimeout(function(){
+                $("#resultLoading").hide();
+                $("#resultWrap").show();
+            }, random(900, 1600));
+        } else {
+            jsToaster.show(resp.msg);
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown){},
+    complete: function(jqXHR, textStatus){}
+};
+var hometown, workplace, matchplace,jsToaster;
 $(function () {
-    localStorage.userName = "";
-    pageInit();
+    //pageInit();
     //图片预加载
 	var imgList=[
-		"./static/i/bg.jpg",
+		"./static/i/bg.jpg"
 	];
     for (var q = 0; q < imgList.length; q++) {
         var myParent = document.getElementById("preloadImg");
@@ -224,117 +432,70 @@ $(function () {
             //要做的事
         }
     };
-
     //点击引言，跳过
     $("#introductionWrap").on("click", function () {
         $("#introductionWrap").hide();
         $("#indexWrap").show();
-    })
-    
+    });
     //关闭弹层
     $("#Errormask").on("click", function () {
         $(this).hide()
-    })
+    });
     //点击开始测试按钮
     $("#btn_start").on("click", function (e) {
     	$("#indexWrap").hide();    	
 		$("#indexWrap").hide();
     	$('#indexWrap').addClass('displaynone')
     	$('#getinfoWrap').show();
-    })
-	//点击提交按钮
-	$("#btn_mysub").on("click", function (e) {
-        // 检查数据是否填写完毕
-        if ($.trim($('#nickname').val()).length < 1) {
-            jsToaster.show('请填写姓名');
-            return false;
-        }
-        if ($('input[name="gender"]:checked').size() < 1) {
-            jsToaster.show('请填选择性别');
-            return false;
-        }
-        if ($.trim($('#age').val()).length < 1) {
-            jsToaster.show('请填写年龄');
-            return false;
-        }
-        if ($.trim($('#height').val()).length < 1) {
-            jsToaster.show('请填写身高');
-            return false;
-        }
-        if ($.trim($('#zhiye').val()).length < 1) {
-            jsToaster.show('请填写职业');
-            return false;
-        }
-        if ($.trim($('#school').val()).length < 1) {
-            jsToaster.show('请填写学校');
-            return false;
-        }
-        if (($('select#province').size() > 0 && parseInt($('select#province').val()) < 1)
-            || ($('select#city').size() > 0 && parseInt($('select#city').val()) < 1)
-            || ($('select#country').size() > 0 && parseInt($('select#country').val()) < 1)
-        ) {
-            jsToaster.show('请选择家乡所在地');
-            return false;
-        }
-        if (($('select#work_province').size() > 0 && parseInt($('select#work_province').val()) < 1)
-            || ($('select#work_city').size() > 0 && parseInt($('select#work_city').val()) < 1)
-            || ($('select#work_country').size() > 0 && parseInt($('select#work_country').val()) < 1)
-        ) {
-            jsToaster.show('请选择工作地区');
-            return false;
-        }
-        if ($('input[name="annual_income"]:checked').size() < 1) {
-            jsToaster.show('请选择年收入');
-            return false;
-        }
-        if ($('input[name="ques1"]:checked').size() < 1) {
-            jsToaster.show('选择题(1)未完成');
-            return false;
-        }
-        if ($('input[name="ques2"]:checked').size() < 1) {
-            jsToaster.show('选择题(2)未完成');
-            return false;
-        }
-        if ($('input[name="ques3"]:checked').size() < 1) {
-            jsToaster.show('选择题(3)未完成');
-            return false;
-        }
-        if ($('input[name="ques4"]:checked').size() < 1) {
-            jsToaster.show('选择题(4)未完成');
-            return false;
-        }
-        if ($('input[name="yanzhi"]:checked').size() < 1) {
-            jsToaster.show('请为自己的颜值打分');
-            return false;
-        }
-        if ($.trim($('#weixin').val()).length < 1) {
-            jsToaster.show('请填写微信号');
-            return false;
-        }
-        if ($.trim($('#phone_number').val()).length < 1) {
-            jsToaster.show('请填写手机号');
-            return false;
-        }
-		$('#getinfoWrap').hide();
-		$("#indexOtherWrap").show();   
-	});
-	//点击提交按钮
-	$("#btn_subAll").on("click", function (e) {
-		$("#indexOtherWrap").hide();
-		$("#resultLoading").show(); 
-		   
-	});
+    });
     //避免双击时图片弹起
     $("#resultImg,#adWrap").on("click", function (e) {
         e.preventDefault();
-    })
+    });
+    $('#smsCodeBtn').click(function(){
+        var phone = $.trim($('#phone_number').val());
+        if (phone.length < 1) {
+            jsToaster.show("清先填写手机号码");
+            return false;
+        }
+		if(!clocker.doned()) {
+			return false;
+		}
+		if($(this).attr('ajaxing')) {
+			return false;
+		}
+        $(this).attr('ajaxing',true);
+		ajaxprocess({
+			type: 'post',
+			url: 'bend/?mod=api&controller=smscode&acion=index',
+			data: 'dosubmit=true&phone='+phone,
+			dataType: 'json',
+			success: function(resp) {
+                jsToaster.show(resp.msg);
+				if(resp.code != 0) {
+				} else {
+					clocker.stop();
+					clocker.run();
+				}
+			},
+			error: function() {
+                jsToaster.show("请求发送手机验证码失败[ajax error]");
+			},
+			complete: function() {
+				$('#smsCodeBtn').removeAttr('ajaxing');
+				if(status == 'timeout') {
+					$('textarea[name="response"]').append("请求发送手机验证码超时[ajax timeout]\r\n").scrollTo($('textarea[name="response"]')[0].scrollHeight,100);/*请求超时*/
+				}
+			}
+		});
+	});
 
-    $("#textbox").blur(function(){window.scrollTo(0,0)})
+    $("#textbox").blur(function(){window.scrollTo(0,0)});
 
     $(".nomove").on("touchmove", function (e) {
         e.preventDefault();
         e.stopPropagation();
-    }, false)
+    }, false);
 
     jsToaster = new jsToast();
     var options = {
@@ -343,7 +504,7 @@ $(function () {
         selectorAttr: [
             {id: 'province', name:'province'},
             {id: 'city', name:'city'},
-            {id: 'country', name:'country'}
+            {id: 'county', name:'county'}
         ]
     }
     hometown = new iRegion(regions, options);
@@ -354,10 +515,22 @@ $(function () {
         selectorAttr: [
             {id: 'work_province', name:'work_province'},
             {id: 'work_city', name:'work_city'},
-            {id: 'work_country', name:'work_country'}
+            {id: 'work_county', name:'work_county'}
         ]
     }
     workplace = new iRegion(regions, options);
+
+    var options = {
+        wrapEleSelector: '#home-match-wrap',
+        initSelectedId: 0,
+        selectorAttr: [
+            {id: 'match_province', name:'match_province'},
+            {id: 'match_city', name:'match_city'},
+            {id: 'match_county', name:'match_county'}
+        ]
+    }
+    matchplace = new iRegion(regions, options);
+    
 
     $('#uploadbox input[type="file"]').change(function(e){
         var self = this;
