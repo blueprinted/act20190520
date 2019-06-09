@@ -8,7 +8,7 @@ $_DBCFG['master_act20190520'] = array(
 	'host' => 'localhost',
 	'port' => '3306',
 	'user' => 'root',
-	'pass' => '19880117zcZC!',
+	'pass' => '',
 	'dbname' => 'act20190520',
 	'charset' => 'utf8',
 );

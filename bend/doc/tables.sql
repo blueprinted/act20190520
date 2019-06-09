@@ -23,10 +23,10 @@ CREATE TABLE `act20190520_user` (
   `yanzhi` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '颜值',
   `yanzhi_grade` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '颜值档次',
   `photo_url` varchar(255) NOT NULL DEFAULT '' COMMENT '照片地址',
-  `answer1` varchar(4)  NOT NULL DEFAULT '' COMMENT '问题1的答案',
-  `answer2` varchar(4)  NOT NULL DEFAULT '' COMMENT '问题2的答案',
-  `answer3` varchar(4)  NOT NULL DEFAULT '' COMMENT '问题3的答案',
-  `answer4` varchar(4)  NOT NULL DEFAULT '' COMMENT '问题4的答案',
+  `answer1` varchar(4) NOT NULL DEFAULT '' COMMENT '问题1的答案',
+  `answer2` varchar(4) NOT NULL DEFAULT '' COMMENT '问题2的答案',
+  `answer3` varchar(4) NOT NULL DEFAULT '' COMMENT '问题3的答案',
+  `answer4` varchar(4) NOT NULL DEFAULT '' COMMENT '问题4的答案',
   `match_age` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的年龄档次',
   `match_height` varchar(255) NOT NULL DEFAULT '' COMMENT '择偶要求的身高档次',
   `match_province` mediumint(8) NOT NULL DEFAULT '0' COMMENT '择偶要求的省',
@@ -38,10 +38,10 @@ CREATE TABLE `act20190520_user` (
   `ctime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `mtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`uid`),
-  KEY `nickname` (`nickname`),
   UNIQUE KEY `phone_number` (`phone_number`),
+  KEY `nickname` (`nickname`),
   KEY `ctime` (`ctime`,`mtime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ---
 --- 用户匹配表
@@ -51,16 +51,18 @@ CREATE TABLE `act20190520_user_match` (
   `master_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '主uid',
   `match_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '匹配到的uid',
   `ctime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '匹配时间',
+  `mtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_key` (`master_uid`,`match_uid`),
-  KEY `ctime` (`ctime`)
+  KEY `ctime` (`ctime`,`mtime`),
+  KEY `mtime` (`mtime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ---
 --- 中国行政区域表
 ---
 CREATE TABLE `act20190520_area` (
-  `id` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父级id',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
   `short_name` varchar(50) NOT NULL DEFAULT '' COMMENT '简称',
@@ -72,4 +74,4 @@ CREATE TABLE `act20190520_area` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `short_name` (`short_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=659004503 DEFAULT CHARSET=utf8;

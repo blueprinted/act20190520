@@ -5,7 +5,7 @@ define('APP_DATA', APP_ROOT."/data");
 define('APP_LOG', APP_ROOT."/log");
 define('APP_CONFIG', APP_ROOT."/config");
 define('APP_MODULE', APP_ROOT."/apps");
-define('ENVIRONMENT', 'development'); // development / dev / test / product
+define('ENVIRONMENT', file_exists('/tmp/act20190520_test.env')?'development':'product'); // development / dev / test / product
 define('APP_MSG_HEAD', "return '['.date('Y/m/d H:i:s').' '.date_default_timezone_get().'] ';");
 define('APP_BR', strtolower(substr(PHP_SAPI, 0, 3)) == 'cli' ? PHP_EOL : "<br/>");
 define('APP_API_DIR', APP_ROOT.'/../api');
