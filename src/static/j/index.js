@@ -1,10 +1,12 @@
 "use strict";
+
 function pageInit() {}
 
 function iRegion(area, options) {
     this.defaults = {
         wrapEleSelector: '#area-wrap',
         initSelectedId: 0,
+        defaultSelectText: '请选择',
         selectorAttr: [
             {id: 'province', name:'province'},
             {id: 'city', name:'city'},
@@ -61,7 +63,7 @@ iRegion.prototype = {
             arrtId = this.options.selectorAttr[i] ? (' id="'+this.options.selectorAttr[i].id+'"') : '';
             attrName = this.options.selectorAttr[i] ? (' name="'+this.options.selectorAttr[i].name+'"') : '';
             tmpString = '<select'+arrtId + attrName +' level="'+area[0].level+'" class="control-select">';
-            tmpString += '<option value="0">请选择</option>';
+            tmpString += '<option value="0">'+self.defaults.defaultSelectText+'</option>';
             for (var j=0; j<area.length; j++) {
                 tmpString += '<option value="'+area[j].id+'"' + (j == idx ? ' selected="selected"' : '') + '>'+(area[j].level<2?area[j].short_name:area[j].name)+'</option>';
             }
@@ -80,7 +82,7 @@ iRegion.prototype = {
             arrtId = this.options.selectorAttr[i] ? (' id="'+this.options.selectorAttr[i].id+'"') : '';
             attrName = this.options.selectorAttr[i] ? (' name="'+this.options.selectorAttr[i].name+'"') : '';
             tmpString = '<select'+arrtId + attrName +' level="'+area[0].level+'" class="control-select">';
-            tmpString += '<option value="0">请选择</option>';
+            tmpString += '<option value="0">'+self.defaults.defaultSelectText+'</option>';
             for (var j=0; j<area.length; j++) {
                 tmpString += '<option value="'+area[j].id+'">'+(area[j].level<2?area[j].short_name:area[j].name)+'</option>';
             }
@@ -279,22 +281,44 @@ var form_check_basicform = function () {
         || ($('select#county').size() < 1 || parseInt($('select#county').val()) < 1)
     ) {
         if ($('select#province').size() > 0 && parseInt($('select#province').val()) > 0) {
-            jsToaster.show('请将家乡所在地选择完整');
+            var provinceId = parseInt($('select#province').val());
+            if (provinceId == 110000 || provinceId == 120000 || provinceId == 310000 || provinceId == 500000) {
+                if ($('select#county').size() < 1 || parseInt($('select#county').val()) < 1) {
+                    jsToaster.show('请将家乡所在地选择完整');
+                    return false;
+                }
+            } else {
+                if ($('select#city').size() < 1 || parseInt($('select#city').val()) < 1) {
+                    jsToaster.show('请将家乡所在地选择完整');
+                    return false;
+                }
+            }
         } else {
             jsToaster.show('请选择家乡所在地');
+            return false;
         }
-        return false;
     }
     if (($('select#work_province').size() < 1 || parseInt($('select#work_province').val()) < 1)
         || ($('select#work_city').size() < 1 || parseInt($('select#work_city').val()) < 1)
         || ($('select#work_county').size() < 1 || parseInt($('select#work_county').val()) < 1)
     ) {
         if ($('select#work_province').size() > 0 && parseInt($('select#work_province').val()) > 0) {
-            jsToaster.show('请将工作工作地区选择完整');
+            var provinceId = parseInt($('select#work_province').val());
+            if (provinceId == 110000 || provinceId == 120000 || provinceId == 310000 || provinceId == 500000) {
+                if ($('select#work_county').size() < 1 || parseInt($('select#work_county').val()) < 1) {
+                    jsToaster.show('请将工作工作地区选择完整');
+                    return false;
+                }
+            } else {
+                if ($('select#work_city').size() < 1 || parseInt($('select#work_city').val()) < 1) {
+                    jsToaster.show('请将工作工作地区选择完整');
+                    return false;
+                }
+            }
         } else {
             jsToaster.show('请选择工作地区');
+            return false;
         }
-        return false;
     }
     if ($('input[name="annual_income"]:checked').size() < 1) {
         jsToaster.show('请选择年收入');
@@ -364,17 +388,6 @@ var form_check_matchform = function () {
         jsToaster.show('请填选择身高范围');
         return false;
     }
-    if (($('select#match_province').size() < 1 || parseInt($('select#match_province').val()) < 1)
-        || ($('select#match_city').size() < 1 || parseInt($('select#match_city').val()) < 1)
-        || ($('select#match_county').size() < 1 || parseInt($('select#match_county').val()) < 1)
-    ) {
-        if ($('select#match_province').size() > 0 && parseInt($('select#match_province').val()) > 0) {
-            jsToaster.show('请将家乡所在地选择完整');
-        } else {
-            jsToaster.show('请选择家乡所在地');
-        }
-        return false;
-    }
     if ($('input[name="match_annual_income"]:checked').size() < 1) {
         jsToaster.show('请填选择年收入范围');
         return false;
@@ -402,6 +415,27 @@ var ajaxform_handle_matchform = {
             $("#indexOtherWrap").hide();
             $("#resultLoading").show();
             setTimeout(function(){
+                // resp = {"code":0,"msg":"提交成功","data":[{"uid":"4","nickname":"赵灵儿","age":"18","height":"172","zhiye":"神仙","province":"110000","city":"110100","county":"110101","photo_url":"upload/uploadImages/liuyifei.jpeg","province_cn":"北京","city_cn":"北京市","county_cn":"东城区"},{"uid":"5","nickname":"花千骨","age":"18","height":"168","zhiye":"神仙","province":"110000","city":"110100","county":"110101","photo_url":"upload/uploadImages/zhaoliying.jpeg","province_cn":"北京","city_cn":"北京市","county_cn":"东城区"},{"uid":"6","nickname":"陆雪琪","age":"18","height":"168","zhiye":"神仙","province":"110000","city":"110100","county":"110101","photo_url":"upload/uploadImages/yangzi.jpeg","province_cn":"北京","city_cn":"北京市","county_cn":"东城区"}]};
+                $('.tuijianList').html(function(){
+                    var userList = resp.data;
+                    var _html = '';
+                    for (var i=0; i<userList.length; i++) {
+                        var user = userList[i];
+                        var jiguan = user.province_cn + (user.city_cn.length > 0 ? ' ' : '') + user.city_cn + (user.county_cn.length > 0 ? ' ' : '') + user.county_cn;
+                        _html += '<li idx="'+i+'">';
+                        _html += '<div class="avaImg"><img src="bend/data/'+user.photo_url+'"></div>';
+                        _html += '<div class="liinfo"></div>';
+                        _html += '<div class="rowdiv"><label class="">昵称：</label><label>'+user.nickname+'</label></div>';
+                        _html += '<div class="rowdiv"><label class="">年龄：</label><label>'+user.age+'</label></div>';
+                        _html += '<div class="rowdiv"><label class="">身高：</label><label>'+user.height+'</label></div>';
+                        _html += '<div class="rowdiv"><label class="">职业：</label><label>'+user.zhiye+'</label></div>';
+                        _html += '<div class="rowdiv"><label class="">籍贯：</label><label>'+jiguan+'</label></div>';
+                        _html += '</div>';
+                        _html += '</li>';
+                    }
+                    return _html;
+                });
+                $('.tuijianList').children().hide().filter('[idx="0"]').show();
                 $("#resultLoading").hide();
                 $("#resultWrap").show();
             }, random(900, 1600));
@@ -414,6 +448,25 @@ var ajaxform_handle_matchform = {
     },
     complete: function(jqXHR, textStatus){}
 };
+function next_user () {
+    var length = $('.tuijianList').children().size();
+    var idx = -1;
+    $('.tuijianList').children().each(function(){
+        $('.tuijianList').children().each(function(){
+            if ($(this).is(':visible')) {
+                idx = parseInt($(this).attr('idx'));
+                return false;
+            }
+        });
+    });
+    if (idx < length - 1) {
+        idx++;
+    } else {
+        idx = 0;
+    }
+    $('.tuijianList').children().hide();
+    $('.tuijianList').children().eq(idx).show();
+}
 var hometown, workplace, matchplace,jsToaster;
 $(function () {
 	var imgList=[
@@ -522,6 +575,7 @@ $(function () {
 
     var options = {
         wrapEleSelector: '#home-match-wrap',
+        defaultSelectText: '不限',
         initSelectedId: 0,
         selectorAttr: [
             {id: 'match_province', name:'match_province'},

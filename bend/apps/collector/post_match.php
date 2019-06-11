@@ -41,6 +41,20 @@ $match_yanzhi_grade = intval(getVar('match_yanzhi_grade')); // 颜值等级
 // 载入配置数据
 $selector_config = load_data('selector_config');
 
+
+if (!isset($selector_config['age_grade'][$match_age])) {
+    apimessage(1, '选择的年龄范围有误');
+}
+if (!isset($selector_config['height_grade'][$match_height])) {
+    apimessage(1, '选择的身高范围有误');
+}
+if (!isset($selector_config['annual_income'][$match_annual_income])) {
+    apimessage(1, '选择的年收入范围有误');
+}
+if (!isset($selector_config['yanzhi_grade'][$match_yanzhi_grade])) {
+    apimessage(1, '选择的颜值分数范围有误');
+}
+
 $newarr = array(
     'match_age' => $match_age,
     'match_height' => $match_height,
@@ -149,8 +163,21 @@ while ($match_user = $MDB->fetch_array($query)) {
     $match_uids[$match_user['uid']] = $match_user['uid'];
 }
 if (count($match_uids) < ACT_MATCH_USER_NUMS) {
+    $maleList = array(1,2,3);
+    $femaleList = array(4,5,6);
     $diffNums = ACT_MATCH_USER_NUMS - count($match_uids);
     // 需要补足到数量
+    $cup = array();
+    if ($user['gender'] == 1) {
+        $cup = $femaleList;
+    } else {
+        $cup = $maleList;
+    }
+    foreach ($cup as $idx => $val) {
+        if (!isset($match_uids[$val]) && count($match_uids) < ACT_MATCH_USER_NUMS) {
+            $match_uids[$val] = $val;
+        }
+    }
 }
 
 $match_users = array();

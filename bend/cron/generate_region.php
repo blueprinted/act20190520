@@ -36,6 +36,7 @@ function get_region($max_level = 0, $pid = 0) {
         $area['id'] = intval($area['id']);
         $data = array(
             'id' => $area['id'],
+            'name' => $area['name'],
             'short_name' => $area['short_name'],
             'level' => $area['level'],
             'children' => array(),

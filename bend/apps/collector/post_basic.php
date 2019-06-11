@@ -22,26 +22,11 @@ $phone_number = getVar('phone_number');
 $sms_code = getVar('sms_code');
 $weixin = getVar('weixin');
 $yanzhi = intval(getVar('yanzhi')); //等级
-$ques1 = getVar('ques1');
-$ques2 = getVar('ques2');
-$ques3 = getVar('ques3');
-$ques4 = getVar('ques4');
+$ques1 = strtoupper(getVar('ques1'));
+$ques2 = strtoupper(getVar('ques2'));
+$ques3 = strtoupper(getVar('ques3'));
+$ques4 = strtoupper(getVar('ques4'));
 $hdimg = getvar('hdimg');
-
-// 校验短信验证码
-if (!isset($_SESSION['verify_code'])) {
-    apimessage(1, '短信验证码已失效请重新获取');
-}
-if (strlen($sms_code) < 1) {
-    apimessage(1, '短信验证码没有填写');
-}
-// 检查手机号是不是接收验证码的手机号码
-if ($phone_number !== $_SESSION['verify_number']) {
-    apimessage(1, '手机号异常');
-}
-if ($sms_code !== $_SESSION['verify_code']) {
-    apimessage(1, '短信验证码不正确');
-}
 
 // 载入配置数据
 $selector_config = load_data('selector_config');
@@ -68,8 +53,8 @@ if ($province < 1) {
 if ($city < 1) {
     apimessage(1, '没有选择家乡所在的市');
 }
-if ($county < 1) {
-    apimessage(1, '没有选择家乡所在的县');
+if (in_array($province, array(110000,120000,310000,500000), true) && $county < 1) {
+    apimessage(1, '请将家乡所在地选择完整');
 }
 if ($work_province < 1) {
     apimessage(1, '没有选择工作地所在的省');
@@ -77,14 +62,38 @@ if ($work_province < 1) {
 if ($work_city < 1) {
     apimessage(1, '没有选择工作地所在的市');
 }
-if ($work_county < 1) {
-    apimessage(1, '没有选择工作地所在的县');
+if (in_array($province, array(110000,120000,310000,500000), true) && $work_county < 1) {
+    apimessage(1, '请将工作地选择完成');
 }
 if (strlen($school) < 1) {
     apimessage(1, '没有填写学校');
 }
 if ($annual_income < 1) {
     apimessage(1, '没有选择年收入范围');
+}
+if (strlen($ques1) < 1) {
+    apimessage(1, '选择题(1)没有选择');
+}
+if (!in_array($ques1, array('A', 'B'), true)) {
+    apimessage(1, '选择题(1)选择的选项不存在');
+}
+if (strlen($ques2) < 1) {
+    apimessage(1, '选择题(2)没有选择');
+}
+if (!in_array($ques2, array('A', 'B'), true)) {
+    apimessage(1, '选择题(2)选择的选项不存在');
+}
+if (strlen($ques3) < 1) {
+    apimessage(1, '选择题(3)没有选择');
+}
+if (!in_array($ques3, array('A', 'B'), true)) {
+    apimessage(1, '选择题(3)选择的选项不存在');
+}
+if (strlen($ques4) < 1) {
+    apimessage(1, '选择题(4)没有选择');
+}
+if (!in_array($ques4, array('A', 'B'), true)) {
+    apimessage(1, '选择题(4)选择的选项不存在');
 }
 if (!isset($selector_config['annual_income'][$annual_income])) {
     apimessage(1, '年收入范围有误');
@@ -94,6 +103,21 @@ if (strlen($phone_number) < 1) {
 }
 if (!preg_match('/^(\+?\d{2})?\s?\d{11}$/i', $phone_number)) {
     apimessage(1, '手机号码不正确');
+}
+
+if (strlen($sms_code) < 1) {
+    apimessage(1, '短信验证码没有填写');
+}
+// 校验短信验证码
+if (!isset($_SESSION['verify_code'])) {
+    apimessage(1, '短信验证码已失效请重新获取');
+}
+// 检查手机号是不是接收验证码的手机号码
+if ($phone_number !== $_SESSION['verify_number']) {
+    apimessage(1, '手机号异常');
+}
+if ($sms_code !== $_SESSION['verify_code']) {
+    apimessage(1, '短信验证码不正确');
 }
 
 $base64Pattern = "/^(data:image\/(jpg|jpeg|png);base64,)/i";
