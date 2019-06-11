@@ -182,14 +182,14 @@ body {
 }
 
 #btn_mysub, #btn_subAll {
-	  margin: 24px auto 29px;
-    padding: 18px 0;
-    font-size: 22px;
+	margin: 24px auto 29px;
+    padding: 24px 0;
+    font-size: 24px;
 }
 
 #uploadbox {
 	display: inline-block;
-	width: 100px;
+	width: 120px;
 	position: relative;
 	height: 26px;
 	text-align: center;
@@ -198,16 +198,17 @@ body {
 	margin-left: 5px;
 }
 #uploadbox input[type=file]{
-	  display: block;
+	display: block;
     width: 100%;
     height: 100%;
-		position: absolute;
-		left:0;
-		top:0;
+	position: absolute;
+	left:0;
+	top:0;
     opacity: 0;
 }
 #uploadbox.img-loaded {border:none}
 #smsCodeBtn{text-decoration: none;font-size:22px;}
+.imgwaiter {font-size:12px;}
 .imgwaiter>img {max-width:320px;max-height:480px;}
 .fieldset, .fieldset label{}
 
