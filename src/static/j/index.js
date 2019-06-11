@@ -355,7 +355,7 @@ var form_check_basicform = function () {
     return true;
 }
 var ajaxform_handle_basicform = {
-    timeout: 5000,
+    timeout: 30000,
     dataType: 'json',
     confirm: {
         noConfirm: true,
