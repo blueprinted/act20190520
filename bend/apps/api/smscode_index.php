@@ -27,7 +27,7 @@ $pattern = "/^((13[0-9])|(14[1]|[4-9])|(15([0-3]|[5-9]))|(16[2]|[5-7])|(17[0-3]|
 if (!preg_match($pattern, $phone)) {
     apimessage(3, '手机号不正确');
 }
-if (time() - $_SESSION['verify_time'] <= 60) {
+if (isset($_SESSION['verify_time']) && time() - $_SESSION['verify_time'] <= 58) {
     apimessage(4, '请求短信验证码的时间间隔为60秒还需等待'.(60 - (time() - $_SESSION['verify_time'])).'秒才能重新获取验证码');
 }
 

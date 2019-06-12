@@ -235,7 +235,7 @@ foreach ($match_uids as $idx => $match_uid) {
 $sql = "SELECT COUNT(id) AS cnt FROM " . tname('user_match') . " WHERE master_uid={$user['uid']}";
 $matchedNums = $MDB->result($MDB->query($sql), 0, 0);
 if ($matchedNums > ACT_MATCH_USER_NUMS) {
-    $sql = "DELECT FROM " . tname('user_match') . " WHERE ctime<'{$nowtime}' AND mtime<'{$nowtime}'";
+    $sql = "DELETE FROM " . tname('user_match') . " WHERE master_uid='{$user['uid']}' AND ctime<'{$nowtime}' AND mtime<'{$nowtime}'";
     if (!$MDB->query($sql)) {
         apimessage(36, '匹配异性失败');
     }

@@ -1,12 +1,15 @@
 .container {
-    background-color: #fff;
-    font-size: 24px;
+    /*background-color: #fff;*/
+    background-color: #e8d0c8;
+    font-size: 32px;
+    padding-bottom: 28px;
 }
 .fieldset .control-select {
     min-width: 120px;
     padding: 8px 32px 8px 12px;
     margin-left: 8px;
-    font-size: 22px;
+    font-size: 28px;
+    background-color: #fff;
 }
 .fieldset label {
     padding-bottom: 1.0em;
@@ -21,13 +24,19 @@
 }
 .control-text {
     padding: 12px 16px;
-    font-size: 20px;
+    font-size: 32px;
+}
+.fieldset-group {
+    font-size: 32px;
 }
 .fieldset-group-addon {
-    font-size: 24px;
+    font-size: 32px;
 }
 .control-lable {
     width: auto;
+}
+.radio label:before, .checkbox label:before {
+    border-color: #222;
 }
 /* icon */
 .icon.I-mail {

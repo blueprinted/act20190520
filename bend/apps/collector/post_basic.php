@@ -108,13 +108,14 @@ if (!preg_match('/^(\+?\d{2})?\s?\d{11}$/i', $phone_number)) {
 if (strlen($sms_code) < 1) {
     apimessage(1, '短信验证码没有填写');
 }
+
+// 检查手机号是不是接收验证码的手机号码
+if (!isset($_SESSION['verify_number']) || $phone_number !== $_SESSION['verify_number']) {
+    apimessage(1, '手机号异常');
+}
 // 校验短信验证码
 if (!isset($_SESSION['verify_code'])) {
     apimessage(1, '短信验证码已失效请重新获取');
-}
-// 检查手机号是不是接收验证码的手机号码
-if ($phone_number !== $_SESSION['verify_number']) {
-    apimessage(1, '手机号异常');
 }
 if ($sms_code !== $_SESSION['verify_code']) {
     apimessage(1, '短信验证码不正确');

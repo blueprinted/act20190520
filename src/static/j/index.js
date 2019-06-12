@@ -365,6 +365,7 @@ var ajaxform_handle_basicform = {
     formCheck: function() {return form_check_basicform()},
     beforeSerialize: function(form, options){},
     beforeSubmit: function(arr, form, options){
+        $('#btn_mysub').html('资料提交中，请稍等..');
     },
     success: function(resp, jqXHR, textStatus){
         jsToaster.show(resp.msg);
@@ -376,7 +377,9 @@ var ajaxform_handle_basicform = {
     error: function(jqXHR, textStatus, errorThrown){
         jsToaster.show("提交失败 [" + textStatus + (errorThrown ? (' ' + errorThrown) : '') + "]");
     },
-    complete: function(jqXHR, textStatus){}
+    complete: function(jqXHR, textStatus){
+        $('#btn_mysub').html('下一步');
+    }
 };
 var form_check_matchform = function () {
     // 检查数据是否填写完毕
@@ -584,7 +587,6 @@ $(function () {
         ]
     }
     matchplace = new iRegion(regions, options);
-    
 
     $('#uploadbox input[type="file"]').change(function(e){
         var self = this;
@@ -627,5 +629,58 @@ $(function () {
             }, 50);
         }, false);
         reader.readAsDataURL(file);
+    });
+
+    var range_age_sliders = {
+        'min': [18, 1],
+        '36%': [30, 1],
+        '72%': [40, 1],
+        'max': [50, 1]
+    };
+    var pipsSlider1 = document.getElementById('year-slider-pips');
+    noUiSlider.create(pipsSlider1, {
+        tooltips: true,
+        range: range_age_sliders,
+        format: {
+            to: function (value) {
+                return parseInt(value);
+            },
+            from: function (value) {
+                return parseInt(value);
+            }
+        },
+        start: [25],
+        pips: {mode: 'range', density: 0}
+    });
+    pipsSlider1.noUiSlider.on('update', function (values, handle) {
+        $('#age').val(values[handle]);
+    });
+
+    var range_height_sliders = {
+        'min': [150, 1],
+        '15%': [160, 1],
+        '35%': [170, 1],
+        '60%': [180, 1],
+        '75%': [190, 1],
+        '90%': [210, 1],
+        'max': [240, 1]
+    };
+    var pipsSlider2 = document.getElementById('height-slider-pips');
+    noUiSlider.create(pipsSlider2, {
+        tooltips: true,
+        range: range_height_sliders,
+        format: {
+            to: function (value) {
+                return parseInt(value);
+            },
+            from: function (value) {
+                return parseInt(value);
+            }
+        },
+        start: [165],
+        pips: {mode: 'range', density: 0}
+    });
+    pipsSlider2.noUiSlider.on('update', function (values, handle) {
+        $('#height').val(values[handle]);
     });
 });

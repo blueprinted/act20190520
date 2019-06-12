@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="static/c/adue_global.css" />
     <link rel="stylesheet" href="static/c/adue_theme.css" />
     <link rel="stylesheet" href="static/c/style.css" />
+    <link rel="stylesheet" href="static/c/nouislider.min.css" />
 </head>
 <body>
     <!-- 预加载图片默认隐藏 -->
@@ -72,15 +73,17 @@
                                 <input id="gender_2" type="radio" name="gender" value="2">
                                 <label for="gender_2">女</label>
                             </div>
-                        </div><br/>
-                        <div class="fieldset">
-                            <label>3. 年龄(周岁)：</label>
-                            <input type="text" class="control-text" id="age" name="age" placeholder="填写年龄">
-                        </div><br/>
-                        <div class="fieldset">
-                            <label>4. 身高(CM)：</label>
-                            <input type="text" class="control-text" id="height" name="height" placeholder="填写身高">
-                        </div><br/>
+                        </div>
+                        <div class="fieldset noUi" >
+                            <label class="label-noUi-slider">3. 年龄(周岁)：</label>
+                            <input type="hidden" class="control-text" id="age" name="age" placeholder="填写年龄">
+                            <div id="year-slider-pips"></div>
+                        </div><br/><br/>
+                        <div class="fieldset noUi">
+                            <label class="label-noUi-slider">4. 身高(CM)：</label>
+                            <input type="hidden" class="control-text" id="height" name="height" placeholder="填写身高">
+                            <div id="height-slider-pips"></div>
+                        </div><br/><br/>
                         <div class="fieldset">
                             <label>5. 职业：</label>
                             <input type="text" class="control-text" id="zhiye" name="zhiye" placeholder="填写职业">
@@ -412,6 +415,7 @@
     <script type="text/javascript">var hasLoading = false;</script>
     <script type="text/javascript" src="static/j/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="static/j/jquery.form.min.js"></script>
+    <script type="text/javascript" src="static/j/nouislider.min.js"></script>
     <script type="text/javascript" src="static/j/aduetools.js"></script>
     <script type="text/javascript" src="static/j/pace.js?v=1527755756" charset="UTF-8"></script>
     <script type="text/javascript" src="static/j/common.js?v=1527755756" charset="UTF-8"></script>
