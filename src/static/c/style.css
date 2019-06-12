@@ -182,11 +182,14 @@ body {
 }
 
 #btn_mysub, #btn_subAll {
-	margin: 24px auto 0;
+	margin: 44px auto 0;
     padding: 24px 0;
 	font-size: 28px;
 	background-color: #fff;
     border-radius: 4px;
+}
+#btn_subAll {
+	padding-top: 8px;
 }
 
 #year-slider-pips, #height-slider-pips {
