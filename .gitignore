@@ -4,7 +4,9 @@ node_modules/*
 dist/*
 !dist/.gitkeep
 bend/config/config_tables.php
-bend/data/*
+bend/data/upload/*
+!bend/data/upload/.gitkeep
+bend/data/upload/uploadImages/*
 bend/data/session/*
 !bend/data/session/.gitkeep
 bend/log/*
