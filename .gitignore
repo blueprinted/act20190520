@@ -10,6 +10,13 @@ bend/data/session/*
 bend/log/*
 bend/log/shutdown_handler/*
 !bend/log/shutdown_handler/.gitkeep
+!bend/data/upload/uploadImages/.gitkeep
+!bend/data/upload/uploadImages/huge.jpeg
+!bend/data/upload/uploadImages/huojianhua.jpeg
+!bend/data/upload/uploadImages/liuyifei.jpeg
+!bend/data/upload/uploadImages/wangkai.jpeg
+!bend/data/upload/uploadImages/yangzi.jpeg
+!bend/data/upload/uploadImages/zhaoliying.jpeg
 /src/bend
 /rev/*
 !/rev/.gitkeep
