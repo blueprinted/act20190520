@@ -6,12 +6,13 @@ dist/*
 bend/config/config_tables.php
 bend/data/upload/*
 !bend/data/upload/.gitkeep
-bend/data/upload/uploadImages/*
+!bend/data/upload/uploadImages
 bend/data/session/*
 !bend/data/session/.gitkeep
 bend/log/*
 bend/log/shutdown_handler/*
 !bend/log/shutdown_handler/.gitkeep
+bend/data/upload/uploadImages/*
 !bend/data/upload/uploadImages/.gitkeep
 !bend/data/upload/uploadImages/huge.jpeg
 !bend/data/upload/uploadImages/huojianhua.jpeg
