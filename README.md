@@ -54,18 +54,18 @@
     ├── index.html
     └── static
 
-如下的目录要设置成 777 权限
-bend/config
-bend/data
-bend/data/upload
-bend/data/upload/uploadImages
-bend/data/session
-bend/log
-bend/log/shutdown_handler
+## 如下的目录要设置成 777 权限 ##
+    bend/config
+    bend/data
+    bend/data/upload
+    bend/data/upload/uploadImages
+    bend/data/session
+    bend/log
+    bend/log/shutdown_handler
 
-项目的session会话信息存放的目录
-bend/data/session
-建议
-session.cookie_lifetime
-session.gc_maxlifetime
-这两个值配置大一点，比如 43200秒或86400秒
+## 项目的session会话信息存放的目录 ##
+    bend/data/session
+## 建议 ##
+    session.cookie_lifetime
+    session.gc_maxlifetime
+    这两个值配置大一点，比如 43200秒或86400秒
