@@ -186,6 +186,7 @@ $match_users = array();
 $nowtime = time();
 $regions = array();
 $matchPrimaryIds = array();
+$likes = array();
 foreach ($match_uids as $idx => $match_uid) {
     $sql = "SELECT * FROM " . tname('user_match') . " WHERE master_uid='{$user['uid']}' AND match_uid='{$match_uid}'";
     $query = $MDB->query($sql);
@@ -195,6 +196,7 @@ foreach ($match_uids as $idx => $match_uid) {
         if (!$MDB->query($sql)) {
             apimessage(34, '匹配异性失败');
         }
+        $likes[$match_uid] = intval($matchData['liked']);
     } else {
         // 需要写入
         $sql = "INSERT INTO " . tname('user_match') . "(master_uid,match_uid,ctime,mtime) VALUES ('{$user['uid']}', '{$match_uid}', '{$nowtime}', '0')";
@@ -203,6 +205,7 @@ foreach ($match_uids as $idx => $match_uid) {
         }
         $insertId = $MDB->insert_id();
         $matchPrimaryIds[$insertId] = $insertId;
+        $likes[$match_uid] = 0;
     }
     $sql = "SELECT uid,nickname,age,height,zhiye,province,city,county,photo_url FROM " . tname('user') . " WHERE uid='{$match_uid}'";
     $query = $MDB->query($sql);
@@ -228,6 +231,7 @@ foreach ($match_uids as $idx => $match_uid) {
         $temp['province_cn'] = $regions[$temp['province']]['name'];
         $temp['city_cn'] = $regions[$temp['city']]['name'];
         $temp['county_cn'] = $regions[$temp['county']]['name'];
+        $temp['liked'] = $likes[$match_uid];
         $match_users[] = $temp;
     }
 }

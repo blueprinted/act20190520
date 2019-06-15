@@ -29,10 +29,10 @@
     <!--音乐-->
     <!-- <div class="icon_audio" id="btn_audio"></div> -->
     <div class="wrapper body_bg" id="mainWrap">
-        <div class="mainwrapper">
+        <div class="inner">
             <!--引言-->
             <!--开始-->
-            <div class="wrapIndex displaynone" id="indexWrap">
+            <div class="wrapIndex displaynone swiper-slide" id="indexWrap">
                 <div class="indexWrapimg">
                     <p class="intro">地球上有<span>77</span>亿人
                         <br/><span>204</span>个国家
@@ -46,7 +46,7 @@
                 <div class="indexFloor xcenter"></div>
             </div>
             <!--答题页-->
-            <div class="getinfoWrap displaynone" id="getinfoWrap">
+            <div class="getinfoWrap displaynone swiper-slide" id="getinfoWrap">
                 <div class="banner2">
                     <p class="desc">
                         嗨，小伙伴，您好，欢迎来到这个神奇的二维码世界.<br/>
@@ -56,7 +56,7 @@
                     </p>
                     <p class="tip">以下是您需要填写的个人资料：</p>
                 </div>
-                <div class="container" style="padding-top:15px">
+                <div class="conter" style="padding-top:15px">
                     <form id="basicform" class="" ajaxform="true" ajaxtype="ajaxform" action="bend/?mod=collector&controller=post&action=basic" method="post">
                         <input type="hidden" name="dosubmit" value="true"/>
                         <div class="fieldset">
@@ -227,12 +227,12 @@
                         <canvas id="drawer" style="display:none"></canvas>
                         <button type="sbumit" class="btn btn-block" id="btn_mysub">下一步</button>
                     </form>
-                </div><!--//.container-->
+                </div><!--//.conter-->
             </div><!--//.getinfoWrap-->
-			<!-- 条件 -->
-			<div class="indexOtherWrap displaynone" id="indexOtherWrap">
+            <!-- 条件 -->
+            <div class="indexOtherWrap displaynone swiper-slide" id="indexOtherWrap">
                 <img src="static/i/getinfootherbg.jpg" style="width:100%;" />
-                <div class="container" style="padding-top:15px">
+                <div class="conter" style="padding-top:15px">
                     <form id="matchform" class="" ajaxform="true" ajaxtype="ajaxform" action="bend/?mod=collector&controller=post&action=match" method="post">
                         <input type="hidden" name="dosubmit" value="true"/>
                         <div class="fieldset">
@@ -373,18 +373,18 @@
                         </div>
                         <button type="sbumit" class="btn btn-block" id="btn_subAll">下一步</button>
                     </form>
-                </div><!--//.container-->
-			</div>
+                </div><!--//.conter-->
+            </div>
             <!--生成中-->
-            <div class="creatingWrap displaynone" id="resultLoading"><img src="static/i/pipei.png" style="width:100%;position:absolute;left:0;bottom:0;"/></div>
+            <div class="creatingWrap displaynone swiper-slide" id="resultLoading"><img src="static/i/pipei.png" style="width:100%;position:absolute;left:0;bottom:0;"/></div>
             <!--结果页-->
-			<!--rexueWrap/shenmiWrap/wennuanWrap/danboWrap-->
-			<div class="resultWrap displaynone" id="resultWrap">
+            <!--rexueWrap/shenmiWrap/wennuanWrap/danboWrap-->
+            <div class="resultWrap displaynone swiper-slide" id="resultWrap">
                 <img src="static/i/banner3.png" style="width:100%;"/>
                 <img src="static/i/bot.png" style="width:100%;position:absolute;left:0;bottom:0;"/>
-				<div class="result-frame cl">
-					<ul class="tuijianList">
-						<li>
+                <div class="result-frame cl">
+                    <ul class="tuijianList">
+                        <li>
                             <div class="avaImg"><img src="static/i/floor.jpg" /></div>
                             <div class="liinfo">
                                 <div class="rowdiv"><label class="">昵称：</label><label>111</label></div>
@@ -393,28 +393,27 @@
                                 <div class="rowdiv"><label class="">职业：</label><label>111</label></div>
                                 <div class="rowdiv"><label class="">籍贯：</label><label>111</label></div>
                             </div>
+                            <span class="like-icon"></span>
                         </li>
-					</ul>
+                    </ul>
                 </div>
                 <div class="result-button">
-                    <a class="btn-like" href="javascript:;"></a><a class="btn-next" href="javascript:;" onclick="next_user()"></a>
+                    <a class="btn-like" href="javascript:;" onclick="like()"></a><a class="btn-next" href="javascript:;" onclick="next_user()"></a>
                 </div>
-			</div>
-		</div><!--//.mainwrapper-->
-		<!--推广页-->
-		<div class="adWRap displaynone" id="adWRap">
-            <div class="xycenter">
-                <p>从填写您的个人信息~<br/>系统匹配-取得联系方式，<br/>俩人愿意见面，<span>全程均免费哦！</span></p>
-                <p>如果您有钟意的异性，<br/><span>扫描下方二维码</span>添加众里寻他工作人员，<br/>取得联系吧！</p>
-                <img src="static/i/erweima.png" class="imgERweima"/>
-                <p>80/90后，名校名企<br/>单身想交友？想脱单？<br/>就来众里寻他<br/>半公益组织<br/>让你们从：“你好呀”到“余生请多指教”</p>
             </div>
-            <div class="indexFloor adFloor"></div>
+            <!--推广页-->
+            <div class="adWRap displaynone swiper-slide" id="adWRap">
+                <p class="ad-txt1">从填写您的个人信息~<br/>系统匹配-取得联系方式，<br/>俩人愿意见面，<span>全程均免费哦！</span></p>
+                <p class="ad-txt2">如果您有钟意的异性，<br/><span>扫描下方二维码</span>添加众里寻他工作人员，<br/>取得联系吧！</p>
+                <img src="static/i/qrcode.png" class="imgERweima"/>
+                <p class="ad-txt3">80/90后，名校名企<br/>单身想交友？想脱单？<br/>就来众里寻他<br/>半公益组织<br/>让你们从：“你好呀”到“余生请多指教”</p>
+            </div>
         </div>
-    </div>
+    </div><!--//#mainWrap-->
     <script type="text/javascript">var hasLoading = false;</script>
     <script type="text/javascript" src="static/j/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="static/j/jquery.form.min.js"></script>
+    <script type="text/javascript" src="static/j/hammer.min.js"></script>
     <script type="text/javascript" src="static/j/nouislider.min.js"></script>
     <script type="text/javascript" src="static/j/aduetools.js"></script>
     <script type="text/javascript" src="static/j/pace.js?v=1527755756" charset="UTF-8"></script>

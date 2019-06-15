@@ -425,7 +425,8 @@ var ajaxform_handle_matchform = {
                     for (var i=0; i<userList.length; i++) {
                         var user = userList[i];
                         var jiguan = user.province_cn + (user.city_cn.length > 0 ? ' ' : '') + user.city_cn + (user.county_cn.length > 0 ? ' ' : '') + user.county_cn;
-                        _html += '<li idx="'+i+'">';
+                        var liked = user.liked ? ' class="like"' : '';
+                        _html += '<li idx="'+i+'" uid="'+user.uid+'"'+liked+'>';
                         _html += '<div class="avaImg"><img src="bend/data/'+user.photo_url+'"></div>';
                         _html += '<div class="liinfo"></div>';
                         _html += '<div class="rowdiv"><label class="">昵称：</label><label>'+user.nickname+'</label></div>';
@@ -434,6 +435,7 @@ var ajaxform_handle_matchform = {
                         _html += '<div class="rowdiv"><label class="">职业：</label><label>'+user.zhiye+'</label></div>';
                         _html += '<div class="rowdiv"><label class="">籍贯：</label><label>'+jiguan+'</label></div>';
                         _html += '</div>';
+                        _html += '<span class="like-icon"></span>';
                         _html += '</li>';
                     }
                     return _html;
@@ -441,7 +443,7 @@ var ajaxform_handle_matchform = {
                 $('.tuijianList').children().hide().filter('[idx="0"]').show();
                 $("#resultLoading").hide();
                 $("#resultWrap").show();
-            }, random(900, 1600));
+            }, random(750, 1250));
         } else {
             jsToaster.show(resp.msg);
         }
@@ -470,8 +472,61 @@ function next_user () {
     $('.tuijianList').children().hide();
     $('.tuijianList').children().eq(idx).show();
 }
-var hometown, workplace, matchplace,jsToaster;
+function like() {
+    var uid = -1;
+    $('.tuijianList').children().each(function(){
+        $('.tuijianList').children().each(function(){
+            if ($(this).is(':visible')) {
+                uid = parseInt($(this).attr('uid'));
+                return false;
+            }
+        });
+    });
+    if (uid < 1) {
+        jsToaster.show("目标埠存在");
+        return false;
+    }
+    ajaxprocess({
+        type: 'post',
+        url: 'bend/?mod=api&controller=like&acion=index',
+        data: 'dosubmit=true&match_uid='+uid,
+        dataType: 'json',
+        success: function(resp) {
+            if(resp.code != 0) {
+                jsToaster.show(resp.msg);
+            } else {
+                if (resp.data) {
+                    $('.tuijianList').children().filter('[uid="'+uid+'"]').addClass('like');
+                } else {
+                    $('.tuijianList').children().filter('[uid="'+uid+'"]').removeClass('like');
+                }
+                if (resp.data) {
+                    setTimeout(function(){
+                        $("#resultWrap").hide();
+                        $('#adWRap').show();
+                    }, 500);
+                }
+            }
+        },
+        error: function() {
+            jsToaster.show("请求发送手机验证码失败[ajax error]");
+        },
+        complete: function() {
+            $('#smsCodeBtn').removeAttr('ajaxing');
+            if(status == 'timeout') {
+                $('textarea[name="response"]').append("请求发送手机验证码超时[ajax timeout]\r\n").scrollTo($('textarea[name="response"]')[0].scrollHeight,100);/*请求超时*/
+            }
+        }
+    });
+}
+var hometown, workplace, matchplace,jsToaster,mySwiper,hammertime;
 $(function () {
+    /*
+    mySwiper = new Swiper('.swiper-container', {
+        direction: 'horizontal', // 垂直切换选项
+        loop: false // 循环模式选项
+    });
+    */
 	var imgList=[
 		"./static/i/bg.jpg"
 	];
@@ -682,5 +737,17 @@ $(function () {
     });
     pipsSlider2.noUiSlider.on('update', function (values, handle) {
         $('#height').val(values[handle]);
+    });
+    var manager = new Hammer.Manager(document.querySelector('#adWRap'));
+    manager.add(new Hammer.Swipe({event:'swipe',pointers:1,threshold:20}));
+    manager.on('swipe', function(e) {
+        // e.offsetDirection 2:swipe left 4: swipe right 8: swipe top 16: swipe down
+        // console.log(e.deltaX, e.offsetDirection);
+        if (e.offsetDirection == 4) {
+            setTimeout(function() {
+                $("#resultWrap").show();
+                $('#adWRap').hide(); 
+            }, 250);
+        }
     });
 });
