@@ -1,58 +1,58 @@
 # act20190520
 
 ## 目录结构介绍 ##
-.
-├── bend
-│   ├── apps
-│   │   ├── api
-│   │   ├── collector
-│   │   └── index
-│   ├── common.php
-│   ├── composer.json
-│   ├── composer.lock
-│   ├── config
-│   │   └── config_tables.php
-│   ├── cron
-│   │   └── generate_region.php
-│   ├── data
-│   │   ├── act20190520.sql
-│   │   ├── data_question.php
-│   │   ├── data_selector_config.php
-│   │   ├── region.bak.js
-│   │   ├── region.js
-│   │   ├── session
-│   │   └── upload
-│   ├── doc
-│   │   └── tables.sql
-│   ├── includes
-│   │   ├── SmsMultiSender.php
-│   │   ├── SmsSenderUtil.php
-│   │   ├── SmsSingleSender.php
-│   │   ├── class.curlUtil.php
-│   │   ├── class.mysqliUtil.php
-│   │   ├── class.sessionHandle.php
-│   │   ├── class.uploadUtil.php
-│   │   ├── class.verify.php
-│   │   ├── config.db.php
-│   │   ├── func.common.php
-│   │   ├── func.user.php
-│   │   ├── inc.constans.php
-│   │   └── verify
-│   ├── index.php
-│   ├── log
-│   │   ├── 201905
-│   │   ├── 201906
-│   │   └── shutdown_handler
-│   ├── util
-│   │   ├── generateArea.php
-│   │   └── sendCodeTest.php
-│   └── vendor
-│       ├── autoload.php
-│       ├── composer
-│       ├── monolog
-│       └── psr
-├── index.html
-└── static
+    .
+    ├── bend
+    │   ├── apps
+    │   │   ├── api
+    │   │   ├── collector
+    │   │   └── index
+    │   ├── common.php
+    │   ├── composer.json
+    │   ├── composer.lock
+    │   ├── config
+    │   │   └── config_tables.php
+    │   ├── cron
+    │   │   └── generate_region.php
+    │   ├── data
+    │   │   ├── act20190520.sql
+    │   │   ├── data_question.php
+    │   │   ├── data_selector_config.php
+    │   │   ├── region.bak.js
+    │   │   ├── region.js
+    │   │   ├── session
+    │   │   └── upload
+    │   ├── doc
+    │   │   └── tables.sql
+    │   ├── includes
+    │   │   ├── SmsMultiSender.php
+    │   │   ├── SmsSenderUtil.php
+    │   │   ├── SmsSingleSender.php
+    │   │   ├── class.curlUtil.php
+    │   │   ├── class.mysqliUtil.php
+    │   │   ├── class.sessionHandle.php
+    │   │   ├── class.uploadUtil.php
+    │   │   ├── class.verify.php
+    │   │   ├── config.db.php
+    │   │   ├── func.common.php
+    │   │   ├── func.user.php
+    │   │   ├── inc.constans.php
+    │   │   └── verify
+    │   ├── index.php
+    │   ├── log
+    │   │   ├── 201905
+    │   │   ├── 201906
+    │   │   └── shutdown_handler
+    │   ├── util
+    │   │   ├── generateArea.php
+    │   │   └── sendCodeTest.php
+    │   └── vendor
+    │       ├── autoload.php
+    │       ├── composer
+    │       ├── monolog
+    │       └── psr
+    ├── index.html
+    └── static
 
 如下的目录要设置成 777 权限
 bend/config
