@@ -315,6 +315,9 @@ var form_check_basicform = function () {
                     return false;
                 }
             }
+            if (provinceId != 110000) {
+                jsToaster.show('工作地区仅限北京地区');
+            }
         } else {
             jsToaster.show('请选择工作地区');
             return false;

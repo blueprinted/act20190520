@@ -26,7 +26,7 @@ if (!$user = $MDB->fetch_array($query)) {
 }
 
 if (empty($user)) {
-    apimessage(1, '用户不存在');
+    apimessage(2, '用户不存在');
 }
 
 // 择偶条件
@@ -43,16 +43,16 @@ $selector_config = load_data('selector_config');
 
 
 if (!isset($selector_config['age_grade'][$match_age])) {
-    apimessage(1, '选择的年龄范围有误');
+    apimessage(3, '选择的年龄范围有误');
 }
 if (!isset($selector_config['height_grade'][$match_height])) {
-    apimessage(1, '选择的身高范围有误');
+    apimessage(4, '选择的身高范围有误');
 }
 if (!isset($selector_config['annual_income'][$match_annual_income])) {
-    apimessage(1, '选择的年收入范围有误');
+    apimessage(5, '选择的年收入范围有误');
 }
 if (!isset($selector_config['yanzhi_grade'][$match_yanzhi_grade])) {
-    apimessage(1, '选择的颜值分数范围有误');
+    apimessage(6, '选择的颜值分数范围有误');
 }
 
 $newarr = array(
@@ -92,7 +92,7 @@ $MDB->query("START TRANSACTION");
 
 if (false === call_user_func_array(array($MDB, 'stmt_query'), $args)) {
     $MDB->query("ROLLBACK");
-    apimessage(33, '保存资料失败');
+    apimessage(7, '保存资料失败');
 }
 // 提交
 $MDB->query("COMMIT");
@@ -194,14 +194,14 @@ foreach ($match_uids as $idx => $match_uid) {
         $matchPrimaryIds[$matchData['id']] = $matchData['id'];
         $sql = "UPDATE " . tname('user_match') . " SET mtime='{$nowtime}' WHERE id='{$matchData['id']}'";
         if (!$MDB->query($sql)) {
-            apimessage(34, '匹配异性失败');
+            apimessage(8, '匹配异性失败');
         }
         $likes[$match_uid] = intval($matchData['liked']);
     } else {
         // 需要写入
         $sql = "INSERT INTO " . tname('user_match') . "(master_uid,match_uid,ctime,mtime) VALUES ('{$user['uid']}', '{$match_uid}', '{$nowtime}', '0')";
         if (!$MDB->query($sql)) {
-            apimessage(35, '匹配异性失败');
+            apimessage(9, '匹配异性失败');
         }
         $insertId = $MDB->insert_id();
         $matchPrimaryIds[$insertId] = $insertId;
@@ -241,7 +241,7 @@ $matchedNums = $MDB->result($MDB->query($sql), 0, 0);
 if ($matchedNums > ACT_MATCH_USER_NUMS) {
     $sql = "DELETE FROM " . tname('user_match') . " WHERE master_uid='{$user['uid']}' AND ctime<'{$nowtime}' AND mtime<'{$nowtime}'";
     if (!$MDB->query($sql)) {
-        apimessage(36, '匹配异性失败');
+        apimessage(10, '匹配异性失败');
     }
 }
 
