@@ -247,7 +247,7 @@ unset($_SESSION['verify_number'], $_SESSION['verify_code']);
 // 如果用户更改了性别需要删除已经匹配的用户
 if (!empty($user) && $user['gender'] != $gender) {
     $sql = "DELETE FROM " . tname('user_match') . " WHERE master_uid={$user['uid']}";
-    if ($MDB->query($sql)) {
+    if (!$MDB->query($sql)) {
         $MDB->query("ROLLBACK");
         apimessage(36, '保存资料失败');
     }
