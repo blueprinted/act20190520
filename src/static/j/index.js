@@ -372,6 +372,19 @@ var ajaxform_handle_basicform = {
         if (resp.code == 0) {
             $('#getinfoWrap').hide();
             $("#indexOtherWrap").show();
+
+            setTimeout(function(){
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 250), !1;
+            }, 250);
+            $(document).bind(touchSupport()?'touchstart':'mousedowm', function(){$('html, body').stop()});
+            if(document.addEventListener){ 
+                document.addEventListener('DOMMouseScroll',function(){$('html, body').stop()},false); 
+            }
+            try {
+                document.onmousewheel= function(){$('html, body').stop()}
+            }catch(e){}
         }
     },
     error: function(jqXHR, textStatus, errorThrown){

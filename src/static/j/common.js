@@ -5,24 +5,6 @@
 "use strict";
 var touchmove = false;
 var touchSupport = function(){return 'ontouchend' in document;}
-function bindClick(selector, func, bubble) {
-    if (!touchSupport()) {
-        $(selector).on('click', function(){
-            var self = $(this);
-            func(self);
-            if (!bubble) { return false; }
-        }); // 响应事件
-    } else {
-        $(selector).on('touchmove', function(){
-            touchmove = true;
-        }).on('touchend', function(){
-            if (touchmove == true) { touchmove = false; return; }
-            var self = $(this);
-            func(self); // 响应事件
-            if (!bubble) { return false; }
-        });
-    }
-}
 
 var JSLOADED = [];/*javascript动态载入标识数组*/
 var evalscripts = [];/*js相关*/
