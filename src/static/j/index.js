@@ -376,7 +376,7 @@ var ajaxform_handle_basicform = {
             setTimeout(function(){
                 $('html, body').animate({
                     scrollTop: 0
-                }, 250), !1;
+                }, 500), !1;
             }, 250);
             $(document).bind(touchSupport()?'touchstart':'mousedowm', function(){$('html, body').stop()});
             if(document.addEventListener){ 
