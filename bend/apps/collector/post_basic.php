@@ -126,7 +126,7 @@ if ($sms_code !== $_SESSION['verify_code']) {
 
 $base64Pattern = "/^(data:image\/(jpg|jpeg|png);base64,)/i";
 if (strlen($hdimg) < 1 || !preg_match($base64Pattern, $hdimg, $mathes)) {
-    apimessage(29, '没有上传图片');
+    apimessage(29, '没有上传照片');
 }
 $fileext = $mathes[2];
 $filedir = uploadUtil::get_target_dir(APP_DATA, 'upload/uploadImages');

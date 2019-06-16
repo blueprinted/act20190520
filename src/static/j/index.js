@@ -355,6 +355,15 @@ var form_check_basicform = function () {
         jsToaster.show('请填写手机号');
         return false;
     }
+    if ($.trim($('#sms_code').val()).length < 1) {
+        jsToaster.show('请填写短信验证码');
+        return false;
+    }
+    if ($('input[name="hdimg"]').size() < 1 || $('input[name="hdimg"]').val().length < 1) {
+        jsToaster.show('请上传您的照片');
+        return false;
+    }
+
     return true;
 }
 var ajaxform_handle_basicform = {
