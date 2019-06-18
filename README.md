@@ -69,3 +69,11 @@
     session.cookie_lifetime
     session.gc_maxlifetime
     这两个值配置大一点，比如 43200秒或86400秒
+## 如何发布上线 ##
+    cd到项目目录
+    npm install 
+    gulp clean
+    gulp
+    gulp html 
+    sh rsync.sh 
+    最后是用 rsync 命令进行上线代码的, rsync.sh里面需要更改一下, 以便满足自己的上线需求
