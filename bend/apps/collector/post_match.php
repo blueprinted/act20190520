@@ -228,10 +228,10 @@ foreach ($match_uids as $idx => $match_uid) {
             }
         }
 
-        $temp['province_cn'] = $regions[$temp['province']]['name'];
-        $temp['city_cn'] = $regions[$temp['city']]['name'];
-        $temp['county_cn'] = $regions[$temp['county']]['name'];
-        $temp['liked'] = $likes[$match_uid];
+        $temp['province_cn'] = isset($regions[$temp['province']]) ? $regions[$temp['province']]['name'] : '';
+        $temp['city_cn'] = isset($regions[$temp['city']]) ? $regions[$temp['city']]['name'] : '';
+        $temp['county_cn'] = isset($regions[$temp['county']]) ? $regions[$temp['county']]['name'] : '';
+        $temp['liked'] = isset($likes[$match_uid]) ? $likes[$match_uid] : 0;
         $match_users[] = $temp;
     }
 }
